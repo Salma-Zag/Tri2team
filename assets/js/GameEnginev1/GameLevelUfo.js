@@ -54,7 +54,7 @@ class GameLevelUfo {
             src: path + "/images/gamebuilder/sprites/astro.png",
             SCALE_FACTOR: 8,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 332, y: 113 },
+            INIT_POSITION: { x: 331, y: 113 },
             pixels: { height: 770, width: 513 },
             orientation: { rows: 4, columns: 4 },
             down: { row: 0, start: 0, columns: 3 },
