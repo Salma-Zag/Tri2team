@@ -15,6 +15,7 @@ import Player from '/assets/js/GameEnginev1/essentials/Player.js';
 import Npc from '/assets/js/GameEnginev1/essentials/Npc.js';
 import Barrier from '/assets/js/GameEnginev1/essentials/Barrier.js';
 
+
 class GameLevelUfo {
     constructor(gameEnv) {
         const path = gameEnv.path;
