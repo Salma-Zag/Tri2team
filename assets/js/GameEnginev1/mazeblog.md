@@ -1,7 +1,7 @@
 ---
 layout: post 
 title: Timmy's Maze Blog
-permalink: /Atwoblog
+permalink: /Aoneblog
 hide: true
 show_reading_time: false
 ---

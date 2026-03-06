@@ -32,7 +32,7 @@ Run its code here:
 
 Additionally, here are our issue/blogs.
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-    <a href="{{site.baseurl}}/Aonerunner" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/Aoneblog" style="text-decoration: none;">
         <div style="background-color: #c51d1d; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
            Timmy's Adventure Blog
         </div>
