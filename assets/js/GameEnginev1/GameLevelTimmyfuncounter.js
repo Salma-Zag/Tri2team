@@ -1,10 +1,4 @@
-/**
- * @file GameLevelTimmyfuncounter.js
- * @description Timmy's Fun World - An invisible maze level where Kirby navigates
- * through hidden barriers while a step counter tracks every move made.
- * The interaction occurs in the game loop via a keydown event listener that
- * updates the DOM step counter each time an arrow key is pressed.
- */
+//Add notes bruh (ADD NOTES IN GREEN SO I CAN LOOK BACK LATER)
 
 import GameEnvBackground from '/assets/js/GameEnginev1/essentials/GameEnvBackground.js';
 import Player from '/assets/js/GameEnginev1/essentials/Player.js';
@@ -17,24 +11,14 @@ class GameLevelTimmyfuncounter {
         const width = gameEnv.innerWidth;
         const height = gameEnv.innerHeight;
 
-        /**
-         * @property {Object} bgData - Background configuration
-         * @description Sets the cloud sky environment for the level.
-         * A bright open sky scene that contrasts with the hidden maze below.
-         */
+
         const bgData = {
             name: "custom_bg",
             src: path + "/images/gamebuilder/bg/clouds.jpg",
             pixels: { height: 720, width: 1280 }
         };
 
-        /**
-         * @property {Object} playerData - Player (Kirby) configuration
-         * @description The user-controlled character. Kirby starts on the left
-         * side of the screen and moves using arrow keys. SCALE_FACTOR of 8
-         * makes Kirby large enough to see clearly while navigating the maze.
-         * Each keypress triggers the step counter interaction.
-         */
+        
         const playerData = {
             id: 'playerData',
             src: path + "/images/gamebuilder/sprites/kirby.png",
@@ -56,13 +40,7 @@ class GameLevelTimmyfuncounter {
             keypress: { up: 38, left: 37, down: 40, right: 39 }
         };
 
-        /**
-         * @property {Object} npcData1 - NPC (Random Guy) configuration
-         * @description A Tux penguin NPC positioned at the entry point of the maze.
-         * Acts as the guide who warns the player about the invisible maze ahead.
-         * SCALE_FACTOR of 9 makes him large and immediately visible at game start.
-         * Triggers dialogue interaction when the player approaches.
-         */
+    
         const npcData1 = {
             id: 'Random Guy',
             greeting: '"Welcome to the invisible maze...good luck!',
@@ -86,14 +64,7 @@ class GameLevelTimmyfuncounter {
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
         };
 
-        /**
-         * @description Step Counter Interaction - FA2 Core Feature
-         * Creates a DOM element that tracks and displays Kirby's moves on screen.
-         * INTERACTION: keydown event fires on every arrow key press
-         * REACTION: step counter increments and DOM updates in real time
-         * This interaction occurs outside the game loop but responds to the
-         * same input events that drive player movement in the game loop.
-         */
+        
         const stepCounterEl = document.createElement('div');
         stepCounterEl.id = 'stepCounter';
         stepCounterEl.style.cssText = `
@@ -119,11 +90,7 @@ class GameLevelTimmyfuncounter {
             }
         });
 
-        /**
-         * @description Barrier definitions - the invisible maze walls
-         * All barriers set to visible: false to create the hidden maze mechanic.
-         * Players must discover paths through exploration, tracked by the step counter.
-         */
+       
         const dbarrier_1 = {
             id: 'dbarrier_1', x: 267, y: 251, width: 5, height: 97, visible: false,
             hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
