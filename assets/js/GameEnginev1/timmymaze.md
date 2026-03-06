@@ -1,6 +1,13 @@
-//Add notes bruh (ADD NOTES IN GREEN SO I CAN LOOK BACK LATER)
-// I am assuming this is assessment two. We have to present on the local host because the github thingy is broekn
+---
+layout: post 
+title: The Adventures of Timmy (A1)
+permalink: /Atworunner
+hide: true
+show_reading_time: false
+---
 
+# Copy and paste the 'Timmy level code' into the code runner!
+```
 import GameEnvBackground from '/assets/js/GameEnginev1/essentials/GameEnvBackground.js';
 import Player from '/assets/js/GameEnginev1/essentials/Player.js';
 import Npc from '/assets/js/GameEnginev1/essentials/Npc.js';
@@ -174,3 +181,13 @@ class GameLevelTimmyfuncounter {
 }
 
 export default GameLevelTimmyfuncounter;
+```
+
+Run its code here:
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+    <a href="{{site.baseurl}}/rpg/game" style="text-decoration: none;">
+        <div style="background-color: #4a0b0b; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
+           Game runner examples/runner
+        </div>
+    </a>
+</div>
