@@ -1,5 +1,13 @@
-// ...existing code...
+---
+layout: post 
+title: Timmy123's Crash Landing (A3)
+permalink: /Athreerunner
+hide: true
+show_reading_time: false
+---
 
+# Copy and paste the 'Timmy level code' into the code runner!
+```
 class GameLevelUfo {
     constructor(gameEnv) {
         const path = gameEnv.path;
@@ -121,5 +129,13 @@ class GameLevelUfo {
         };
     }
 }
+```
 
-// ...existing code...
+Run its code here:
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+    <a href="{{site.baseurl}}/rpg/game" style="text-decoration: none;">
+        <div style="background-color: #4a0b0b; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
+           Game runner examples/runner
+        </div>
+    </a>
+</div>

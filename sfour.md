@@ -19,6 +19,11 @@ Here are our assessments completed throughout the fourth sprint!
            Timmy's invisible maze (A2)
         </div>
     </a>
+    <a href="{{site.baseurl}}/Athreerunner" style="text-decoration: none;">
+        <div style="background-color: #a58f1f; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
+           Timmy123's crash landing (A3)
+        </div>
+    </a>
 </div>
 
 Run its code here:
@@ -40,6 +45,11 @@ Additionally, here are our issue/blogs.
     <a href="{{site.baseurl}}/Atwoblog" style="text-decoration: none;">
         <div style="background-color: #a54c1f; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
            Timmy's invisible maze Blog
+        </div>
+    </a>
+    <a href="{{site.baseurl}}/Athreeblog" style="text-decoration: none;">
+        <div style="background-color: #a58f1f; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
+           Timmy123's crash landing Blog
         </div>
     </a>
 </div>
