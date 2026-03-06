@@ -23,7 +23,7 @@ Here are our assessments completed throughout the fourth sprint!
 
 Run its code here:
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-    <a href="{{site.baseurl}}/rpg/game" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/runners" style="text-decoration: none;">
         <div style="background-color: #4a0b0b; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
            Game runner examples/runner
         </div>

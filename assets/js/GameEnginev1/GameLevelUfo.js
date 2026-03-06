@@ -1,20 +1,4 @@
-// Adventure Game Custom Level !
-// Exported from GameBuilder on 2026-03-05T17:12:01.084Z
-// How to use this file:
-// 1) Save as assets/js/adventureGame/GameLevelUfo.js in your repo.
-// 2) Reference it in your runner or level selector. Examples:
-//    import GameLevelPlanets from '/assets/js/GameEnginev1/GameLevelPlanets.js';
-//    import GameLevelUfo from '/assets/js/adventureGame/GameLevelUfo.js';
-//    export const gameLevelClasses = [GameLevelPlanets, GameLevelUfo];
-//    // or pass it directly to your GameControl as the only level.
-// 3) Ensure images exist and paths resolve via 'path' provided by the engine.
-// 4) You can add more objects to this.classes inside the constructor.
-
-import GameEnvBackground from '/assets/js/GameEnginev1/essentials/GameEnvBackground.js';
-import Player from '/assets/js/GameEnginev1/essentials/Player.js';
-import Npc from '/assets/js/GameEnginev1/essentials/Npc.js';
-import Barrier from '/assets/js/GameEnginev1/essentials/Barrier.js';
-
+// ...existing code...
 
 class GameLevelUfo {
     constructor(gameEnv) {
@@ -69,15 +53,73 @@ class GameLevelUfo {
             hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
             dialogues: ['Hi there! We\'re on the moon!'],
             reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
-            interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
+            interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } },
+            xVelocity: 1,  // Move right at 1 pixel per frame (adjust as needed)
+            yVelocity: 0
         };
-this.classes = [      { class: GameEnvBackground, data: bgData },
-      { class: Player, data: playerData },
-      { class: Npc, data: npcData1 }
-];
 
-        
+        // Add two more moving NPCs
+        const npcData2 = {
+            id: 'ufo1',
+            greeting: 'Beep boop!',
+            src: path + "/images/gamebuilder/sprites/ufo.png",  // Assuming this image exists; replace if needed
+            SCALE_FACTOR: 6,
+            ANIMATION_RATE: 50,
+            INIT_POSITION: { x: 600, y: 200 },
+            pixels: { height: 320, width: 320 },
+            orientation: { rows: 1, columns: 1 },  // Simple sprite
+            hitbox: { widthPercentage: 0.5, heightPercentage: 0.5 },
+            dialogues: ['Beep boop!'],
+            reaction: function() { console.log(this.greeting); },
+            interact: function() { console.log('Interacting with UFO!'); },
+            xVelocity: -2,  // Move left
+            yVelocity: 0
+        };
+
+        const npcData3 = {
+            id: 'alien',
+            greeting: 'Greetings, earthling!',
+            src: path + "/images/gamebuilder/sprites/alien.png",  // Assuming this image exists; replace if needed
+            SCALE_FACTOR: 7,
+            ANIMATION_RATE: 50,
+            INIT_POSITION: { x: 800, y: 400 },
+            pixels: { height: 512, width: 384 },
+            orientation: { rows: 4, columns: 3 },
+            down: { row: 0, start: 0, columns: 3 },
+            right: { row: 1, start: 0, columns: 3 },
+            left: { row: 2, start: 0, columns: 3 },
+            up: { row: 3, start: 0, columns: 3 },
+            hitbox: { widthPercentage: 0.4, heightPercentage: 0.3 },
+            dialogues: ['Greetings, earthling!'],
+            reaction: function() { console.log(this.greeting); },
+            interact: function() { console.log('Alien says hi!'); },
+            xVelocity: 1.5,  // Move right at 1.5 pixels per frame
+            yVelocity: 0
+        };
+
+        this.classes = [
+            { class: GameEnvBackground, data: bgData },
+            { class: Player, data: playerData },
+            { class: Npc, data: npcData1 },
+            { class: Npc, data: npcData2 },
+            { class: Npc, data: npcData3 }
+        ];
+
+        // Add update method for indefinite movement (assumes the GameEngine calls update on the level)
+        this.update = function(deltaTime) {
+            this.classes.forEach(obj => {
+                if (obj.instance && obj.instance.xVelocity !== undefined) {
+                    obj.instance.x += obj.instance.xVelocity * (deltaTime / 16.67);  // Normalize to ~60 FPS
+                    obj.instance.y += obj.instance.yVelocity * (deltaTime / 16.67);
+                    // Wrap around screen for indefinite movement
+                    if (obj.instance.x > width + 100) obj.instance.x = -100;
+                    if (obj.instance.x < -100) obj.instance.x = width + 100;
+                    // Optional: Bounce vertically if yVelocity is set
+                    if (obj.instance.y > height - 100 || obj.instance.y < 100) obj.instance.yVelocity *= -1;
+                }
+            });
+        };
     }
 }
 
-export default GameLevelUfo;
+// ...existing code...

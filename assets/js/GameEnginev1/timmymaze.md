@@ -1,6 +1,6 @@
 ---
 layout: post 
-title: The Adventures of Timmy (A1)
+title: Timmy's Maze (A2)
 permalink: /Atworunner
 hide: true
 show_reading_time: false
