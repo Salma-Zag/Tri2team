@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Timmy Game</title>
+<style>
+  body { margin: 0; overflow: hidden; }
+  canvas { display: block; }
+</style>
+</head>
+
+<body>
+
+<canvas id="gameCanvas" width="1280" height="720"></canvas>
+
+<script type="module">
+  import GameLevelTimmy from "./assets/js/GameLevelTimmy.js";
+
+  const gameEnv = {
+    path: "./assets",          // points to your assets folder
+    innerWidth: window.innerWidth,
+    innerHeight: window.innerHeight
+  };
+
+  new GameLevelTimmy(gameEnv);
+</script>
+
+</body>
+</html>
