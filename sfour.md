@@ -9,12 +9,12 @@ show_reading_time: false
 Here are our assessments completed throughout the fourth sprint! 'Maze game' is our only completed game, for now.
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px;">
-    <a href="{{site.baseurl}}/timmyworld" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/gamify/timmyworld" style="text-decoration: none;">
         <div style="background-color: #c51d1d; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
            Timmy's Adventure game (placeholder for now) (A1)
         </div>
     </a>
-    <a href="{{site.baseurl}}/timmycounter" style="text-decoration: none;">
+    <a href="{{site.baseurl}}/gamify/timmycounter" style="text-decoration: none;">
         <div style="background-color: #a54c1f; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
            Timmy's invisible maze game (A2)
         </div>
