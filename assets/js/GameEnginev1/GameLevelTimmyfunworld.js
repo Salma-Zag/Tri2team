@@ -1,15 +1,11 @@
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 8ba7c57fd10fbbaf4bfe15363e37509cd4894d78
 import GameEnvBackground from './essentials/GameEnvBackground.js';
 import Player from './essentials/Player.js';
 import Npc from './essentials/Npc.js';
 import Barrier from './essentials/Barrier.js';
 
 class GameLevelTimmyfunworld {
-    constructor(gameEnv) {
+    constructor(gameEnv) { //hehy
         const path = gameEnv.path;
         const width = gameEnv.innerWidth;
         const height = gameEnv.innerHeight;
