@@ -12,7 +12,7 @@
 
 import GameEnvBackground from '/assets/js/GameEnginev1/essentials/GameEnvBackground.js';
 import Player from '/assets/js/GameEnginev1/essentials/Player.js';
-import Npc from '/assets/js/GameEnginev1/essentials/Npc.js';
+import Npc from './essentials/Npc.js';
 import Barrier from '/assets/js/GameEnginev1/essentials/Barrier.js';
 
 class GameLevelTimmy {

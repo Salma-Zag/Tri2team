@@ -1,10 +1,10 @@
 //Add notes bruh (ADD NOTES IN GREEN SO I CAN LOOK BACK LATER)
 // I am assuming this is assessment two. We have to present on the local host because the github thingy is broekn
 
-import GameEnvBackground from '/assets/js/GameEnginev1/essentials/GameEnvBackground.js';
-import Player from '/assets/js/GameEnginev1/essentials/Player.js';
-import Npc from '/assets/js/GameEnginev1/essentials/Npc.js';
-import Barrier from '/assets/js/GameEnginev1/essentials/Barrier.js';
+import GameEnvBackground from './essentials/GameEnvBackground.js';
+import Player from './essentials/Player.js';
+import Npc from './essentials/Npc.js';
+import Barrier from './essentials/Barrier.js';
 
 class GameLevelTimmyfuncounter {
     constructor(gameEnv) {
