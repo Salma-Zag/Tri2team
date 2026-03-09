@@ -1,27 +1,13 @@
-<<<<<<< HEAD
-// Adventure Game Custom Level !
-// Exported from GameBuilder on 2026-03-05T17:12:01.084Z
-// How to use this file:
-// 1) Save as assets/js/adventureGame/GameLevelUfo.js in your repo.
-// 2) Reference it in your runner or level selector. Examples:
-//    import GameLevelPlanets from '/assets/js/GameEnginev1/GameLevelPlanets.js';
-//    import GameLevelUfo from '/assets/js/adventureGame/GameLevelUfo.js';
-//    export const gameLevelClasses = [GameLevelPlanets, GameLevelUfo];
-//    // or pass it directly to your GameControl as the only level.
-// 3) Ensure images exist and paths resolve via 'path' provided by the engine.
-// 4) You can add more objects to this.classes inside the constructor.
+---
+layout: post 
+title: Timmy123's Crash Landing (A3)
+permalink: /Athreerunner
+hide: true
+show_reading_time: false
+---
 
-=======
->>>>>>> 8ba7c57fd10fbbaf4bfe15363e37509cd4894d78
-import GameEnvBackground from './essentials/GameEnvBackground.js';
-import Player from './essentials/Player.js';
-import Npc from './essentials/Npc.js';
-import Barrier from './essentials/Barrier.js';
-<<<<<<< HEAD
-
-=======
->>>>>>> 8ba7c57fd10fbbaf4bfe15363e37509cd4894d78
-
+# Copy and paste the 'Timmy level code' into the code runner!
+```
 class GameLevelUfo {
     constructor(gameEnv) {
         const path = gameEnv.path;
@@ -143,3 +129,13 @@ class GameLevelUfo {
         };
     }
 }
+```
+
+Run its code here:
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+    <a href="{{site.baseurl}}/rpg/game" style="text-decoration: none;">
+        <div style="background-color: #4a0b0b; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
+           Game runner examples/runner
+        </div>
+    </a>
+</div>

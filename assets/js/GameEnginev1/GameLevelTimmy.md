@@ -6,6 +6,10 @@ hide: true
 show_reading_time: false
 ---
 
+<!-- Example Implementation -->
+<script src="GameLevelTimmy.js"></script>
+
+
 # Copy and paste the 'Timmy level code' into the code runner!
 ```
 import GameEnvBackground from '/assets/js/GameEnginev1/essentials/GameEnvBackground.js';

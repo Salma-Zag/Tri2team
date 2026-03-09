@@ -79,6 +79,7 @@ class GameLevelTimmyfuncounter {
             padding: 8px 16px;
             border-radius: 8px;
             z-index: 9999;
+            x-position
         `;
         stepCounterEl.textContent = 'Steps: 0';
         document.body.appendChild(stepCounterEl);
