@@ -13,10 +13,10 @@ permalink: /gamify/timmyworld
     // Adnventure Game assets locations
     import Core from "{{site.baseurl}}/assets/js/GameEnginev1/essentials/Game.js";
     import GameControl from "{{site.baseurl}}/assets/js/GameEnginev1/essentials/GameControl.js";
-    import GameLevelTimmyfunworld from "{{site.baseurl}}/assets/js/GameEnginev1/GameLevelTimmyfunworld.js";
+    import GameLevelGarett from "{{site.baseurl}}/assets/js/GameEnginev1/GameLevelGarett.js";
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
-x   
-    const gameLevelClasses = [GameLevelTimmyfunworld];
+
+    const gameLevelClasses = [GameLevelGarett];
 
     // Web Server Environment data
     const environment = {
