@@ -23,8 +23,8 @@ class GameLevelGarett {
 
         const bgData = {
             name: "custom_bg",
-            src: path + "/images/gamebuilder/bg/timmysworld.png",
-            pixels: { height: 600, width: 700 }
+            src: path + "/images/gamebuilder/bg/TimmyGreatBg.png",
+            pixels: { height: 400, width:700 }
         };
 
         const playerData = {
@@ -49,7 +49,7 @@ class GameLevelGarett {
             };
 
         const npcData1 = {
-            id: 'garrett',
+            id: 'Garrett The Popcorn Man',
             greeting: 'Hi! I\'m Garrett!',
             src: path + "/images/gamebuilder/sprites/GarettThePopcornMan.png",
             SCALE_FACTOR: 1,
@@ -59,7 +59,12 @@ class GameLevelGarett {
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
             hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-            dialogues: ['Hi! I\'m Garrett!'],
+            dialogues: [
+                "Hi! I am Garrett!",
+                "Welcome to Timmy's Fun World! Want some popcorn?",
+                "Be wary of that circus tent, the Invisible Maze lies within...",
+                "But what do I know, I'm just a popcorn man...right? >:)",
+            ],
             reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
         };
