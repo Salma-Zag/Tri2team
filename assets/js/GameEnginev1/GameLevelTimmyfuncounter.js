@@ -1,5 +1,5 @@
 //Add notes bruh (ADD NOTES IN GREEN SO I CAN LOOK BACK LATER)
-// I am assuming this is assessment two. We have to present on the local host because the github thingy is broekn
+// I am assuming this is assessment two. We have to present on the local host because the github thingy is broken
 
 import GameEnvBackground from './essentials/GameEnvBackground.js';
 import Player from './essentials/Player.js';
@@ -12,21 +12,19 @@ class GameLevelTimmyfuncounter {
         const width = gameEnv.innerWidth;
         const height = gameEnv.innerHeight;
 
-
         const bgData = {
             name: "custom_bg",
-            src: path + "/images/gamebuilder/bg/clouds.jpg",
+            src: path + "/images/gamebuilder/bg/TimmyFrameBg.png",
             pixels: { height: 720, width: 1280 }
         };
 
-        
         const playerData = {
             id: 'playerData',
             src: path + "/images/gamebuilder/sprites/kirby.png",
             SCALE_FACTOR: 8,
             STEP_FACTOR: 1000,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 100, y: 300 },
+            INIT_POSITION: { x: 300, y: 300 },
             pixels: { height: 36, width: 569 },
             orientation: { rows: 1, columns: 13 },
             down: { row: 0, start: 0, columns: 3 },
@@ -41,36 +39,27 @@ class GameLevelTimmyfuncounter {
             keypress: { up: 38, left: 37, down: 40, right: 39 }
         };
 
-    
         const npcData1 = {
-            id: 'Random Guy',
-            greeting: '"Welcome to the invisible maze...good luck!',
-            src: path + "/images/gamify/tux.png",
-            SCALE_FACTOR: 9,
+            id: 'Garret',
+            greeting: '"Good luck! You will need it...',
+            src: path + "/images/gamebuilder/sprites/Garret2.png",
+            SCALE_FACTOR: 4,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 0, y: 300 },
-            pixels: { height: 256, width: 352 },
-            orientation: { rows: 8, columns: 11 },
-            down: { row: 0, start: 0, columns: 3 },
-            right: { row: Math.min(1, 8 - 1), start: 0, columns: 3 },
-            left: { row: Math.min(2, 8 - 1), start: 0, columns: 3 },
-            up: { row: Math.min(3, 8 - 1), start: 0, columns: 3 },
-            upRight: { row: Math.min(3, 8 - 1), start: 0, columns: 3 },
-            downRight: { row: Math.min(1, 8 - 1), start: 0, columns: 3 },
-            upLeft: { row: Math.min(2, 8 - 1), start: 0, columns: 3 },
-            downLeft: { row: 0, start: 0, columns: 3 },
+            INIT_POSITION: { x: 60, y: 278 },
+            pixels: { height: 523, width: 477 },
+            orientation: { rows: 1, columns: 1 },
+            down: { row: 0, start: 0, columns: 1 },
             hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-            dialogues: ['"Welcome to the invisible maze...good luck!'],
+            dialogues: ['"Good luck! You will need it...'],
             reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
         };
 
-        
         const stepCounterEl = document.createElement('div');
         stepCounterEl.id = 'stepCounter';
         stepCounterEl.style.cssText = `
             position: fixed;
-            top: 20px;
+            bottom: 20px;
             left: 20px;
             color: white;
             font-size: 24px;
@@ -79,77 +68,36 @@ class GameLevelTimmyfuncounter {
             padding: 8px 16px;
             border-radius: 8px;
             z-index: 9999;
-            x-position
         `;
         stepCounterEl.textContent = 'Steps: 0';
         document.body.appendChild(stepCounterEl);
 
         let steps = 0;
         document.addEventListener('keydown', function(e) {
-            if ([37, 38, 39, 40].includes(e.keyCode)) {
+            if ([87, 65, 83, 68].includes(e.keyCode)) {
                 steps++;
                 stepCounterEl.textContent = 'Steps: ' + steps;
             }
         });
 
-       
-        const dbarrier_1 = {
-            id: 'dbarrier_1', x: 267, y: 251, width: 5, height: 97, visible: false,
+        // FRAME BORDER BARRIERS :D
+        const frameBorderLeft = {
+            id: 'frameBorderLeft', x: 0, y: 0, width: 78, height: 12, visible: false,
             hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
             fromOverlay: true
         };
-        const dbarrier_2 = {
-            id: 'dbarrier_2', x: 395, y: 81, width: 179, height: 6, visible: false,
+        const frameBorderRight = {
+            id: 'frameBorderRight', x: 1132, y: 0, width: 100, height: 720, visible: false,
             hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
             fromOverlay: true
         };
-        const dbarrier_3 = {
-            id: 'dbarrier_3', x: 401, y: 84, width: 8, height: 180, visible: false,
+        const frameBorderTop = {
+            id: 'frameBorderTop', x: 0, y: 0, width: 1280, height: 78, visible: false,
             hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
             fromOverlay: true
         };
-        const dbarrier_4 = {
-            id: 'dbarrier_4', x: 507, y: 164, width: 138, height: 6, visible: false,
-            hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
-            fromOverlay: true
-        };
-        const dbarrier_5 = {
-            id: 'dbarrier_5', x: 519, y: 248, width: 6, height: 126, visible: false,
-            hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
-            fromOverlay: true
-        };
-        const dbarrier_6 = {
-            id: 'dbarrier_6', x: 5, y: 232, width: 165, height: 8, visible: false,
-            hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
-            fromOverlay: true
-        };
-        const dbarrier_7 = {
-            id: 'dbarrier_7', x: 259, y: 8, width: 7, height: 170, visible: false,
-            hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
-            fromOverlay: true
-        };
-        const dbarrier_8 = {
-            id: 'dbarrier_8', x: 125, y: 132, width: 5, height: 108, visible: false,
-            hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
-            fromOverlay: true
-        };
-        const dbarrier_9 = {
-            id: 'dbarrier_9', x: 3, y: 71, width: 63, height: 7, visible: false,
-            hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
-            fromOverlay: true
-        };
-        const dbarrier_10 = {
-            id: 'dbarrier_10', x: 361, y: 335, width: 8, height: 78, visible: false,
-            hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
-            fromOverlay: true
-        };
-        const dbarrier_11 = {
-            id: 'dbarrier_11', x: 3, y: 57, width: 4, height: 4, visible: false,
-            hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
-            fromOverlay: true
-        };
-        const dbarrier_12 = {
-            id: 'dbarrier_12', x: 120, y: 124, width: 19, height: 72, visible: false,
+        const frameBorderBottom = {
+            id: 'frameBorderBottom', x: 0, y: 642, width: 1280, height: 78, visible: false,
             hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
             fromOverlay: true
         };
@@ -158,18 +106,10 @@ class GameLevelTimmyfuncounter {
             { class: GameEnvBackground, data: bgData },
             { class: Player, data: playerData },
             { class: Npc, data: npcData1 },
-            { class: Barrier, data: dbarrier_1 },
-            { class: Barrier, data: dbarrier_2 },
-            { class: Barrier, data: dbarrier_3 },
-            { class: Barrier, data: dbarrier_4 },
-            { class: Barrier, data: dbarrier_5 },
-            { class: Barrier, data: dbarrier_6 },
-            { class: Barrier, data: dbarrier_7 },
-            { class: Barrier, data: dbarrier_8 },
-            { class: Barrier, data: dbarrier_9 },
-            { class: Barrier, data: dbarrier_10 },
-            { class: Barrier, data: dbarrier_11 },
-            { class: Barrier, data: dbarrier_12 }
+            { class: Barrier, data: frameBorderLeft },
+            { class: Barrier, data: frameBorderRight },
+            { class: Barrier, data: frameBorderTop },
+            { class: Barrier, data: frameBorderBottom },
         ];
     }
 }
