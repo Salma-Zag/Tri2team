@@ -78,7 +78,7 @@ class GameLevelGarett {
             pixels: { height: 400, width: 477 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
-            hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+            hitbox: { widthPercentage: 1.0, heightPercentage: 0.5 },
             dialogues: [
                 "It's an old, makeshift sign. Seems unprofessional.",
             ],
