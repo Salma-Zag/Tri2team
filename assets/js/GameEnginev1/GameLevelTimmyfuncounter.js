@@ -15,7 +15,7 @@ class GameLevelTimmyfuncounter {
 
         const bgData = {
             name: "custom_bg",
-            src: path + "/images/gamebuilder/bg/clouds.jpg",
+            src: path + "/images/gamebuilder/bg/TimmyFrameBg.png",
             pixels: { height: 720, width: 1280 }
         };
 
@@ -26,7 +26,7 @@ class GameLevelTimmyfuncounter {
             SCALE_FACTOR: 8,
             STEP_FACTOR: 1000,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 100, y: 300 },
+            INIT_POSITION: { x: 300, y: 300 },
             pixels: { height: 36, width: 569 },
             orientation: { rows: 1, columns: 13 },
             down: { row: 0, start: 0, columns: 3 },
@@ -43,24 +43,17 @@ class GameLevelTimmyfuncounter {
 
     
         const npcData1 = {
-            id: 'Random Guy',
-            greeting: '"Welcome to the invisible maze...good luck!',
-            src: path + "/images/gamify/tux.png",
-            SCALE_FACTOR: 9,
+            id: 'Garret',
+            greeting: '"Good luck! You will need it...',
+            src: path + "/images/gamebuilder/sprites/Garret2.png",
+            SCALE_FACTOR: 4,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 0, y: 300 },
-            pixels: { height: 256, width: 352 },
-            orientation: { rows: 8, columns: 11 },
-            down: { row: 0, start: 0, columns: 3 },
-            right: { row: Math.min(1, 8 - 1), start: 0, columns: 3 },
-            left: { row: Math.min(2, 8 - 1), start: 0, columns: 3 },
-            up: { row: Math.min(3, 8 - 1), start: 0, columns: 3 },
-            upRight: { row: Math.min(3, 8 - 1), start: 0, columns: 3 },
-            downRight: { row: Math.min(1, 8 - 1), start: 0, columns: 3 },
-            upLeft: { row: Math.min(2, 8 - 1), start: 0, columns: 3 },
-            downLeft: { row: 0, start: 0, columns: 3 },
+            INIT_POSITION: { x: 60, y: 278 },
+            pixels: { height: 523, width: 477 },
+            orientation: { rows: 1, columns: 1 },
+            down: { row: 0, start: 0, columns: 1 },
             hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
-            dialogues: ['"Welcome to the invisible maze...good luck!'],
+            dialogues: ['"Good luck! You will need it...'],
             reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
         };
