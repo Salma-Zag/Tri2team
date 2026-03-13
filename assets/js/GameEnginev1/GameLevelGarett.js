@@ -47,7 +47,7 @@ class GameLevelGarett {
             hitbox: { widthPercentage: 0, heightPercentage: 0 },
             keypress: { up: 87, left: 65, down: 83, right: 68 }
             };
-
+            
         const npcData1 = {
             id: 'Garrett The Popcorn Man',
             greeting: 'Hi! I\'m Garrett!',
