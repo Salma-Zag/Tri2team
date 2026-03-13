@@ -69,7 +69,7 @@ class GameLevelGarett {
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
         };
         const npcData2 = {
-            id: 'Timmy sign',
+            id: 'Timmy Sign',
             greeting: 'Hi!',
             src: path + "/images/gamebuilder/sprites/TimmySign.png",
             SCALE_FACTOR: 2,
@@ -85,6 +85,23 @@ class GameLevelGarett {
             reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
         };
+        const npcData3 = {
+            id: 'Maze Tent',
+            greeting: 'Hi!',
+            src: path + "/images/gamebuilder/sprites/mazeentrance.png",
+            SCALE_FACTOR: 2,
+            ANIMATION_RATE: 50,
+            INIT_POSITION: { x: 100, y: 7 },
+            pixels: { height: 400, width: 430 },
+            orientation: { rows: 1, columns: 1 },
+            down: { row: 0, start: 0, columns: 1 },
+            hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+            dialogues: [
+                "Would you like to enter the 'Invisible Maze'?",
+            ],
+            reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
+            interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
+        };
         const dbarrier_1 = {
             id: 'dbarrier_1', x: 0, y: 0, width: 504, height: 109, visible: false,
             hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
@@ -94,6 +111,7 @@ this.classes = [      { class: GameEnvBackground, data: bgData },
       { class: Player, data: playerData },
       { class: Npc, data: npcData1 },
       { class: Npc, data: npcData2 },
+      { class: Npc, data: npcData3 },
       { class: Barrier, data: dbarrier_1 }
 ];
 
