@@ -53,7 +53,7 @@ class GameLevelGarett {
             greeting: 'Hi! I\'m Garrett!',
             src: path + "/images/gamebuilder/sprites/GarettThePopcornMan.png",
             SCALE_FACTOR: 1,
-            ANIMATION_RATE: 50,
+            ANITION_RATE: 50,
             INIT_POSITION: { x: 650, y: 540 },
             pixels: { height: 523, width: 477 },
             orientation: { rows: 1, columns: 1 },
@@ -87,7 +87,7 @@ class GameLevelGarett {
         };
         const npcData3 = {
             id: 'Maze Tent',
-            greeting: 'Hi!',
+            greeting: '"Would you like to enter the Invisible Maze? Press E to enter."',
             src: path + "/images/gamebuilder/sprites/mazeentrance.png",
             SCALE_FACTOR: 2,
             ANIMATION_RATE: 50,
@@ -97,16 +97,28 @@ class GameLevelGarett {
             down: { row: 0, start: 0, columns: 1 },
             hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
             dialogues: [
-                "Would you like to enter the 'Invisible Maze'?",
-            ],
-            reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
-            interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
-        };
-        const dbarrier_1 = {
-            id: 'dbarrier_1', x: 0, y: 0, width: 504, height: 109, visible: false,
-            hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
-            fromOverlay: true
-        };
+  ],
+
+    interact: function() { 
+        if (this.dialogueSystem) { 
+            this.showRandomDialogue(); 
+    }
+        if (!this.listenerAdded) {
+    this.listenerAdded = true; 
+    document.addEventListener("keydown", (e) => {
+      if (e.key.toLowerCase() === "e") {
+        console.log("Entering maze...");
+        window.location.href = "timmycounter.html";
+      }
+    });
+  }
+}
+        }      
+const dbarrier_1 = {
+    id: 'dbarrier_1', x: 0, y: 0, width: 504, height: 109, visible: false,
+    hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
+    fromOverlay: true
+};
 this.classes = [      { class: GameEnvBackground, data: bgData },
       { class: Player, data: playerData },
       { class: Npc, data: npcData1 },
