@@ -39,7 +39,7 @@ class GameLevelTimmyfuncounter {
 
             hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
 
-            keypress: { up: 38, left: 37, down: 40, right: 39 }
+            keypress: { up: 87, left: 65, down: 83, right: 68 }
         };
 
         const npcData1 = {
@@ -126,7 +126,7 @@ class GameLevelTimmyfuncounter {
 
             document.addEventListener("keydown", (e) => {
 
-                const movementKeys = [37,38,39,40];
+                const movementKeys = [87,65,83,68];
                 if (movementKeys.includes(e.keyCode)) {
 
                     steps++;
