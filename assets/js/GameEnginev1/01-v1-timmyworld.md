@@ -1,6 +1,6 @@
 ---
 layout: opencs
-title: RPG Water Example 
+title: RPG Timmy 
 permalink: /gamify/timmyworld
 ---
 
