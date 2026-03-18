@@ -33,7 +33,7 @@ class GameLevelGarett {
             SCALE_FACTOR: 5,
             STEP_FACTOR: 1000,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 100, y: 300 },
+            INIT_POSITION: { x: 400, y: 300 },
             pixels: { height: 36, width: 569 },
             orientation: { rows: 1, columns: 13 },
             down: { row: 0, start: 0, columns: 3 },
@@ -60,10 +60,7 @@ class GameLevelGarett {
             down: { row: 0, start: 0, columns: 1 },
             hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
             dialogues: [
-                "Hi! I am Garrett!",
-                "Welcome to Timmy's Fun World! Want some popcorn?",
-                "Be wary of that circus tent, the Invisible Maze lies within...",
-                "But what do I know, I'm just a popcorn man...right? >:)",
+                "Welcome to Timmy's Fun World! I'm Garrett! Oh, and by the way, be wary of that circus tent, the Invisible Maze lies within...  Want some popcorn?",
             ],
             reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
