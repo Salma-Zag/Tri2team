@@ -36,6 +36,7 @@ class GameLevelTimmyfuncounter {
             upRight: { row: 0, start: 0, columns: 3, rotate: -Math.PI/16 },
 
             hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
+
             keypress: { up: 87, left: 65, down: 83, right: 68 }
         };
 
@@ -190,8 +191,7 @@ class GameLevelTimmyfuncounter {
             document.addEventListener("keydown", (e) => {
 
                 const movementKeys = [87,65,83,68];
-
-                if (!gameOver && movementKeys.includes(e.keyCode)) {
+                if (movementKeys.includes(e.keyCode)) {
 
                     steps++;
                     window.currentSteps = steps;
