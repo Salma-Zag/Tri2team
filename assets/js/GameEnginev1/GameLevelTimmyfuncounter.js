@@ -58,7 +58,7 @@ class GameLevelTimmyfuncounter {
             pixels: { height: 523, width: 477 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
-            hitbox: { widthPercentage: 0.4, heightPercentage: 0.4 },
+            hitbox: { widthPercentage: 0.4, heightPercentage: 0.6 },
             dialogues: ['"Good luck! You will need it..."'],
 
             reaction: function() {
@@ -76,8 +76,6 @@ class GameLevelTimmyfuncounter {
                 if (this.dialogueSystem) {
                     this.showRandomDialogue();
                 }
-
-                // ▶️ PLAY MUSIC ON FIRST INTERACTION
                 if (!musicStarted) {
                     music.play().catch(() => {});
                     musicStarted = true;
@@ -96,7 +94,6 @@ class GameLevelTimmyfuncounter {
             }
         };
 
-        // 🔥 INVISIBLE MAZE WALLS (WORKING)
         const mazeWalls = [
             { x: 0, y: 0, width: width, height: 20 },
             { x: 0, y: height - 20, width: width, height: 20 },
@@ -107,16 +104,17 @@ class GameLevelTimmyfuncounter {
         ];
 
         const wallClasses = mazeWalls.map(wall => ({
-            class: Barrier,
-            data: {
-                id: "wall_" + Math.random(),
-                x: wall.x,
-                y: wall.y,
-                width: wall.width,
-                height: wall.height,
-                color: "transparent"
-            }
-        }));
+    class: Barrier,
+    data: {
+        id: "wall_" + Math.random(),
+        x: wall.x,
+        y: wall.y,
+        width: wall.width,
+        height: wall.height,
+        visible: false
+    }
+}));
+    
 
         window.addEventListener("load", () => {
 
