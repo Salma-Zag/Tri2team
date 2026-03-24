@@ -6,68 +6,416 @@ hide: true
 show_reading_time: false
 ---
 By Salma Zaghloul and Sophie Haas
-# Formative Assessment 1 - Mini Game Configuration (Individual)
-### Objective: Demonstrate correct file structure and asset integration practices by adding a new asset to the GameLevelUfo level.
-#### S4 Salma Z – Asset Management
+checklist: [https://pages.opencodingsociety.com/csse/sprint6/objectives](url)
 
-<img width="808" height="411" alt="Image" src="https://github.com/user-attachments/assets/1e301c25-c114-477a-9408-cb4fa292f39e" />
+- [x] Writing Classes
+- Create minimum 2 custom character classes extending base classes 
+- Code review: Player.js, NPC.js, Enemy.js,
 
-## Game Concept:
-Lost on the Moon is a space-themed mini game set on a mysterious alien planet. The player pilots a UFO that has crash-landed near a stranded astronaut named Timmy123. As Timmy123 desperately scours the moon for signs of hope, he comes across another astronaut, named Tommy123. The two then watch shooting stars pass by Earth,
-<img width="72" height="57" alt="Image" src="https://github.com/user-attachments/assets/b0f87a9e-a981-4d9c-b83e-35075a0e626b" />
-
-<img width="317" height="111" alt="Image" src="https://github.com/user-attachments/assets/ba9b74e1-37ca-4e80-bcd4-8316fe39c4fa" />
-
-
-## Asset Added
-
-Shooting Star — a small cartoon star with a trail added as a passive NPC/Sprite to the UFO level. It passes by at random intervals.
-Additionally, secondary Ufos pass by, behaving the s
-
-Asset file name: shootingstar.png
-Asset type: sprite
-Purpose in game: Glides across the screen at a fast pace to and scenery and wonder
-
-## File Path and Directory Placement
-The asset was saved to the following location in the repository:
-images/gamebuilder/sprites/shootingstar.png
-This follows the correct GameBuilder directory structure where all sprite assets are stored under images/gamebuilder/sprites/.
-
-## Configuration Updates
-The following reference was added to GameLevelUfo.js to integrate the new asset:
-javascript//  const npcData3 = {
-            id: 'shootingstar',
-            greeting: 'wee!',
-            src: path + "/images/gamebuilder/sprites/shootingstar.png",  // 
-
-## What exactly was added?
-We made use of x and y velocity, as well as positions and animation rate to create a moving and passive asset.
-
-```js
-const npcData3 = {
-            id: 'shootingstar',
-            greeting: 'wee!',
-            src: path + "/images/gamebuilder/sprites/shootingstar.png",
-            SCALE_FACTOR: 7,
+> Level 1: Character Classes
+```.js
+const npcData1 = {
+            id: 'Garrett The Popcorn Man',
+            greeting: 'Hi! I\'m Garrett!',
+            src: path + "/images/gamebuilder/sprites/GarettThePopcornMan.png",
+            SCALE_FACTOR: 1,
+            ANITION_RATE: 50,
+            INIT_POSITION: { x: 650, y: 540 },
+            pixels: { height: 523, width: 477 },
+            orientation: { rows: 1, columns: 1 },
+            down: { row: 0, start: 0, columns: 1 },
+            hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+            dialogues: [
+                "Welcome to Timmy's Fun World! I'm Garrett! Oh, and by the way, be wary of that circus tent, the Invisible Maze lies within...  Want some popcorn?",
+            ],
+            reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
+            interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
+```
+```.js
+const npcData2 = {
+            id: 'Timmy Sign',
+            greeting: 'Hi!',
+            src: path + "/images/gamebuilder/sprites/TimmySign.png",
+            SCALE_FACTOR: 2,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 800, y: 400 },
-            pixels: { height: 512, width: 384 },
-            orientation: { rows: 4, columns: 3 },
-            down: { row: 0, start: 0, columns: 3 },
-            right: { row: 1, start: 0, columns: 3 },
-            left: { row: 2, start: 0, columns: 3 },
-            up: { row: 3, start: 0, columns: 3 },
-            hitbox: { widthPercentage: 0.4, heightPercentage: 0.3 },
-            dialogues: ['Greetings, earthling!'],
-            reaction: function() { console.log(this.greeting); },
-            interact: function() { console.log('Alien says hi!'); },
-            xVelocity: 1.5,  // Move right at 1.5 pixels per frame
-            yVelocity: 0
-        };
+            INIT_POSITION: { x: 400, y: 70 },
+            pixels: { height: 400, width: 477 },
+            orientation: { rows: 1, columns: 1 },
+            down: { row: 0, start: 0, columns: 1 },
+            hitbox: { widthPercentage: 1.0, heightPercentage: 0.5 },
+            dialogues: [
+                "It's an old, makeshift sign. Seems unprofessional.",
+            ],
+            reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
+            interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
+```
+- [ ] Methods & Parameters
+- Implement methods with parameters (e.g., collisionHandler(other, direction)) 
+- Code review: Method signatures with 2+ parameters
+
+> 
+
+- [x] Instantiation & Objects
+- Instantiate game objects in GameLevel configuration
+- Code review: GameLevel setup objects
+
+> Level 1: The constructer creates data objects
+
+```.js
+this.classes = [
+    { class: GameEnvBackground, data: bgData },
+    { class: Player, data: playerData },
+    { class: Npc, data: npcData1 },
+    // ...
+];
 ```
 
-## Why This Directory?
-The images/gamebuilder/sprites/ folder is the correct location for character and object sprites used by the GameEngine. Placing assets here ensures the path variable in the game constructor can resolve the file correctly.
+- [x] Inheritance (Basic)
+- Create class hierarchy with 2+ levels (e.g., GameObject → Character → Player)
+- Code review: extends keyword, inheritance chain
+```js
+class Player extends Character {
+    // Static counter for unique player IDs (uninitialized)
+    static playerCount;
+```
+```js
+class Garrett extends Enemy {
+// and so on...
+```
+- [x] Method Overriding
+- Override parent methods (update(), draw(), handleCollision())
+- Code review: Polymorphic implementations
+```js
 
-# Commit Link
-(Paste commit link here after pushing)
+    interact: function() { 
+        if (this.dialogueSystem) { 
+            this.showRandomDialogue(); 
+    }
+        if (!this.listenerAdded) {
+    this.listenerAdded = true; 
+    document.addEventListener("keydown", (e) => {
+      if (e.key.toLowerCase() === "e") {
+        console.log("Entering maze...");
+        window.location.href = "timmycounter.html";
+      }
+    });
+  }
+}
+```
+## Or additionally
+```js
+ update() {
+        super.update();
+        if(!this.moved){
+            if (this.gravity) {
+                    this.time += 1;
+                    this.velocity.y += 0.5 + this.acceleration * this.time;
+                }
+            }
+        else{
+            this.time = 0;
+        }
+        }
+```
+### We utilize the gravity.
+- [x] Constructor Chaining
+- Use super() to chain constructors
+- Code review: super(data, gameEnv) calls
+```js
+constructor(data = null, gameEnv = null) {
+        super(data, gameEnv);
+        this.interact = data?.interact; // Interact function
+        this.currentQuestionIndex = 0;
+        this.alertTimeout = null;
+        this.isInteracting = false; // Flag to track if currently interacting
+        this.handleKeyDownBound = this.handleKeyDown.bind(this);
+        this.handleKeyUpBound = this.handleKeyUp.bind(this);
+        this.bindInteractKeyListeners();
+```
+### CONTROL STRUCTURES
+- [x] Iteration
+- Use loops for game object arrays, animation frames
+- Code review: for, forEach, while loops
+
+> Level 1: Wall Classes
+
+```.js
+const wallClasses = mazeWalls.map(wall => ({ ... }));
+```
+- [x] Conditionals
+- Implement collision detection, state transitions
+- Code review: if/else, nested conditions
+
+> Level 2: Message
+```.js
+if (steps > STEP_GOAL) {
+message.textContent = "You didn't make it...";
+gameOver = true;
+}
+```
+
+- [x] Nested Conditions
+- Complex game logic (e.g., power-up + collision + direction)
+- Code review: Multi-level conditionals
+
+> Level 2: Teleporting Garrett
+```.js
+reaction: function() {
+    if (!this.teleported) return; // Level 1
+    if (window.currentSteps <= window.stepGoal) { // Level 2
+        alert("Win");
+    } else {
+        alert("Loss");
+    }
+}
+```
+
+### DATA TYPES
+- [x] Numbers
+- Position, velocity, score tracking
+- Code review: Numeric properties
+> Level 2: Step Counter
+```.js
+const STEP_GOAL = 200;
+steps++;
+- [x] Strings
+- Character names, sprite paths, game states
+- Code review: String manipulation
+> Level 2: Message
+```.js
+message.textContent = "You didn't make it to Garrett in time!";
+window.location.href = "timmycounter.html";
+```
+- [x] Booleans
+- Flags (isJumping, isPaused, isVulnerable)
+- Code review: Boolean logic
+
+> Level 2: Music!
+```.js
+let musicStarted = false;
+let gameOver = false;
+this.teleported = true;
+```
+- [x] Arrays
+- Game object collections, level data
+- Code review: Array operations
+
+> Level 1: Player Data
+
+```.js
+this.classes = [      { class: GameEnvBackground, data: bgData },
+      { class: Player, data: playerData },
+      { class: Npc, data: npcData1 },
+      { class: Npc, data: npcData2 },
+      { class: Npc, data: npcData3 },
+      { class: Barrier, data: dbarrier_1 }
+];
+
+];
+```
+- [x] Objects (JSON)
+- Configuration objects, sprite data
+- Code review: Object literals
+
+> Level 1: Any NPC or Player data, EX is from Garrett's data
+```.js
+const npcData1 = {
+            id: 'Garrett The Popcorn Man',
+            greeting: 'Hi! I\'m Garrett!',
+            src: path + "/images/gamebuilder/sprites/GarettThePopcornMan.png",
+            SCALE_FACTOR: 1,
+            ANITION_RATE: 50,
+            INIT_POSITION: { x: 650, y: 540 },
+            pixels: { height: 523, width: 477 },
+            orientation: { rows: 1, columns: 1 },
+            down: { row: 0, start: 0, columns: 1 },
+            hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+            dialogues: [
+                "Welcome to Timmy's Fun World! I'm Garrett! Oh, and by the way, be wary of that circus tent, the Invisible Maze lies within...  Want some popcorn?",
+            ],
+            reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
+            interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
+        };
+```
+### OPERATORS
+- [x] Mathematical
+- Physics calculations (gravity, velocity, collision)
+- Code review: +, -, *, / in physics
+
+> Level 2: Step Counter
+
+```.js
+window.addEventListener("load",` () => {
+
+            const STEP_GOAL = 200;
+
+            window.currentSteps = 0;
+            window.stepGoal = STEP_GOAL;
+```
+```.js
+ const stepCounterEl = document.createElement("div");
+            stepCounterEl.style.cssText = `
+                color:white;
+                font-size:26px;
+                font-family:Arial;
+                background:rgba(0,0,0,0.6);
+                padding:10px 18px;
+                border-radius:10px;
+                box-shadow:0px 0px 10px black;
+            `;
+            stepCounterEl.textContent = "Steps: 0 / " + STEP_GOAL;
+            hud.appendChild(stepCounterEl);
+
+            let steps = 0;
+            let gameOver = false;
+```
+- [x] String Operations
+- Path concatenation, text display
+- Code review: Template literals, concatenation
+
+> Level 1: Background Paths
+```.js
+src: path + "/images/gamebuilder/sprites/kirby.png",
+src: path + "/images/gamebuilder/bg/TimmyGreatBg.png",
+```
+```.js
+stepCounterEl.textContent = "Steps: " + steps + " / " + STEP_GOAL;
+```
+- [x] Boolean Expressions
+- Compound conditions in game logic
+- Code review: &&, ||, !
+
+> Level 1/2: Game Logic
+```.js
+if (gameOver && e.keyCode === 82) {
+    steps = 0;
+```
+```.js
+if (!this.listenerAdded) {
+    this.listenerAdded = true;
+    // ... logic
+}
+
+// From GameLevelTimmyfuncounter.js
+if (!musicStarted) {
+    music.play();
+    musicStarted = true;
+}
+```
+
+###  INPUT/OUTPUT
+- [x] Keyboard Input
+- Arrow keys, space, WASD controls using event listeners
+- Testing: Key event handlers respond correctly
+```.js
+setTimeout(() => {
+                playerRef = gameEnv.gameObjects.find(obj => obj.id === 'playerData');
+            }, 500);
+
+            document.addEventListener("keydown", (e) => {
+
+                const movementKeys = [87,65,83,68];
+                if (movementKeys.includes(e.keyCode)) {
+
+                    steps++;
+                    window.currentSteps = steps;
+```
+- [ ] Canvas Rendering
+- Draw sprites, backgrounds, platforms using Canvas API
+- Code review: draw() method implementations
+- [x] GameEnv Configuration
+- Set canvas size, difficulty levels, game settings
+- Code review: GameEnv.create() and GameSetup.js
+
+> Level 1/2: Canvas Sizes
+
+```.js
+constructor(gameEnv) {
+    const path = gameEnv.path;
+    const width = gameEnv.innerWidth;
+    const height = gameEnv.innerHeight;
+```
+- [ ] API Integration
+- Implement Leaderboard API (POST/GET scores)
+- Code review: Fetch calls with error handling
+- [ ] Asynchronous I/O
+- Use async/await or promises for API calls
+- Code review: async/await or .then() chains
+- [ ] JSON Parsing
+- Parse API responses (leaderboard data, AI responses)
+- Code review: JSON.parse(), object destructuring
+### DOCUMENTATION
+- [ ] Mini-Lesson Documentation
+- Create comic/visual post with embedded runtime game demo
+- Portfolio review: Mini-lesson in personal portfolio
+- [x] Code Highlights
+- Annotate key code snippets in documentation (OOP, APIs, collision)
+- Portfolio review: Highlighted code examples with explanations
+### Debugging
+- [x] Console Debugging
+- Use console.log to track game state, variables, method calls
+- Code review: Strategic logging in update/collision methods
+
+> Level 1/2: Reveiws
+```.js
+if (e.key.toLowerCase() === "e") {
+    console.log("Entering maze...");
+    window.location.href = "timmycounter.html";
+}
+```
+```.js
+reaction: function() { 
+    if (this.dialogueSystem) { 
+        this.showReactionDialogue(); 
+    } else { 
+        console.log(this.greeting); // Tracks variable state
+    } 
+},
+```
+- [x] Hit Box Visualization
+- Draw/visualize collision boundaries to refine detection
+- Demo: Toggle hit box display, adjust collision rectangles
+```.js
+const mazeWalls = [
+            { x: 0, y: 0, width: width, height: 20 },
+            { x: 0, y: height - 20, width: width, height: 20 },
+            { x: width * 0.2, y: 0, width: 20, height: height * 0.6 },
+            { x: width * 0.4, y: height * 0.4, width: 20, height: height * 0.6 },
+            { x: width * 0.6, y: 0, width: 20, height: height * 0.6 },
+            { x: width * 0.8, y: height * 0.4, width: 20, height: height * 0.6 }
+        ];
+
+        const wallClasses = mazeWalls.map(wall => ({
+    class: Barrier,
+    data: {
+        id: "wall_" + Math.random(),
+        x: wall.x,
+        y: wall.y,
+        width: wall.width,
+        height: wall.height,
+        visible: false
+    }
+}));
+```
+- [ ] Source-Level Debugging
+- Set breakpoints in DevTools, step through code execution
+- Demo: Use Sources tab to pause and inspect code flow
+- [ ] Network Debugging
+- Examine Network tab for API calls, CORS errors, response status
+- Demo: Inspect fetch requests, response data, error messages
+- [ ] Application Debugging
+- Examine cookies, localStorage, session data for login/state
+- Demo: Application tab inspection of stored data
+- [ ] Element Inspection
+- Use Element Viewer to inspect canvas, DOM elements, styles
+- Demo: Inspect element properties and game object state
+### Testing & Verification
+- [ ] Gameplay Testing
+- Test level completion, character interactions, collision detection
+- Live demo: Play through level without critical bugs
+- [ ] Integration Testing
+- Test API integration (Leaderboard, NPC AI) with live backend
+- Demo: Successful score saving and AI responses
+- [ ] API Error Handling
+- Try/catch blocks for API calls, network error handling
+- Code review: Error handling for fetch failures
