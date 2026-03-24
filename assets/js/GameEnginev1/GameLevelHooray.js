@@ -54,7 +54,7 @@ class GameLevelHooray {
             src: path + "/images/gamebuilder/sprites/BetterTrophy.png",
             SCALE_FACTOR: 1,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 280, y: 100 },
+            INIT_POSITION: { x: 370, y: 100 },
             pixels: { height: 400, width: 430 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
