@@ -58,7 +58,7 @@ class GameLevelTimmyfuncounter {
             pixels: { height: 523, width: 477 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
-            hitbox: { widthPercentage: 0.4, heightPercentage: 0.6 },
+            hitbox: { widthPercentage: 0.6, heightPercentage: 0.6 },
             dialogues: ['"Good luck! You will need it..."'],
 
             reaction: function() {
@@ -123,7 +123,6 @@ class GameLevelTimmyfuncounter {
             window.currentSteps = 0;
             window.stepGoal = STEP_GOAL;
 
-            // 🌑 FADE SCREEN
             const fade = document.createElement("div");
             fade.style.position = "fixed";
             fade.style.top = "0";
@@ -157,7 +156,6 @@ class GameLevelTimmyfuncounter {
                 restartText.style.opacity = restartText.style.opacity === "0" ? "1" : "0";
             }, 600);
 
-            // HUD
             const hud = document.createElement("div");
             hud.style.position = "fixed";
             hud.style.bottom = "20px";
@@ -207,7 +205,6 @@ class GameLevelTimmyfuncounter {
                     }
                 }
 
-                // 🔄 RESTART
                 if (gameOver && e.keyCode === 82) {
 
                     if (playerRef) {
