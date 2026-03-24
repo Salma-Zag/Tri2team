@@ -118,7 +118,7 @@ class GameLevelTimmyfuncounter {
 
         window.addEventListener("load", () => {
 
-            const STEP_GOAL = 200;
+            const STEP_GOAL = 300;
 
             window.currentSteps = 0;
             window.stepGoal = STEP_GOAL;
