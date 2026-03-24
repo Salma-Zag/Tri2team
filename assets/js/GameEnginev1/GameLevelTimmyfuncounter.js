@@ -93,6 +93,7 @@ class GameLevelTimmyfuncounter {
                 }
             }
         };
+        
 
         const mazeWalls = [
             { x: 0, y: 0, width: width, height: 20 },

@@ -35,7 +35,7 @@ Additionally, here are our issue/blogs.
     </a>
     <a href="{{site.baseurl}}/Athreeblog" style="text-decoration: none;">
         <div style="background-color: #a58f1f; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
-           Timmy123's crash landing Blog
+           Checklist
         </div>
     </a>
 </div>
