@@ -50,7 +50,7 @@ class GameLevelGarett {
             
         const npcData1 = {
             id: 'Garrett The Popcorn Man',
-            greeting: 'Hi! I\'m Garrett!',
+            greeting: "Hi! I'm Garrett!",
             src: path + "/images/gamebuilder/sprites/GarettThePopcornMan.png",
             SCALE_FACTOR: 1,
             ANITION_RATE: 50,

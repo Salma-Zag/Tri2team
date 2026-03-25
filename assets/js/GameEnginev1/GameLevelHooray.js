@@ -9,11 +9,7 @@
 //    // or pass it directly to your GameControl as the only level.
 // 3) Ensure images exist and paths resolve via 'path' provided by the engine.
 // 4) You can add more objects to this.classes inside the constructor.
-<<<<<<< HEAD
 // making sure commits work
-=======
-
->>>>>>> 235b748 (hello)
 import GameEnvBackground from './essentials/GameEnvBackground.js';
 import Player from './essentials/Player.js';
 import Npc from './essentials/Npc.js';

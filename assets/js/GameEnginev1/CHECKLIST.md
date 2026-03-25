@@ -135,7 +135,7 @@ constructor(data = null, gameEnv = null) {
 ```
 ### Live Demo
 {% include js-runner.html
-runner_id="constructor_chain_game"
+runner_id='constructor_chain_game'
 code='
 class GameObject {
   constructor(data) {
@@ -154,7 +154,7 @@ class Npc extends GameObject {
 
 const npcData = {
   id: "Garrett",
-  dialogues: ["Welcome to Timmy\\'s Fun World!"]
+  dialogues: ["Welcome to Timmy's Fun World!"]
 };
 
 new Npc(npcData);
