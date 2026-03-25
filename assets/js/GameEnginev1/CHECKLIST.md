@@ -135,9 +135,11 @@ constructor(data = null, gameEnv = null) {
 ```
 ### Live Demo
 <!-- file was missing -->
-{% include js-runner.html
-runner_id='constructor_chain_game'
-code='
+{% include js-runner.html runner_id='constructor_chain_game' %}
+
+{% raw %}
+```js
+
 class GameObject {
   constructor(data) {
     this.id = data.id;
@@ -159,8 +161,9 @@ const npcData = {
 };
 
 new Npc(npcData);
-'
-%}
+
+{% endraw %}
+
 ### CONTROL STRUCTURES
 - [x] Iteration
 - Use loops for game object arrays, animation frames
