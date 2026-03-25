@@ -30,6 +30,7 @@ const npcData1 = {
             ],
             reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
+}
 ```
 ```.js
 const npcData2 = {
