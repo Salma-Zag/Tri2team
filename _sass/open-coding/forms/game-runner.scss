@@ -79,7 +79,8 @@
 
   // Stop button - danger color (red) for critical action
   .stopBtn {
-    @extend .danger-button;
+    // @extend .danger-button;
+    @extend .danger-button !optional;
 
     &:disabled {
       background: var(--pref-bg-color) !important;
