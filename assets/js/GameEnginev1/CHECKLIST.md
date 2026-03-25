@@ -102,7 +102,7 @@ class Garrett extends Enemy {
   }
 }
 ```
-## Or additionally
+Or additionally
 ```js
  update() {
         super.update();
@@ -117,7 +117,7 @@ class Garrett extends Enemy {
         }
         }
 ```
-### We utilize the gravity.
+We utilize the gravity.
 - [x] Constructor Chaining
 - Use super() to chain constructors
 - Code review: super(data, gameEnv) calls
@@ -132,6 +132,33 @@ constructor(data = null, gameEnv = null) {
         this.handleKeyUpBound = this.handleKeyUp.bind(this);
         this.bindInteractKeyListeners();
 ```
+### Live Demo
+{% include js-runner.html
+runner_id="constructor_chain_game"
+code='
+class GameObject {
+  constructor(data) {
+    this.id = data.id;
+    console.log("GameObject created:", this.id);
+  }
+}
+
+class Npc extends GameObject {
+  constructor(data) {
+    super(data); // chaining
+    this.dialogues = data.dialogues;
+    console.log("Npc created with dialogue");
+  }
+}
+
+const npcData = {
+  id: "Garrett",
+  dialogues: ["Welcome to Timmy\\'s Fun World!"]
+};
+
+new Npc(npcData);
+'
+%}
 ### CONTROL STRUCTURES
 - [x] Iteration
 - Use loops for game object arrays, animation frames
