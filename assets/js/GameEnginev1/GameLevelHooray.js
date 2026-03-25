@@ -27,7 +27,7 @@ class GameLevelHooray {
 
         const bgData = {
             name: "custom_bg",
-            src: path + "/images/gamebuilder/bg/timmycelebration.png",
+            src: path + "/images/gamebuilder/bg/Hooray.png",
             pixels: { height: 400, width:700 }
         };
 
@@ -55,10 +55,10 @@ class GameLevelHooray {
         const npcData3 = {
             id: 'Trophy',
             greeting: '"Great job!! Press E to claim your trophy. You earned it."',
-            src: path + "/images/gamebuilder/sprites/trophy.png",
+            src: path + "/images/gamebuilder/sprites/BetterTrophy.png",
             SCALE_FACTOR: 1,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 280, y: 100 },
+            INIT_POSITION: { x: 370, y: 100 },
             pixels: { height: 400, width: 430 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
