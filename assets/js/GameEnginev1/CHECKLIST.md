@@ -134,6 +134,7 @@ constructor(data = null, gameEnv = null) {
         this.bindInteractKeyListeners();
 ```
 ### Live Demo
+<!-- file was missing -->
 {% include js-runner.html
 runner_id='constructor_chain_game'
 code='
