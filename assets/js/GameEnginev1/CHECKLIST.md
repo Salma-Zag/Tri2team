@@ -135,7 +135,7 @@ constructor(data = null, gameEnv = null) {
 ```
 ### Live Demo
 <!-- file was missing -->
-{% include js-runner.html runner_id='constructor_chain_game' %}
+{% include runner.html runner_id='constructor_chain_game' %}
 
 {% raw %}
 ```js
