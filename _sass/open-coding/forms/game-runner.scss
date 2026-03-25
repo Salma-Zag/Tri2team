@@ -65,7 +65,8 @@
 
   // Pause button - warning color (yellow) for attention
   .pauseBtn {
-    @extend .warning-button;
+    // @extend .warning-button;
+    @extend .warning-button !optional
 
     &:disabled {
       background: var(--pref-bg-color) !important;
