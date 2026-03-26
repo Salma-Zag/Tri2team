@@ -13,7 +13,8 @@ checklist: [https://pages.opencodingsociety.com/csse/sprint6/objectives](url)
 - Code review: Player.js, NPC.js, Enemy.js,
 
 > Level 1: Character Classes
-```.js
+{% raw %}
+```js
 const npcData1 = {
             id: 'Garrett The Popcorn Man',
             greeting: 'Hi! I\'m Garrett!',
@@ -32,7 +33,10 @@ const npcData1 = {
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
 }
 ```
-```.js
+{% endraw %}
+
+{% raw %}
+```js
 const npcData2 = {
             id: 'Timmy Sign',
             greeting: 'Hi!',
@@ -50,6 +54,8 @@ const npcData2 = {
             reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
 ```
+{% endraw %}
+
 - [ ] Methods & Parameters
 - Implement methods with parameters (e.g., collisionHandler(other, direction)) 
 - Code review: Method signatures with 2+ parameters
@@ -62,7 +68,8 @@ const npcData2 = {
 
 > Level 1: The constructer creates data objects
 
-```.js
+{% raw %}
+```js
 this.classes = [
     { class: GameEnvBackground, data: bgData },
     { class: Player, data: playerData },
@@ -70,22 +77,32 @@ this.classes = [
     // ...
 ];
 ```
+{% endraw %}
 
 - [x] Inheritance (Basic)
 - Create class hierarchy with 2+ levels (e.g., GameObject → Character → Player)
 - Code review: extends keyword, inheritance chain
+{% raw %}
+{% raw %}
 ```js
 class Player extends Character {
     // Static counter for unique player IDs (uninitialized)
     static playerCount;
 ```
+{% endraw %}
+
+{% raw %}
 ```js
 class Garrett extends Enemy {
 // and so on...
 ```
+{% endraw %}
+
 - [x] Method Overriding
 - Override parent methods (update(), draw(), handleCollision())
 - Code review: Polymorphic implementations
+
+{% raw %}
 ```js
 
     interact: function() { 
@@ -103,7 +120,11 @@ class Garrett extends Enemy {
   }
 }
 ```
+{% endraw %}
+
 Or additionally
+
+{% raw %}
 ```js
  update() {
         super.update();
@@ -118,10 +139,14 @@ Or additionally
         }
         }
 ```
+{% endraw %}
+
 We utilize the gravity.
 - [x] Constructor Chaining
 - Use super() to chain constructors
 - Code review: super(data, gameEnv) calls
+
+{% raw %}
 ```js
 constructor(data = null, gameEnv = null) {
         super(data, gameEnv);
@@ -133,6 +158,8 @@ constructor(data = null, gameEnv = null) {
         this.handleKeyUpBound = this.handleKeyUp.bind(this);
         this.bindInteractKeyListeners();
 ```
+{% endraw %}
+
 ### Live Demo
 <!-- file was missing -->
 {% include runner.html runner_id='constructor_chain_game' %}
@@ -161,7 +188,7 @@ const npcData = {
 };
 
 new Npc(npcData);
-
+```
 {% endraw %}
 
 ### CONTROL STRUCTURES
@@ -171,27 +198,36 @@ new Npc(npcData);
 
 > Level 1: Wall Classes
 
-```.js
+
+{% raw %}
+```js
 const wallClasses = mazeWalls.map(wall => ({ ... }));
 ```
+{% endraw %}
+
 - [x] Conditionals
 - Implement collision detection, state transitions
 - Code review: if/else, nested conditions
 
 > Level 2: Message
-```.js
+
+{% raw %}
+```js
 if (steps > STEP_GOAL) {
 message.textContent = "You didn't make it...";
 gameOver = true;
 }
 ```
+{% endraw %}
 
 - [x] Nested Conditions
 - Complex game logic (e.g., power-up + collision + direction)
 - Code review: Multi-level conditionals
 
 > Level 2: Teleporting Garrett
-```.js
+
+{% raw %}
+```js
 reaction: function() {
     if (!this.teleported) return; // Level 1
     if (window.currentSteps <= window.stepGoal) { // Level 2
@@ -201,40 +237,52 @@ reaction: function() {
     }
 }
 ```
+{% endraw %}
 
 ### DATA TYPES
 - [x] Numbers
 - Position, velocity, score tracking
 - Code review: Numeric properties
 > Level 2: Step Counter
-```.js
+{% raw %}
+```js
 const STEP_GOAL = 200;
 steps++;
+```
+{% endraw %}
+
 - [x] Strings
 - Character names, sprite paths, game states
 - Code review: String manipulation
 > Level 2: Message
-```.js
+{% raw %}
+```js
 message.textContent = "You didn't make it to Garrett in time!";
 window.location.href = "timmycounter.html";
 ```
+{% endraw %}
+
 - [x] Booleans
 - Flags (isJumping, isPaused, isVulnerable)
 - Code review: Boolean logic
 
 > Level 2: Music!
-```.js
+{% raw %}
+```js
 let musicStarted = false;
 let gameOver = false;
 this.teleported = true;
 ```
+{% endraw %}
+
 - [x] Arrays
 - Game object collections, level data
 - Code review: Array operations
 
 > Level 1: Player Data
 
-```.js
+{% raw %}
+```js
 this.classes = [      { class: GameEnvBackground, data: bgData },
       { class: Player, data: playerData },
       { class: Npc, data: npcData1 },
@@ -245,12 +293,15 @@ this.classes = [      { class: GameEnvBackground, data: bgData },
 
 ];
 ```
+{% endraw %}
+
 - [x] Objects (JSON)
 - Configuration objects, sprite data
 - Code review: Object literals
 
 > Level 1: Any NPC or Player data, EX is from Garrett's data
-```.js
+{% raw %}
+```js
 const npcData1 = {
             id: 'Garrett The Popcorn Man',
             greeting: 'Hi! I\'m Garrett!',
@@ -269,6 +320,8 @@ const npcData1 = {
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
         };
 ```
+{% endraw %}
+
 ### OPERATORS
 - [x] Mathematical
 - Physics calculations (gravity, velocity, collision)
@@ -276,7 +329,8 @@ const npcData1 = {
 
 > Level 2: Step Counter
 
-```.js
+{% raw %}
+```js
 window.addEventListener("load",` () => {
 
             const STEP_GOAL = 200;
@@ -284,7 +338,10 @@ window.addEventListener("load",` () => {
             window.currentSteps = 0;
             window.stepGoal = STEP_GOAL;
 ```
-```.js
+{% endraw %}
+
+{% raw %}
+```js
  const stepCounterEl = document.createElement("div");
             stepCounterEl.style.cssText = `
                 color:white;
@@ -301,28 +358,40 @@ window.addEventListener("load",` () => {
             let steps = 0;
             let gameOver = false;
 ```
+{% endraw %}
+
 - [x] String Operations
 - Path concatenation, text display
 - Code review: Template literals, concatenation
 
 > Level 1: Background Paths
-```.js
+{% raw %}
+```js
 src: path + "/images/gamebuilder/sprites/kirby.png",
 src: path + "/images/gamebuilder/bg/TimmyGreatBg.png",
 ```
-```.js
+{% endraw %}
+
+{% raw %}
+```js
 stepCounterEl.textContent = "Steps: " + steps + " / " + STEP_GOAL;
 ```
+{% endraw %}
+
 - [x] Boolean Expressions
 - Compound conditions in game logic
 - Code review: &&, ||, !
 
 > Level 1/2: Game Logic
-```.js
+{% raw %}
+```js
 if (gameOver && e.keyCode === 82) {
     steps = 0;
 ```
-```.js
+{% endraw %}
+
+{% raw %}
+```js
 if (!this.listenerAdded) {
     this.listenerAdded = true;
     // ... logic
@@ -334,12 +403,14 @@ if (!musicStarted) {
     musicStarted = true;
 }
 ```
+{% endraw %}
 
 ###  INPUT/OUTPUT
 - [x] Keyboard Input
 - Arrow keys, space, WASD controls using event listeners
 - Testing: Key event handlers respond correctly
-```.js
+{% raw %}
+```js
 setTimeout(() => {
                 playerRef = gameEnv.gameObjects.find(obj => obj.id === 'playerData');
             }, 500);
@@ -352,6 +423,8 @@ setTimeout(() => {
                     steps++;
                     window.currentSteps = steps;
 ```
+{% endraw %}
+
 - [ ] Canvas Rendering
 - Draw sprites, backgrounds, platforms using Canvas API
 - Code review: draw() method implementations
@@ -361,12 +434,15 @@ setTimeout(() => {
 
 > Level 1/2: Canvas Sizes
 
-```.js
+{% raw %}
+```js
 constructor(gameEnv) {
     const path = gameEnv.path;
     const width = gameEnv.innerWidth;
     const height = gameEnv.innerHeight;
 ```
+{% endraw %}
+
 - [ ] API Integration
 - Implement Leaderboard API (POST/GET scores)
 - Code review: Fetch calls with error handling
@@ -389,13 +465,17 @@ constructor(gameEnv) {
 - Code review: Strategic logging in update/collision methods
 
 > Level 1/2: Reveiws
-```.js
+{% raw %}
+```js
 if (e.key.toLowerCase() === "e") {
     console.log("Entering maze...");
     window.location.href = "timmycounter.html";
 }
 ```
-```.js
+{% endraw %}
+
+{% raw %}
+```js
 reaction: function() { 
     if (this.dialogueSystem) { 
         this.showReactionDialogue(); 
@@ -404,10 +484,13 @@ reaction: function() {
     } 
 },
 ```
+{% endraw %}
+
 - [x] Hit Box Visualization
 - Draw/visualize collision boundaries to refine detection
 - Demo: Toggle hit box display, adjust collision rectangles
-```.js
+{% raw %}
+```js
 const mazeWalls = [
             { x: 0, y: 0, width: width, height: 20 },
             { x: 0, y: height - 20, width: width, height: 20 },
@@ -429,6 +512,8 @@ const mazeWalls = [
     }
 }));
 ```
+{% endraw %}
+
 - [ ] Source-Level Debugging
 - Set breakpoints in DevTools, step through code execution
 - Demo: Use Sources tab to pause and inspect code flow
