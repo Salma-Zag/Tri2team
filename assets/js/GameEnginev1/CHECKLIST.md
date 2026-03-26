@@ -1,7 +1,7 @@
 ---
 layout: post 
 title: Timmy123's Crash Landing Blog
-permalink: /Athreeblog
+permalink: /Athreblog
 hide: true
 show_reading_time: false
 ---
