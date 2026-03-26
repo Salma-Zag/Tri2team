@@ -65,8 +65,7 @@
 
   // Pause button - warning color (yellow) for attention
   .pauseBtn {
-    // @extend .warning-button;
-    @extend .warning-button !optional;
+    @extend .warning-button;
 
     &:disabled {
       background: var(--pref-bg-color) !important;
@@ -79,8 +78,7 @@
 
   // Stop button - danger color (red) for critical action
   .stopBtn {
-    // @extend .danger-button;
-    @extend .danger-button !optional;
+    @extend .danger-button;
 
     &:disabled {
       background: var(--pref-bg-color) !important;

@@ -40,7 +40,6 @@
 
   // Stop button - danger color (red) for immediate attention
   .stopBtn {
-    // @extend .danger-button;
-    @extend .danger-button !optional
+    @extend .danger-button;
   }
 }
