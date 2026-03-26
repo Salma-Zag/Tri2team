@@ -163,11 +163,6 @@ constructor(data = null, gameEnv = null) {
 ### Live Demo
 {% capture code1 %}
 
-<!-- import GameEnvBackground from './essentials/GameEnvBackground.js';
-import Player from './essentials/Player.js';
-import Npc from './essentials/Npc.js';
-import Barrier from './essentials/Barrier.js'; -->
-
 class GameLevelGarett {
     constructor(gameEnv) {
         const path = gameEnv.path;
