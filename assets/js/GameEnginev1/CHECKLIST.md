@@ -163,7 +163,6 @@ constructor(data = null, gameEnv = null) {
 ### Live Demo
 {% capture code1 %}
 {% raw %}
-```js
 
 import GameEnvBackground from './essentials/GameEnvBackground.js';
 import Player from './essentials/Player.js';
@@ -283,8 +282,9 @@ this.classes = [      { class: GameEnvBackground, data: bgData },
     }
 }
 
-export default GameLevelGarett;
-```
+export { GameLevelGarett };
+<!-- export default GameLevelGarett; -->
+
 {% endraw%}
 {% endcapture %}
 
