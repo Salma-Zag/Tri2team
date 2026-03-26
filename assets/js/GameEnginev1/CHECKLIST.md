@@ -276,8 +276,8 @@ this.classes = [      { class: GameEnvBackground, data: bgData },
     }
 }
 
-export { GameLevelGarett };
-<!-- export default GameLevelGarett; -->
+<!-- export { GameLevelGarett }; -->
+export default GameLevelGarett;
 
 {% endcapture %}
 
