@@ -2,237 +2,155 @@ import GameEnvBackground from './essentials/GameEnvBackground.js';
 import Player from './essentials/Player.js';
 import Npc from './essentials/Npc.js';
 import Barrier from './essentials/Barrier.js';
-import Leaderboard from './essentials/Leaderboard.js';
 
-
-class GameLevelTimmyfuncounter {
+class GameLevelHooray {
     constructor(gameEnv) {
-
+        this.gameEnv = gameEnv;
         const path = gameEnv.path;
-        const width = gameEnv.innerWidth;
-        const height = gameEnv.innerHeight;
+        
+        // --- Music ---
+        const music = new Audio(path + "/assets/audio/HereComesTheTimmy.mp3");
+        music.loop = true;
+        music.volume = 0.8;
+        const startMusic = () => {
+            music.play().catch(e => console.log("Music started"));
+            window.removeEventListener('keydown', startMusic);
+            window.removeEventListener('mousedown', startMusic);
+        };
+        window.addEventListener('keydown', startMusic);
+        window.addEventListener('mousedown', startMusic);
+
+        // --- Stats ---
+        this.popcornCount = 0;
+        this.createPopcornUI();
 
         const bgData = {
             name: "custom_bg",
-            src: path + "/images/gamebuilder/bg/TimmyFrameBg.png",
-            pixels: { height: 720, width: 1280 }
+            src: path + "/images/gamebuilder/bg/Hooray.png",
+            pixels: { height: 400, width: 700 }
         };
 
         const playerData = {
             id: 'playerData',
             src: path + "/images/gamebuilder/sprites/kirby.png",
-            SCALE_FACTOR: 8,
+            SCALE_FACTOR: 5,
             STEP_FACTOR: 1000,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 60, y: 278 },
+            INIT_POSITION: { x: 200, y: 600 },
             pixels: { height: 36, width: 569 },
             orientation: { rows: 1, columns: 13 },
-
             down: { row: 0, start: 0, columns: 3 },
-            downRight: { row: 0, start: 0, columns: 3, rotate: Math.PI/16 },
-            downLeft: { row: 0, start: 0, columns: 3, rotate: -Math.PI/16 },
             left: { row: 0, start: 0, columns: 3 },
             right: { row: 0, start: 0, columns: 3 },
             up: { row: 0, start: 0, columns: 3 },
-            upLeft: { row: 0, start: 0, columns: 3, rotate: Math.PI/16 },
-            upRight: { row: 0, start: 0, columns: 3, rotate: -Math.PI/16 },
-
-            hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
-
+            hitbox: { widthPercentage: 0.5, heightPercentage: 0.5 },
             keypress: { up: 87, left: 65, down: 83, right: 68 }
         };
 
-        // 🎵 MUSIC
-        const music = new Audio(path + "/assets/audio/SubwaySurfers.mp3");
-        music.loop = true;
-        music.volume = 0.4;
-        let musicStarted = false;
-
-        let playerRef = null;
-
-        const npcData1 = {
-            id: 'Garret',
-            greeting: '"Good luck! You will need it..."',
-            src: path + "/images/gamebuilder/sprites/Garret2.png",
-            SCALE_FACTOR: 4,
+        const popcornData = {
+            id: 'popcorn',
+            src: path + "/images/gamebuilder/sprites/popcorncoin.png",
+            SCALE_FACTOR: 2.5, // Slightly bigger to make it easier to hit
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 100, y: 100 },
-            pixels: { height: 523, width: 477 },
+            INIT_POSITION: { x: 400, y: 400 }, 
+            pixels: { height: 400, width: 400 }, // Fixed: Corrected from 600x600 to 32x32
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
-            hitbox: { widthPercentage: 0.6, heightPercentage: 0.6 },
-            dialogues: ['"Good luck! You will need it..."'],
+            hitbox: { widthPercentage: 0.8, heightPercentage: 0.8 }
+        };
 
-            reaction: function() {
-                if (!this.teleported) return;
-
-                if (window.currentSteps <= window.stepGoal) {
-                    alert("🎉 You found Garrett in time! You win!");
+        const npcData3 = {
+            id: 'Trophy',
+            greeting: "", 
+            src: path + "/images/gamebuilder/sprites/BetterTrophy.png",
+            SCALE_FACTOR: 1,
+            ANIMATION_RATE: 50,
+            INIT_POSITION: { x: 370, y: 100 },
+            pixels: { height: 400, width: 430 },
+            orientation: { rows: 1, columns: 1 },
+            down: { row: 0, start: 0, columns: 1 },
+            hitbox: { widthPercentage: 0.3, heightPercentage: 0.1 },
+            interact: () => {
+                const trophy = this.gameEnv.objects.find(obj => obj.canvas.id === 'Trophy');
+                if (this.popcornCount >= 10) {
+                    trophy.greeting = '"Great job!! Press E to claim your trophy."';
+                    if (!this.listenerAdded) {
+                        this.listenerAdded = true;
+                        document.addEventListener("keydown", (e) => {
+                            if (e.key.toLowerCase() === "e") window.location.href = "timmycounter.html";
+                        });
+                    }
                 } else {
-                    alert("Too many steps! Try again!");
-                }
-            },
-
-            interact: function() {
-
-                if (this.dialogueSystem) {
-                    this.showRandomDialogue();
-                }
-                if (!musicStarted) {
-                    music.play().catch(() => {});
-                    musicStarted = true;
-                }
-
-                if (!this.teleported) {
-                    this.teleported = true;
-                    this.visible = false;
-
-                    setTimeout(() => {
-                        this.position.x = window.innerWidth - 120;
-                        this.position.y = window.innerHeight / 2;
-                        this.visible = true;
-                    }, 500);
+                    trophy.greeting = `"You need 10 popcorns! You only have ${this.popcornCount}."`;
                 }
             }
         };
-        
-        const mazeWalls = [
-            { x: 0, y: 0, width: width, height: 20 },
-            { x: 0, y: height - 20, width: width, height: 20 },
-            { x: width * 0.2, y: 0, width: 20, height: height * 0.6 },
-            { x: width * 0.4, y: height * 0.4, width: 20, height: height * 0.6 },
-            { x: width * 0.6, y: 0, width: 20, height: height * 0.6 },
-            { x: width * 0.8, y: height * 0.4, width: 20, height: height * 0.6 }
-        ];
-
-        const wallClasses = mazeWalls.map(wall => ({
-    class: Barrier,
-    data: {
-        id: "wall_" + Math.random(),
-        x: wall.x,
-        y: wall.y,
-        width: wall.width,
-        height: wall.height,
-        visible: false
-    }
-}));
-    
-
-        window.addEventListener("load", () => {
-
-            const STEP_GOAL = 300;
-
-            window.currentSteps = 0;
-            window.stepGoal = STEP_GOAL;
-
-            const fade = document.createElement("div");
-            fade.style.position = "fixed";
-            fade.style.top = "0";
-            fade.style.left = "0";
-            fade.style.width = "100%";
-            fade.style.height = "100%";
-            fade.style.background = "black";
-            fade.style.opacity = "0";
-            fade.style.transition = "opacity 1s";
-            fade.style.zIndex = "9999";
-            fade.style.display = "flex";
-            fade.style.flexDirection = "column";
-            fade.style.alignItems = "center";
-            fade.style.justifyContent = "center";
-            fade.style.color = "white";
-            fade.style.fontFamily = "Arial";
-            document.body.appendChild(fade);
-
-            const message = document.createElement("div");
-            message.style.fontSize = "42px";
-            message.style.marginBottom = "20px";
-            fade.appendChild(message);
-
-            const restartText = document.createElement("div");
-            restartText.textContent = "Press R to Restart";
-            restartText.style.fontSize = "28px";
-            restartText.style.opacity = "0";
-            fade.appendChild(restartText);
-
-            setInterval(() => {
-                restartText.style.opacity = restartText.style.opacity === "0" ? "1" : "0";
-            }, 600);
-
-            const hud = document.createElement("div");
-            hud.style.position = "fixed";
-            hud.style.bottom = "20px";
-            hud.style.left = "50%";
-            hud.style.transform = "translateX(-50%)";
-            hud.style.zIndex = "10000";
-            document.body.appendChild(hud);
-
-            const stepCounterEl = document.createElement("div");
-            stepCounterEl.style.cssText = `
-                color:white;
-                font-size:26px;
-                font-family:Arial;
-                background:rgba(0,0,0,0.6);
-                padding:10px 18px;
-                border-radius:10px;
-                box-shadow:0px 0px 10px black;
-            `;
-            stepCounterEl.textContent = "Steps: 0 / " + STEP_GOAL;
-            hud.appendChild(stepCounterEl);
-
-            let steps = 0;
-            let gameOver = false;
-
-            setTimeout(() => {
-                playerRef = gameEnv.gameObjects.find(obj => obj.id === 'playerData');
-            }, 500);
-
-            document.addEventListener("keydown", (e) => {
-
-                const movementKeys = [87,65,83,68];
-                if (movementKeys.includes(e.keyCode)) {
-
-                    steps++;
-                    window.currentSteps = steps;
-
-                    stepCounterEl.textContent = "Steps: " + steps + " / " + STEP_GOAL;
-
-                    if (steps > STEP_GOAL * 0.75) {
-                        stepCounterEl.style.background = "rgba(200,0,0,0.7)";
-                    }
-
-                    if (steps > STEP_GOAL) {
-                        message.textContent = "You didn't make it to Garrett in time!";
-                        fade.style.opacity = "1";
-                        gameOver = true;
-                    }
-                }
-
-                if (gameOver && e.keyCode === 82) {
-
-                    if (playerRef) {
-                        playerRef.position.x = playerData.INIT_POSITION.x;
-                        playerRef.position.y = playerData.INIT_POSITION.y;
-                    }
-
-                    steps = 0;
-                    window.currentSteps = 0;
-                    stepCounterEl.textContent = "Steps: 0 / " + STEP_GOAL;
-                    stepCounterEl.style.background = "rgba(0,0,0,0.6)";
-
-                    fade.style.opacity = "0";
-                    gameOver = false;
-                }
-            });
-
-        });
 
         this.classes = [
             { class: GameEnvBackground, data: bgData },
             { class: Player, data: playerData },
-            { class: Npc, data: npcData1 },
-            ...wallClasses
+            { class: Npc, data: npcData3 },
+            { class: Npc, data: popcornData },
+            { class: Barrier, data: { id: 'dbarrier_1', x: 0, y: 0, width: 504, height: 109, visible: false } }
         ];
+
+        this.startCollisionLoop();
+    }
+
+    startCollisionLoop() {
+        const check = setInterval(() => {
+            const player = this.gameEnv.objects.find(obj => obj.canvas.id === 'playerData');
+            const popcorn = this.gameEnv.objects.find(obj => obj.canvas.id === 'popcorn');
+
+            if (player && popcorn && this.popcornCount < 10) {
+                if (this.isColliding(player, popcorn)) {
+                    this.collectPopcorn(popcorn);
+                }
+            }
+            if (this.popcornCount >= 10) clearInterval(check);
+        }, 30); // Faster check (30ms) for smoother collection
+    }
+
+    collectPopcorn(popcorn) {
+        this.popcornCount++;
+        document.getElementById('popcorn-value').innerText = this.popcornCount;
+
+        if (this.popcornCount >= 10) {
+            popcorn.canvas.style.display = "none";
+            popcorn.x = -2000;
+        } else {
+            // Respawn logic
+            const newX = Math.random() * (window.innerWidth - 150) + 75;
+            const newY = Math.random() * (window.innerHeight - 150) + 75;
+            popcorn.x = newX;
+            popcorn.y = newY;
+            // Immediate visual move
+            popcorn.canvas.style.left = `${newX}px`;
+            popcorn.canvas.style.top = `${newY}px`;
+        }
+    }
+
+    isColliding(player, popcorn) {
+        // Get the real-time screen positions of both objects
+        const rect1 = player.canvas.getBoundingClientRect();
+        const rect2 = popcorn.canvas.getBoundingClientRect();
+
+        // Check if the rectangles overlap
+        return !(rect1.right < rect2.left || 
+                 rect1.left > rect2.right || 
+                 rect1.bottom < rect2.top || 
+                 rect1.top > rect2.bottom);
+    }
+
+    createPopcornUI() {
+        const existing = document.getElementById('popcorn-counter');
+        if (existing) existing.remove();
+        const ui = document.createElement('div');
+        ui.id = 'popcorn-counter';
+        ui.style = "position:fixed; bottom:20px; left:50%; transform:translateX(-50%); padding:10px 20px; background:rgba(0,0,0,0.8); color:gold; border-radius:30px; font-family:sans-serif; font-size:22px; z-index:1000; border:2px solid white;";
+        ui.innerHTML = `🍿 Popcorn: <span id="popcorn-value" style="color:white;">0</span> / 10`;
+        document.body.appendChild(ui);
     }
 }
 
-export default GameLevelTimmyfuncounter;
+export default GameLevelHooray;
