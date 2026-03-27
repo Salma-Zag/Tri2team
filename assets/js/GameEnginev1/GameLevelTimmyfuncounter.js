@@ -2,6 +2,8 @@ import GameEnvBackground from './essentials/GameEnvBackground.js';
 import Player from './essentials/Player.js';
 import Npc from './essentials/Npc.js';
 import Barrier from './essentials/Barrier.js';
+import Leaderboard from './essentials/Leaderboard.js';
+
 
 class GameLevelTimmyfuncounter {
     constructor(gameEnv) {
@@ -94,7 +96,6 @@ class GameLevelTimmyfuncounter {
             }
         };
         
-
         const mazeWalls = [
             { x: 0, y: 0, width: width, height: 20 },
             { x: 0, y: height - 20, width: width, height: 20 },
