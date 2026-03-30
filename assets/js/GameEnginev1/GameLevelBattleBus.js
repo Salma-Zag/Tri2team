@@ -1,7 +1,7 @@
 // Adventure Game Custom Level
 // Exported from GameBuilder on 2026-03-10T15:44:57.650Z
 // How to use this file:
-// 1) Save as assets/js/adventureGame/GameLevelGarett.js in your repo.
+// 1) Save as assets/js/adventureGame/GameLevelBattleBus.js in your repo.
 // 2) Reference it in your runner or level selector. Examples:
 //    import GameLevelPlanets from '/assets/js/GameEnginev1/GameLevelPlanets.js';
 //    import GameLevelBattleBus from '/assets/js/adventureGame/GameLevelBattleBus.js';
@@ -23,7 +23,7 @@ class GameLevelBattleBus {
 
         const bgData = {
             name: "custom_bg",
-            src: path + "/images/gamebuilder/bg/TimmyGreatBg.png",
+            src: path + "/images/gamebuilder/bg/Hell.png",
             pixels: { height: 400, width:700 }
         };
 
@@ -33,7 +33,7 @@ class GameLevelBattleBus {
             SCALE_FACTOR: 5,
             STEP_FACTOR: 1000,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 400, y: 300 },
+            INIT_POSITION: { x: 100, y: 300 },
             pixels: { height: 36, width: 569 },
             orientation: { rows: 1, columns: 13 },
             down: { row: 0, start: 0, columns: 3 },
@@ -49,47 +49,30 @@ class GameLevelBattleBus {
             };
             
         const npcData1 = {
-            id: 'Garrett The Popcorn Man',
-            greeting: "Hi! I'm Garrett!",
-            src: path + "/images/gamebuilder/sprites/GarettThePopcornMan.png",
-            SCALE_FACTOR: 1,
+            id: 'cat',
+            greeting: "battle battle bus bus",
+            src: path + "/images/gamebuilder/sprites/CatOnHellThrone.png",
+            SCALE_FACTOR: 2,
             ANITION_RATE: 50,
-            INIT_POSITION: { x: 650, y: 540 },
+            INIT_POSITION: { x: 350, y: 300 },
             pixels: { height: 523, width: 477 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
-            hitbox: { widthPercentage: 0.1, heightPercentage: 0.2 },
+            hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
             dialogues: [
-                "Welcome to Timmy's Fun World! I'm Garrett! Oh, and by the way, be wary of that circus tent, the Invisible Maze lies within...  Want some popcorn?",
-            ],
-            reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
-            interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
-        };
-        const npcData2 = {
-            id: 'Timmy Sign',
-            greeting: 'Hi!',
-            src: path + "/images/gamebuilder/sprites/TimmySign.png",
-            SCALE_FACTOR: 2,
-            ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 400, y: 70 },
-            pixels: { height: 400, width: 477 },
-            orientation: { rows: 1, columns: 1 },
-            down: { row: 0, start: 0, columns: 1 },
-            hitbox: { widthPercentage: 1.0, heightPercentage: 0.5 },
-            dialogues: [
-                "It's an old, makeshift sign. Seems unprofessional.",
+                "Hop on the Battle Bus. The boss is waiting.",
             ],
             reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
         };
         const npcData3 = {
-            id: 'Maze Tent',
-            greeting: '"Would you like to enter the Invisible Maze? Press E to enter."',
-            src: path + "/images/gamebuilder/sprites/mazeentrance.png",
-            SCALE_FACTOR: 2,
+            id: 'Battle Bus',
+            greeting: '"Press E to hop on!"',
+            src: path + "/images/gamebuilder/sprites/battlebus.png",
+            SCALE_FACTOR: 1,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 100, y: 7 },
-            pixels: { height: 400, width: 430 },
+            INIT_POSITION: { x: 1300, y: 500 },
+            pixels: { height: 700, width: 700 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
             hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
@@ -105,7 +88,7 @@ class GameLevelBattleBus {
     document.addEventListener("keydown", (e) => {
       if (e.key.toLowerCase() === "e") {
         console.log("Entering maze...");
-        window.location.href = "timmycounter.html";
+        window.location.href = "kittycat.html";
       }
     });
   }
@@ -119,7 +102,6 @@ const dbarrier_1 = {
 this.classes = [      { class: GameEnvBackground, data: bgData },
       { class: Player, data: playerData },
       { class: Npc, data: npcData1 },
-      { class: Npc, data: npcData2 },
       { class: Npc, data: npcData3 },
       { class: Barrier, data: dbarrier_1 }
 ];
@@ -128,4 +110,4 @@ this.classes = [      { class: GameEnvBackground, data: bgData },
     }
 }
 
-export default GameLevelGarett;
+export default GameLevelBattleBus;
