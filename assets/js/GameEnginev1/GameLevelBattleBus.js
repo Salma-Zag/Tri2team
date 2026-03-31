@@ -186,7 +186,7 @@ class GameLevelBattleBus {
         };
         const npcData3 = {
             id: 'Battle Bus',
-            greeting: '"Press E to hop on!"',
+            greeting: '"No cheating!! Answer the riddle first."',
             src: path + "/images/gamebuilder/sprites/battlebus.png",
             SCALE_FACTOR: 1,
             ANIMATION_RATE: 50,
@@ -207,7 +207,7 @@ class GameLevelBattleBus {
     document.addEventListener("keydown", (e) => {
       if (e.key.toLowerCase() === "e") {
         console.log("Entering maze...");
-        window.location.href = "battlebustwo.html";
+        window.location.href = "battlebusone.html";
       }
     });
   }

@@ -49,7 +49,7 @@ class GameLevelBattleCat {
             };
             
         const npcData1 = {
-            id: 'cat',
+            id: 'The Cat',
             greeting: "battle battle bus bus",
             src: path + "/images/gamebuilder/sprites/CatOnHellThrone.png",
             SCALE_FACTOR: 2,
@@ -60,7 +60,7 @@ class GameLevelBattleCat {
             down: { row: 0, start: 0, columns: 1 },
             hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
             dialogues: [
-                "Hop on the Battle Bus. The boss is waiting.",
+                "You look like you still have questions.",
             ],
             reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
