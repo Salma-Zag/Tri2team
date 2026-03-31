@@ -15,7 +15,7 @@ import Player from './essentials/Player.js';
 import Npc from './essentials/Npc.js';
 import Barrier from './essentials/Barrier.js';
 
-class GameLevelBattleBus {
+class GameLevelBattleCat {
     constructor(gameEnv) {
         const path = gameEnv.path;
         const width = gameEnv.innerWidth;
@@ -33,7 +33,7 @@ class GameLevelBattleBus {
             SCALE_FACTOR: 5,
             STEP_FACTOR: 1000,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 100, y: 300 },
+            INIT_POSITION: { x: 400, y: 300 },
             pixels: { height: 36, width: 569 },
             orientation: { rows: 1, columns: 13 },
             down: { row: 0, start: 0, columns: 3 },
@@ -54,7 +54,7 @@ class GameLevelBattleBus {
             src: path + "/images/gamebuilder/sprites/CatOnHellThrone.png",
             SCALE_FACTOR: 2,
             ANITION_RATE: 50,
-            INIT_POSITION: { x: 350, y: 300 },
+            INIT_POSITION: { x: 750, y: 300 },
             pixels: { height: 523, width: 477 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
@@ -67,11 +67,11 @@ class GameLevelBattleBus {
         };
         const npcData3 = {
             id: 'Battle Bus',
-            greeting: '"Press E to hop on!"',
+            greeting: '"You can press E to go back."',
             src: path + "/images/gamebuilder/sprites/battlebus.png",
             SCALE_FACTOR: 1,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 1300, y: 500 },
+            INIT_POSITION: { x: 50, y: 300 },
             pixels: { height: 700, width: 700 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
@@ -88,7 +88,7 @@ class GameLevelBattleBus {
     document.addEventListener("keydown", (e) => {
       if (e.key.toLowerCase() === "e") {
         console.log("Entering maze...");
-        window.location.href = "battlebustwo.html";
+        window.location.href = "battlebusone.html";
       }
     });
   }
@@ -110,4 +110,4 @@ this.classes = [      { class: GameEnvBackground, data: bgData },
     }
 }
 
-export default GameLevelBattleBus;
+export default GameLevelBattleCat;
