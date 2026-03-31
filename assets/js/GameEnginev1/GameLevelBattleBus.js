@@ -60,10 +60,129 @@ class GameLevelBattleBus {
             down: { row: 0, start: 0, columns: 1 },
             hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
             dialogues: [
-                "Hop on the Battle Bus. The boss is waiting.",
             ],
-            reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
-            interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
+            reaction: function() {
+           // Use dialogue system instead of alert
+           if (this.dialogueSystem) {
+               this.showReactionDialogue();
+           } else {
+               console.log(sprite_greet_crypto);
+           }
+       },
+       interact: function() {
+           // Clear any existing dialogue first
+           if (this.dialogueSystem && this.dialogueSystem.isDialogueOpen()) {
+               this.dialogueSystem.closeDialogue();
+           }
+
+           const showNextDialogue = (text) => {
+                if (this.dialogueSystem.isDialogueOpen()) {
+                    this.dialogueSystem.closeDialogue();
+                }
+
+                setTimeout(() => {
+                    this.dialogueSystem.showDialogue(
+                    text,
+                    "The Boss's Pet Cat",
+                    this.spriteData.src
+                    );
+                }, 0);
+            };
+          
+           // Show a dialogue with buttons immediately
+           if (this.dialogueSystem) {
+               // Get a random dialogue message if available
+               let message = "What kind of cheese is the moon made of?";
+               if (this.spriteData.dialogues && this.spriteData.dialogues.length > 0) {
+                   const randomIndex = Math.floor(Math.random() * this.spriteData.dialogues.length);
+                   message = this.spriteData.dialogues[randomIndex];
+               }
+              
+               this.dialogueSystem.showDialogue(
+                   message,
+                   "The Boss's Pet Cat",
+                   this.spriteData.src
+               );
+              
+               // Create the buttons container
+               const buttonContainer = document.createElement('div');
+               buttonContainer.style.display = 'flex';
+               buttonContainer.style.justifyContent = 'space-between';
+               buttonContainer.style.marginTop = '10px';
+              
+               // Create the Yes button
+               const yesButton = document.createElement('button');
+               yesButton.textContent = "Swiss";
+               yesButton.style.padding = '8px 15px';
+               yesButton.style.background = '#e84a7c';
+               yesButton.style.color = 'white';
+               yesButton.style.border = 'none';
+               yesButton.style.borderRadius = '5px';
+               yesButton.style.cursor = 'pointer';
+               yesButton.style.marginRight = '10px';
+
+               const cheeseButton = document.createElement('button');
+               cheeseButton.textContent = "Cheddar";
+               cheeseButton.style.padding = '8px 15px';
+               cheeseButton.style.background = '#e84a7c';
+               cheeseButton.style.color = 'white';
+               cheeseButton.style.border = 'none';
+               cheeseButton.style.borderRadius = '5px';
+               cheeseButton.style.cursor = 'pointer';
+               cheeseButton.style.marginRight = '10px';
+              
+               // Create the No button
+               const noButton = document.createElement('button');
+               noButton.textContent = "It's not";
+               noButton.style.padding = '8px 15px';
+               noButton.style.background = '#e84a7c';
+               noButton.style.color = 'white';
+               noButton.style.border = 'none';
+               noButton.style.borderRadius = '5px';
+               noButton.style.cursor = 'pointer';
+              
+               // Add button functionality
+               yesButton.onclick = () => {
+                   showNextDialogue("Wrong. You're not worthy of seeing the boss.");
+               };
+
+               cheeseButton.onclick = () => {
+                   showNextDialogue("Wrong. You're not worthy of seeing the boss.");
+               };
+              
+               noButton.onclick = () => {
+                 this.dialogueSystem.closeDialogue();
+                 setTimeout(() => {
+                    window.location.href = "battlebustwo.html";
+                }, 200);
+            };
+            
+              
+               // Add buttons to container
+               buttonContainer.appendChild(yesButton);
+               buttonContainer.appendChild(cheeseButton);
+               buttonContainer.appendChild(noButton);
+              
+               // Add buttons to dialogue box RIGHT AWAY (no setTimeout)
+               const dialogueBox = document.getElementById('custom-dialogue-box-' + this.dialogueSystem.id);
+               if (dialogueBox) {
+                   // Find the close button to insert before it
+                   const closeBtn = dialogueBox.querySelector('button');
+                   if (closeBtn) {
+                       dialogueBox.insertBefore(buttonContainer, closeBtn);
+                   } else {
+                       dialogueBox.appendChild(buttonContainer);
+                   }
+               }
+           } else {
+               // Original functionality as fallback
+               const confirmTeleport = window.confirm("Teleport to gambling hub?");
+               if (confirmTeleport) {
+                   window.location.href = "https://pages.opencodingsociety.com/gamify/casinohomepage";
+               }
+           }
+       }
+
         };
         const npcData3 = {
             id: 'Battle Bus',
