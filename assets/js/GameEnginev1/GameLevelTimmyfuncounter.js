@@ -33,10 +33,9 @@ class GameLevelTimmyfuncounter {
             keypress: { up: 87, left: 65, down: 83, right: 68 }
         };
 
-        // Audio setup
         const music = new Audio(path + "/assets/audio/SubwaySurfers.mp3");
         music.loop = true;
-        music.volume = 0.8;
+        music.volume = 0.5;
 
         const npcData1 = {
             id: 'Garret',
@@ -44,21 +43,22 @@ class GameLevelTimmyfuncounter {
             src: path + "/images/gamebuilder/sprites/Garret2.png",
             SCALE_FACTOR: 4,
             ANIMATION_RATE: 50,
-            // Garrett starts on the right side of the screen
             INIT_POSITION: { x: width - 250, y: height / 2 }, 
             pixels: { height: 523, width: 477 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
             hitbox: { widthPercentage: 0.4, heightPercentage: 0.6 },
             dialogues: ['"Good luck! You will need it..."'],
-            interact: function() {
-                // Winning/Losing logic when the player reaches Garrett
+            interact: () => {
+                if (window.isPaused) return; 
+                clearInterval(window.gameTimerInterval);
                 if (window.currentSteps <= window.stepGoal) {
                     window.hoorayLevelRef.saveToLeaderboard(window.currentSteps);
                     alert(`🎉 SUCCESS! You caught Garrett in ${window.currentSteps} steps!`);
                 } else {
-                    alert(`TOO SLOW! You took ${window.currentSteps} steps. Try to stay under ${window.stepGoal}!`);
+                    alert(`TOO SLOW! You took ${window.currentSteps} steps.`);
                 }
+                location.reload();
             }
         };
 
@@ -76,38 +76,104 @@ class GameLevelTimmyfuncounter {
             data: { id: "wall_" + Math.random(), x: wall.x, y: wall.y, width: wall.width, height: wall.height, visible: false }
         }));
 
-        // Handles logic as soon as the browser loads the level
         window.addEventListener("load", () => {
-            // 1. Browser Alert - This acts as the "user interaction" needed to play audio
-            alert("Catch me if you can! -Garrett");
-
-            // 2. Play music immediately after clicking 'OK'
-            music.play().catch(err => console.log("Audio waiting for interaction:", err));
+            alert("Catch Garrett! 30 seconds starts now!");
+            music.play().catch(e => console.log("Audio blocked"));
 
             const STEP_GOAL = 300;
             window.currentSteps = 0;
             window.stepGoal = STEP_GOAL;
+            window.timeLeft = 30;
+            window.isPaused = false;
 
-            this.createLeaderboardUI();
+            // --- UI Container: Bottom Middle HUD ---
+            const hudContainer = document.createElement("div");
+            hudContainer.style.cssText = `
+                position: fixed; 
+                bottom: 20px; 
+                left: 50%; 
+                transform: translateX(-50%); 
+                display: flex; 
+                gap: 15px; 
+                z-index: 10000; 
+                align-items: center;
+            `;
+            document.body.appendChild(hudContainer);
 
-            const hud = document.createElement("div");
-            hud.style.cssText = "position:fixed; bottom:20px; left:50%; transform:translateX(-50%); z-index:10000;";
-            document.body.appendChild(hud);
-
+            // Step Counter
             const stepCounterEl = document.createElement("div");
-            stepCounterEl.style.cssText = "color:white; font-size:26px; font-family:Arial; background:rgba(0,0,0,0.85); padding:10px 18px; border-radius:10px; border: 2px solid #ffd700;";
-            stepCounterEl.textContent = "Steps: 0 / " + STEP_GOAL;
-            hud.appendChild(stepCounterEl);
+            stepCounterEl.style.cssText = "color:white; font-size:24px; font-family:Arial; background:rgba(0,0,0,0.8); padding:10px 20px; border-radius:10px; border: 2px solid #ffd700;";
+            stepCounterEl.textContent = `Steps: 0 / ${STEP_GOAL}`;
+            hudContainer.appendChild(stepCounterEl);
 
+            // Timer (Now at bottom middle)
+            const timerEl = document.createElement("div");
+            timerEl.style.cssText = "color:white; font-size:24px; font-family:monospace; background:rgba(255,0,0,0.8); padding:10px 20px; border-radius:10px; border: 2px solid white;";
+            timerEl.textContent = `Time: ${window.timeLeft}s`;
+            hudContainer.appendChild(timerEl);
+
+            // --- UI: Menu Button (Bottom Right) ---
+            const menuBtn = document.createElement("button");
+            menuBtn.textContent = "⚙️ MENU";
+            menuBtn.style.cssText = "position:fixed; bottom:20px; right:20px; z-index:10001; padding:12px 20px; cursor:pointer; background:#4CAF50; border:2px solid black; border-radius:8px; font-weight:bold;";
+            document.body.appendChild(menuBtn);
+
+            // --- UI: Menu Panel ---
+            const menuPanel = document.createElement("div");
+            menuPanel.id = "game-menu-panel";
+            menuPanel.style.cssText = "position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:300px; background:rgba(20,20,20,0.95); color:white; padding:30px; border-radius:15px; display:none; z-index:10005; border:3px solid #ffd700; text-align:center; font-family:Arial;";
+            menuPanel.innerHTML = `
+                <h2 style='margin-top:0; color:#ffd700;'>GAME PAUSED</h2>
+                <button id='resume-btn' style='width:100%; padding:12px; margin:10px 0; cursor:pointer; background:#4CAF50; color:white; border:none; border-radius:5px; font-weight:bold;'>▶ RESUME</button>
+                <button id='lb-btn' style='width:100%; padding:12px; margin:10px 0; cursor:pointer; background:#2196F3; color:white; border:none; border-radius:5px; font-weight:bold;'>🏆 LEADERBOARD</button>
+            `;
+            document.body.appendChild(menuPanel);
+
+            // --- UI: Loss Screen ---
+            const lossOverlay = document.createElement("div");
+            lossOverlay.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:black; display:none; justify-content:center; align-items:center; z-index:20000; color:red; font-family:Arial; flex-direction:column; text-align:center;";
+            lossOverlay.innerHTML = "<h1>YOU LOSE!</h1><button onclick='location.reload()' style='padding:15px 30px; cursor:pointer; margin-top:20px;'>TRY AGAIN</button>";
+            document.body.appendChild(lossOverlay);
+
+            // Menu Logic
+            const toggleMenu = () => {
+                window.isPaused = !window.isPaused;
+                menuPanel.style.display = window.isPaused ? "block" : "none";
+                if (window.isPaused) music.pause();
+                else music.play();
+            };
+
+            menuBtn.onclick = toggleMenu;
+            document.getElementById('resume-btn').onclick = toggleMenu;
+            document.getElementById('lb-btn').onclick = () => {
+                this.updateLeaderboardDisplay();
+                document.getElementById("leaderboard-panel").style.display = "block";
+            };
+
+            // Timer Interval
+            window.gameTimerInterval = setInterval(() => {
+                if (!window.isPaused) {
+                    window.timeLeft--;
+                    timerEl.textContent = `Time: ${window.timeLeft}s`;
+                    if (window.timeLeft <= 5) timerEl.style.borderColor = "red";
+                    if (window.timeLeft <= 0) {
+                        clearInterval(window.gameTimerInterval);
+                        lossOverlay.style.display = "flex";
+                        music.pause();
+                    }
+                }
+            }, 1000);
+
+            // Key Listener
             document.addEventListener("keydown", (e) => {
+                if (window.isPaused) {
+                    e.stopImmediatePropagation(); 
+                    return; 
+                }
                 const movementKeys = [87, 65, 83, 68];
                 if (movementKeys.includes(e.keyCode)) {
                     window.currentSteps++;
                     stepCounterEl.textContent = `Steps: ${window.currentSteps} / ${STEP_GOAL}`;
-                    
-                    if (window.currentSteps > STEP_GOAL * 0.8) {
-                        stepCounterEl.style.color = "#ff4d4d";
-                    }
                 }
             });
         });
@@ -122,27 +188,7 @@ class GameLevelTimmyfuncounter {
         window.hoorayLevelRef = this;
     }
 
-    createLeaderboardUI() {
-        const btn = document.createElement("button");
-        btn.textContent = "🏆 Records";
-        btn.style.cssText = "position:fixed; bottom:20px; right:20px; z-index:10001; padding:10px; cursor:pointer; background:#ffd700; border:2px solid black; border-radius:5px; font-weight:bold;";
-        document.body.appendChild(btn);
-
-        const panel = document.createElement("div");
-        panel.id = "leaderboard-panel";
-        panel.style.cssText = "position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:320px; background:rgba(10,10,10,0.95); color:white; padding:20px; border-radius:15px; display:none; z-index:10002; font-family:Arial; border:3px solid #ffd700; text-align:center;";
-        document.body.appendChild(panel);
-
-        btn.onclick = () => {
-            if (panel.style.display === "none") {
-                this.updateLeaderboardDisplay();
-                panel.style.display = "block";
-            } else {
-                panel.style.display = "none";
-            }
-        };
-    }
-
+    // Leaderboard logic stays the same...
     saveToLeaderboard(steps) {
         let scores = JSON.parse(localStorage.getItem("mazeScores")) || [];
         scores.push({ steps: steps, date: new Date().toLocaleTimeString() });
@@ -152,19 +198,19 @@ class GameLevelTimmyfuncounter {
     }
 
     updateLeaderboardDisplay() {
-        const panel = document.getElementById("leaderboard-panel");
-        const scores = JSON.parse(localStorage.getItem("mazeScores")) || [];
-        let html = "<h2 style='color:#ffd700;'>🏆 Top 5 Runs</h2><hr style='border-color:#ffd700;'>";
-        
-        if (scores.length === 0) {
-            html += "<p>No winners yet. Catch Garrett!</p>";
-        } else {
-            scores.forEach((s, i) => {
-                html += `<p style='font-size:18px;'>${i + 1}. <b>${s.steps} steps</b> <br><small style='opacity:0.6;'>${s.date}</small></p>`;
-            });
+        let panel = document.getElementById("leaderboard-panel");
+        if (!panel) {
+            panel = document.createElement("div");
+            panel.id = "leaderboard-panel";
+            panel.style.cssText = "position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:320px; background:rgba(10,10,10,0.98); color:white; padding:20px; border-radius:15px; display:none; z-index:10010; font-family:Arial; border:3px solid #ffd700; text-align:center;";
+            document.body.appendChild(panel);
         }
-        // yay
-        html += "<br><button id='close-lb' style='padding:8px 20px; cursor:pointer; background:white; border-radius:5px; border:none; font-weight:bold;'>Close</button>";
+        const scores = JSON.parse(localStorage.getItem("mazeScores")) || [];
+        let html = "<h2 style='color:#ffd700;'>🏆 Top 5 Runs</h2>";
+        scores.forEach((s, i) => {
+            html += `<p>${i + 1}. <b>${s.steps} steps</b></p>`;
+        });
+        html += "<button id='close-lb' style='margin-top:10px;'>Close</button>";
         panel.innerHTML = html;
         document.getElementById("close-lb").onclick = () => panel.style.display = "none";
     }
