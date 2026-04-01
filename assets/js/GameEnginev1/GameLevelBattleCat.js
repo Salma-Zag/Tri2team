@@ -54,14 +54,16 @@ class GameLevelBattleCat {
             src: path + "/images/gamebuilder/sprites/CatOnHellThrone.png",
             SCALE_FACTOR: 2,
             ANITION_RATE: 50,
-            INIT_POSITION: { x: 750, y: 300 },
+            INIT_POSITION: { x: 750, y: 50 },
             pixels: { height: 523, width: 477 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
-            hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+            hitbox: { widthPercentage: 0.001, heightPercentage: 0.00001 },
             dialogues: [
                 "You look like you still have questions.",
             ],
+
+            
             reaction: function() { if (this.dialogueSystem) { this.showReactionDialogue(); } else { console.log(this.greeting); } },
             interact: function() { if (this.dialogueSystem) { this.showRandomDialogue(); } }
         };
@@ -71,11 +73,11 @@ class GameLevelBattleCat {
             src: path + "/images/gamebuilder/sprites/battlebus.png",
             SCALE_FACTOR: 1,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 50, y: 300 },
+            INIT_POSITION: { x: 10, y: 300 },
             pixels: { height: 700, width: 700 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
-            hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+            hitbox: { widthPercentage: 0.0000001, heightPercentage: 0.1 },
             dialogues: [
   ],
 
