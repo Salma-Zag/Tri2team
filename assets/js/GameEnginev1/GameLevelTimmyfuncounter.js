@@ -32,11 +32,42 @@ class GameLevelTimmyfuncounter {
             hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
             keypress: { up: 87, left: 65, down: 83, right: 68 }
         };
+        
 
         // Audio setup
         const music = new Audio(path + "/assets/audio/SubwaySurfers.mp3");
         music.loop = true;
         music.volume = 0.8;
+
+        const npcData3 = {
+            id: 'Popcorn',
+            greeting: '"You won!"',
+            src: path + "/images/gamebuilder/sprites/doorpopcorn.png",
+            SCALE_FACTOR: 4,
+            ANIMATION_RATE: 50,
+            INIT_POSITION: { x: 1000, y: 100 },
+            pixels: { height: 400, width: 430 },
+            orientation: { rows: 1, columns: 1 },
+            down: { row: 0, start: 0, columns: 1 },
+            hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+            dialogues: [
+  ],
+
+    interact: function() { 
+        if (this.dialogueSystem) { 
+            this.showRandomDialogue(); 
+    }
+        if (!this.listenerAdded) {
+    this.listenerAdded = true; 
+    document.addEventListener("keydown", (e) => {
+      if (e.key.toLowerCase() === "e") {
+        console.log("Entering maze...");
+        window.location.href = "battlebusone.html";
+      }
+    });
+  }
+}
+        }   
 
         const npcData1 = {
             id: 'Garret',
@@ -55,12 +86,14 @@ class GameLevelTimmyfuncounter {
                 // Winning/Losing logic when the player reaches Garrett
                 if (window.currentSteps <= window.stepGoal) {
                     window.hoorayLevelRef.saveToLeaderboard(window.currentSteps);
-                    alert(`🎉 SUCCESS! You caught Garrett in ${window.currentSteps} steps!`);
+                    alert(`🎉 SUCCESS! You caught Garrett in ${window.currentSteps} steps! Use the popcorn to leave.`);
                 } else {
                     alert(`TOO SLOW! You took ${window.currentSteps} steps. Try to stay under ${window.stepGoal}!`);
                 }
             }
         };
+
+        
 
         const mazeWalls = [
             { x: 0, y: 0, width: width, height: 20 },
@@ -115,6 +148,7 @@ class GameLevelTimmyfuncounter {
         this.classes = [
             { class: GameEnvBackground, data: bgData },
             { class: Player, data: playerData },
+            { class: Npc, data: npcData3 },
             { class: Npc, data: npcData1 },
             ...wallClasses
         ];
