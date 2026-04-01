@@ -1,0 +1,203 @@
+// To build GameLevels, each contains GameObjects from below imports
+import GamEnvBackground from './essentials/GameEnvBackground.js';
+import Player from './essentials/Player.js';
+import Npc from './essentials/Npc.js';
+// Using v1.1 DialogueSystem for improved ID sanitization
+import DialogueSystem from './essentials/DialogueSystem.js';
+import AiNpc from './essentials/AiNpc.js';
+import GameControl from './essentials/GameControl.js';
+import GameLevelStarWars from './GameLevelStarWars.js';
+import GameLevelMeteorBlaster from './GameLevelMeteorBlaster.js';
+import GameLevelMinesweeper from './GameLevelMinesweeper.js';
+import GameLevelEnd from './GameLevelEnd.js';
+import Coin from './Coin.js';
+import { pythonURI, fetchOptions } from '../api/config.js';
+
+// Import PlatformerMini (game-in-game)
+import PlatformerMini from './PlatformerMini.js';
+
+class GameLevelCat {
+ constructor(gameEnv) {
+   let width = gameEnv.innerWidth;
+   let height = gameEnv.innerHeight;
+   let path = gameEnv.path;
+
+
+   // Background data
+   const image_src_desert = path + "/images/gamebuilder/bg/Doofinsmirtz.png"; // be sure to include the path
+   const image_data_desert = {
+       name: 'desert',
+       greeting: "Welcome to the desert!  It is hot and dry here, but there are many adventures to be had!",
+       src: image_src_desert,
+       pixels: {height: 580, width: 1038}
+   };
+
+
+   // Player data for Chillguy
+   const sprite_src_chillguy = path + "/images/gamebuilder/sprites/kirby.png"; // be sure to include the path
+   const CHILLGUY_SCALE_FACTOR = 5;
+   const sprite_data_chillguy = {
+       id: 'Chill Guy',
+       greeting: "Hi I am Chill Guy, the desert wanderer. I am looking for wisdom and adventure!",
+       src: sprite_src_chillguy,
+       SCALE_FACTOR: CHILLGUY_SCALE_FACTOR,
+       STEP_FACTOR: 1000,
+       ANIMATION_RATE: 50,
+       INIT_POSITION: { x: 0.0, y: 0.9 },  // 0% from left, 90% from top (near bottom)
+       pixels: { height: 36, width: 569 },
+        orientation: { rows: 1, columns: 13 },
+        down: { row: 0, start: 0, columns: 3 },
+        left: { row: 0, start: 0, columns: 3 },
+        right: { row: 0, start: 0, columns: 3 },
+        up: { row: 0, start: 0, columns: 3 },
+        hitbox: { widthPercentage: 0, heightPercentage: 0 },
+       keypress: { up: 87, left: 65, down: 83, right: 68 } // W, A, S, D
+   };
+
+
+   const sprite_data_coin = {
+       id: 'coin',
+       greeting: false,
+       INIT_POSITION: { x: 0.6, y: 0.6 },  // 60% from left, 60% from top
+       width: 40,
+       height: 70,
+       color: '#FFD700',
+       hitbox: { widthPercentage: 0.0, heightPercentage: 0.0 },
+       zIndex: 12,
+       value: 1
+   };
+
+
+
+
+
+
+
+  // ===== CUSTOM AI NPCs =====
+  // AI NPCs use the AiNpc utility (essentials/AiNpc.js) for common behaviors
+  // Just define data + simple orchestrator methods, then call AiNpc.showInteraction()
+  /* 
+   * EXAMPLE: 
+   * 
+   * const sprite_data_wizard = {
+   *     id: "MerlinTheWizard",
+   *     src: path + "/images/gamify/wizard.png",
+   *     expertise: "magic",
+   *     chatHistory: [],
+   *     dialogues: ["Greetings, young apprentice!", "Seek magical wisdom?"],
+   *     knowledgeBase: { magic: [...spells and lore...] },
+   *     reaction: function() { ... },
+   *     interact: function() { AiNpc.showInteraction(this); }
+   * };
+   * 
+   * Then add to this.classes: { class: Npc, data: sprite_data_wizard }
+   */
+
+  
+  const sprite_src_historian = path + "/images/gamebuilder/sprites/CatOnHellThrone.png";
+  const sprite_greet_historian = "Hello! I'm an expert in history!";
+  const sprite_data_historian = {
+      id: "Professor History",
+      greeting: sprite_greet_historian,
+      src: sprite_src_historian,
+      SCALE_FACTOR: 3,
+      ANIMATION_RATE: 50,
+      pixels: { height: 523, width: 477 },
+      INIT_POSITION: { x: width * 0.53, y: height * 0.28 },
+      orientation: { rows: 1, columns: 1 },
+      down: { row: 0, start: 0, columns: 1 },
+      hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
+      
+      // AI-specific properties (required for AiNpc utility)
+      expertise: "history",              // Topic area for backend
+      chatHistory: [],                   // Conversation memory
+      dialogues: [                       // Random greetings
+          "Ask me anything about history!",
+          "I have a depth of knowledge in history...",
+          "Do you want to learn about history?",
+          "Try out my chat session featureon history!",
+          "Are you curious about history? Talk to me!"
+      ],
+      knowledgeBase: {                   // Context hints for AI
+          history: [
+              {
+                  question: "What is ancient Egypt?",
+                  answer: "Ancient Egypt was one of the world's greatest civilizations, lasting over 3000 years! It had pyramids, pharaohs, and the mighty Nile River."
+              },
+              {
+                  question: "Tell me about the Renaissance",
+                  answer: "The Renaissance was a period of great cultural and artistic change in Europe, starting in Italy around the 14th century. Artists like Leonardo da Vinci and Michelangelo created amazing works!"
+              },
+              {
+                  question: "When was the Industrial Revolution?",
+                  answer: "The Industrial Revolution took place from the late 1700s to the 1800s. It changed how people worked, moving from farms to factories and inventing new machines!"
+              },
+              {
+                  question: "Who was Napoleon?",
+                  answer: "Napoleon Bonaparte was a French military leader who became Emperor. He conquered much of Europe but was eventually defeated and exiled."
+              }
+          ]
+      },
+      
+      // Orchestrator: Handle collision/proximity reactions
+      reaction: function() {
+          if (this.dialogueSystem) {
+              this.showReactionDialogue();
+          } else {
+              console.log(sprite_greet_historian);
+          }
+      },
+      
+      // Orchestrator: Handle player interaction (E key press)
+      interact: function() {
+          // Delegate to AiNpc utility for full AI conversation interface
+          AiNpc.showInteraction(this);
+      }
+  };
+
+
+
+   // ===== PLATFORMER MINI GAME SETUP =====
+   // PlatformerMini is a game-in-game launched by Chicken Jockey NPC
+   const platformerMini = new PlatformerMini(gameEnv);
+
+   let isRpgPaused = false;
+   let desertMovementInterval, desertAnimationInterval;
+
+   const pauseRpg = () => {
+     if (isRpgPaused) return;
+     isRpgPaused = true;
+
+     clearInterval(desertMovementInterval);
+     clearInterval(desertAnimationInterval);
+   };
+
+   const resumeRpg = () => {
+     if (!isRpgPaused) return;
+     isRpgPaused = false;
+
+     desertMovementInterval = setInterval(() => {
+       // Resume any movement logic if needed
+     }, 100);
+
+     desertAnimationInterval = setInterval(() => {
+       // Resume any animation logic if needed
+     }, 5000);
+   };
+
+
+// List of objects defnitions for this level
+   this.classes = [
+     { class: GamEnvBackground, data: image_data_desert },
+     { class: Player, data: sprite_data_chillguy },
+     { class: Coin, data: sprite_data_coin },
+     { class: Npc, data: sprite_data_historian },
+   ];
+
+ }
+
+
+}
+
+
+export default GameLevelCat;
