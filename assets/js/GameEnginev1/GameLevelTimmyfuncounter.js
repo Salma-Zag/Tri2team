@@ -44,7 +44,7 @@ class GameLevelTimmyfuncounter {
             src: path + "/images/gamebuilder/sprites/doorpopcorn.png",
             SCALE_FACTOR: 4,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 1000, y: 100 },
+            INIT_POSITION: { x: 1500, y: 100 },
             pixels: { height: 400, width: 430 },
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
@@ -133,25 +133,21 @@ class GameLevelTimmyfuncounter {
             `;
             document.body.appendChild(hudContainer);
 
-            // Step Counter
             const stepCounterEl = document.createElement("div");
             stepCounterEl.style.cssText = "color:white; font-size:24px; font-family:Arial; background:rgba(0,0,0,0.8); padding:10px 20px; border-radius:10px; border: 2px solid #ffd700;";
             stepCounterEl.textContent = `Steps: 0 / ${STEP_GOAL}`;
             hudContainer.appendChild(stepCounterEl);
 
-            // Timer (Now at bottom middle)
             const timerEl = document.createElement("div");
             timerEl.style.cssText = "color:white; font-size:24px; font-family:monospace; background:rgba(255,0,0,0.8); padding:10px 20px; border-radius:10px; border: 2px solid white;";
             timerEl.textContent = `Time: ${window.timeLeft}s`;
             hudContainer.appendChild(timerEl);
 
-            // --- UI: Menu Button (Bottom Right) ---
             const menuBtn = document.createElement("button");
             menuBtn.textContent = "⚙️ MENU";
             menuBtn.style.cssText = "position:fixed; bottom:20px; right:20px; z-index:10001; padding:12px 20px; cursor:pointer; background:#4CAF50; border:2px solid black; border-radius:8px; font-weight:bold;";
             document.body.appendChild(menuBtn);
 
-            // --- UI: Menu Panel ---
             const menuPanel = document.createElement("div");
             menuPanel.id = "game-menu-panel";
             menuPanel.style.cssText = "position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); width:300px; background:rgba(20,20,20,0.95); color:white; padding:30px; border-radius:15px; display:none; z-index:10005; border:3px solid #ffd700; text-align:center; font-family:Arial;";
@@ -162,13 +158,12 @@ class GameLevelTimmyfuncounter {
             `;
             document.body.appendChild(menuPanel);
 
-            // --- UI: Loss Screen ---
             const lossOverlay = document.createElement("div");
             lossOverlay.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:black; display:none; justify-content:center; align-items:center; z-index:20000; color:red; font-family:Arial; flex-direction:column; text-align:center;";
             lossOverlay.innerHTML = "<h1>YOU LOSE!</h1><button onclick='location.reload()' style='padding:15px 30px; cursor:pointer; margin-top:20px;'>TRY AGAIN</button>";
             document.body.appendChild(lossOverlay);
 
-            // Menu Logic
+            // Menu logic with leaderboard stufff
             const toggleMenu = () => {
                 window.isPaused = !window.isPaused;
                 menuPanel.style.display = window.isPaused ? "block" : "none";
@@ -183,7 +178,7 @@ class GameLevelTimmyfuncounter {
                 document.getElementById("leaderboard-panel").style.display = "block";
             };
 
-            // Timer Interval
+            // Timer Intervalss (make sure to make the font white so it can be seen)
             window.gameTimerInterval = setInterval(() => {
                 if (!window.isPaused) {
                     window.timeLeft--;
@@ -197,7 +192,6 @@ class GameLevelTimmyfuncounter {
                 }
             }, 1000);
 
-            // Key Listener
             document.addEventListener("keydown", (e) => {
                 if (window.isPaused) {
                     e.stopImmediatePropagation(); 
@@ -222,7 +216,6 @@ class GameLevelTimmyfuncounter {
         window.hoorayLevelRef = this;
     }
 
-    // Leaderboard logic stays the same...
     saveToLeaderboard(steps) {
         let scores = JSON.parse(localStorage.getItem("mazeScores")) || [];
         scores.push({ steps: steps, date: new Date().toLocaleTimeString() });

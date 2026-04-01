@@ -57,7 +57,7 @@ class GameLevelBattleBus {
                 if (this.dialogueSystem && this.dialogueSystem.isDialogueOpen()) return;
 
                 if (this.dialogueSystem) {
-                    const riddle = "I have keys, but no locks. I have a space, but no room. You can allow entry, but you can never leave. What am I? (Hint: use all lower case)";
+                    const riddle = "Can a match box? (hint: all lower case, 5 words)";
                     this.dialogueSystem.showDialogue(riddle, "The Cat", this.spriteData.src);
 
                     const inputContainer = document.createElement('div');
@@ -86,7 +86,7 @@ class GameLevelBattleBus {
 
                     const checkAnswer = () => {
                         const answer = input.value.trim().toLowerCase();
-                        if (answer === "keyboard") {
+                        if (answer === "no but a tin can") {
                             this.dialogueSystem.closeDialogue();
                             
                             const bus = gameEnv.gameObjects.find(obj => obj.canvas && obj.canvas.id === 'Battle Bus');

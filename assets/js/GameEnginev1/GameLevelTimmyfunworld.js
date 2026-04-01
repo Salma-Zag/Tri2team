@@ -19,10 +19,10 @@ class GameLevelTimmyfunworld {
         const playerData = {
             id: 'playerData',
             src: path + "/images/gamebuilder/sprites/kirby.png",
-            SCALE_FACTOR: 8,
+            SCALE_FACTOR: 1,
             STEP_FACTOR: 1000,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: 100, y: 300 },
+            INIT_POSITION: { x: 300, y: 300 },
             pixels: { height: 36, width: 569 },
             orientation: { rows: 1, columns: 13 },
             down: { row: 0, start: 0, columns: 3 },
