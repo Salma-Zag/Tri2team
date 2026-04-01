@@ -102,6 +102,7 @@ class GameLevelBattleBus {
                             }
 
                             alert("Correct! You have been teleported to the Battle Bus!");
+                            window.location.href = "battlebustwo.html";
                         } else {
                             alert("Wrong! Try again.");
                             input.value = "";
