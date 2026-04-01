@@ -5,11 +5,21 @@ import Barrier from './essentials/Barrier.js';
 
 class GameLevelBattleBus {
     constructor(gameEnv) {
+        this.gameEnv = gameEnv;
         const path = gameEnv.path;
         const width = gameEnv.innerWidth;
         const height = gameEnv.innerHeight;
 
-        // --- GLOBAL TELEPORT LOGIC ---
+        // --- Music Setup ---
+        const music = new Audio(path + "/assets/audio/GourmetRace.mp3");
+        music.loop = true;
+        music.volume = 0.5;
+
+        // Play music when the level loads
+        window.addEventListener("load", () => {
+            music.play().catch(e => console.log("Audio playback blocked until user interaction."));
+        });
+
         window.onkeydown = (e) => {
             if (e.key.toLowerCase() === 'g') {
                 const player = gameEnv.gameObjects.find(obj => obj.spriteData && obj.spriteData.id === 'playerData');
@@ -101,6 +111,8 @@ class GameLevelBattleBus {
                                 player.x = width - 200;
                             }
 
+                            // Pause music on victory/transition
+                            music.pause();
                             alert("Correct! You have been teleported to the Battle Bus!");
                             window.location.href = "battlebustwo.html";
                         } else {
@@ -139,30 +151,16 @@ class GameLevelBattleBus {
                 }
             },
             interact: function() {
+                music.pause(); // Stop music when leaving the level
                 window.location.href = "battlebusone.html"; 
             }
         };
 
-        const hellTravelData = {
-            id: 'hellTravel',
-            greeting: "BEHOLD THE PASSAGE.",
-            src: path + "/images/gamebuilder/sprites/helltravel.png",
-            SCALE_FACTOR: 15, 
-            ANIMATION_RATE: 50,
-            INIT_POSITION: { x: width * 0.75, y: height * 0.20 },
-            pixels: { height: 512, width: 512 },
-            orientation: { rows: 1, columns: 1 },
-            down: { row: 0, start: 0, columns: 1 },
-            hitbox: { widthPercentage: 0.5, heightPercentage: 0.5 }
-        };
-
-        // Barrier data removed from the classes array below to make it non-existent.
         this.classes = [
             { class: GameEnvBackground, data: bgData },
             { class: Player, data: playerData },
             { class: Npc, data: npcData1 },
             { class: Npc, data: npcData3 },
-            { class: Npc, data: hellTravelData }
         ];
     }
 }
