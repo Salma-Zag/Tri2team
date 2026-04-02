@@ -66,6 +66,7 @@ class GameLevelCat {
        zIndex: 12,
        value: 1
    };
+   
 
 
 
@@ -103,7 +104,7 @@ class GameLevelCat {
       SCALE_FACTOR: 3,
       ANIMATION_RATE: 50,
       pixels: { height: 523, width: 477 },
-      INIT_POSITION: { x: width * 0.53, y: height * 0.28 },
+      INIT_POSITION: { x: 500, y: 400 },
       orientation: { rows: 1, columns: 1 },
       down: { row: 0, start: 0, columns: 1 },
       hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
@@ -152,6 +153,35 @@ class GameLevelCat {
       }
   };
 
+    const npcData3 = {
+            id: 'Popcorn',
+            greeting: '"The boss awaits."',
+            src: path + "/images/gamebuilder/sprites/doorpopcorn.png",
+            SCALE_FACTOR: 4,
+            ANIMATION_RATE: 50,
+            INIT_POSITION: { x: 1500, y: 500 },
+            pixels: { height: 400, width: 430 },
+            orientation: { rows: 1, columns: 1 },
+            down: { row: 0, start: 0, columns: 1 },
+            hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
+            dialogues: [
+  ],
+
+    interact: function() { 
+        if (this.dialogueSystem) { 
+            this.showRandomDialogue(); 
+    }
+        if (!this.listenerAdded) {
+    this.listenerAdded = true; 
+    document.addEventListener("keydown", (e) => {
+      if (e.key.toLowerCase() === "e") {
+        console.log("Entering maze...");
+        window.location.href = "battle.html";
+      }
+    });
+  }
+    }
+}    
 
 
    // ===== PLATFORMER MINI GAME SETUP =====
@@ -189,6 +219,7 @@ class GameLevelCat {
      { class: Player, data: sprite_data_chillguy },
      { class: Coin, data: sprite_data_coin },
      { class: Npc, data: sprite_data_historian },
+     { class: Npc, data: npcData3 },
    ];
 
  }
