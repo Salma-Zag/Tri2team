@@ -1,149 +1,303 @@
 import GameEnvBackground from './essentials/GameEnvBackground.js';
 import Player from './essentials/Player.js';
-import Npc from './essentials/Npc.js';
+import Enemy from './essentials/Enemy.js';
+import Projectile from './Projectile.js';
 
-class GameLevelBoss {
+/* ---------------- SETUP ---------------- */
+
+class GameLevelBattle {
     constructor(gameEnv) {
-        const width = gameEnv.innerWidth;
-        const height = gameEnv.innerHeight;
+        const self = this; // 🔥 IMPORTANT FIX
+
         const path = gameEnv.path;
 
-        const floorData = {
-            name: 'floor',
-            src: path + '/images/placeholders/floor.png',
-            pixels: { height: 341, width: 498 }
+        const bgData = {
+            name: 'bg',
+            src: path + '/images/gamebuilder/bg/Hell.png',
+            pixels: { height: 400, width: 700 }
         };
 
         const playerData = {
-            id: 'Spook',
-            greeting: 'Hi, I am Spook.',
-            src: path + '/images/placeholders/player.png',
-            SCALE_FACTOR: 7,
-            STEP_FACTOR: 1500,
-            ANIMATION_RATE: 100,
-            INIT_POSITION: {
-                x: width / 2 - width / 35,
-                y: height - height / 7
-            },
-            pixels: { height: 2400, width: 3600 },
-            orientation: { rows: 2, columns: 3 },
-            down: { row: 1, start: 0, columns: 3 },
-            downRight: { row: 1, start: 0, columns: 3, rotate: Math.PI / 16 },
-            downLeft: { row: 0, start: 0, columns: 3, rotate: -Math.PI / 16 },
-            left: { row: 0, start: 0, columns: 3 },
-            right: { row: 1, start: 0, columns: 3 },
-            up: { row: 1, start: 0, columns: 3 },
-            upLeft: { row: 0, start: 0, columns: 3, rotate: Math.PI / 16 },
-            upRight: { row: 1, start: 0, columns: 3, rotate: -Math.PI / 16 },
-            hitbox: { widthPercentage: 0.45, heightPercentage: 0.2 },
+            id: 'Kirby',
+            src: path + '/images/gamebuilder/sprites/kirby.png',
+            SCALE_FACTOR: 5,
+            ANIMATION_RATE: 50,
+            STEP_FACTOR: 500,
+            INIT_POSITION: { x: 400, y: 300 },
+            pixels: { height: 36, width: 569 },
+            orientation: { rows: 1, columns: 13 },
+            hitbox: { widthPercentage: 1, heightPercentage: 1 },
             keypress: { up: 87, left: 65, down: 83, right: 68 },
             health: 100
         };
 
-        const npcData = {
-            id: 'Reaper',
-            greeting: 'You feel a dark presence...',
-            src: path + '/images/placeholders/reaper.png',
-            SCALE_FACTOR: 4,
+        const enemyData = {
+            id: 'Enemy',
+            src: path + '/images/gamebuilder/sprites/GarettThePopcornMan.png',
+            SCALE_FACTOR: 2,
             ANIMATION_RATE: 50,
-            INIT_POSITION: { x: width / 2, y: height / 2 },
-            pixels: { height: 104, width: 132 },
+            INIT_POSITION: { x: 650, y: 540 },
+            pixels: { height: 523, width: 477 },
             orientation: { rows: 1, columns: 1 },
-            down: { row: 0, start: 0, columns: 1 },
-            hitbox: { widthPercentage: 0.4, heightPercentage: 0 },
-            zIndex: 10,
-            isKilling: false,
-            update: function () {
-                if (this.isKilling) return;
-                if (typeof window !== 'undefined' && !window.__battleRoomFadeComplete) return;
-
-                const players = this.gameEnv.gameObjects.filter(obj =>
-                    obj.constructor.name === 'Player'
-                );
-
-                if (players.length === 0) return;
-
-                let nearest = players[0];
-                let minDist = Infinity;
-
-                for (const player of players) {
-                    const dx = player.position.x - this.position.x;
-                    const dy = player.position.y - this.position.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < minDist) {
-                        minDist = dist;
-                        nearest = player;
-                    }
-                }
-
-                const speed = 0.3;
-                const dx = nearest.position.x - this.position.x;
-                const dy = nearest.position.y - this.position.y;
-                const angle = Math.atan2(dy, dx);
-
-                this.position.x += Math.cos(angle) * speed;
-                this.position.y += Math.sin(angle) * speed;
-
-                for (const player of players) {
-                    const playerX = player.position.x + player.width / 2;
-                    const playerY = player.position.y + player.height / 2;
-                    const enemyX = this.position.x + this.width / 2;
-                    const enemyY = this.position.y + this.height / 2;
-
-                    const ddx = playerX - enemyX;
-                    const ddy = playerY - enemyY;
-                    const distance = Math.sqrt(ddx * ddx + ddy * ddy);
-
-                    const collisionThreshold =
-                        (player.width * player.hitbox.widthPercentage +
-                            this.width * this.hitbox.widthPercentage) / 2;
-
-                    if (distance < collisionThreshold) {
-                        this.isKilling = true;
-                        nearest.data.health = 0;
-
-                        if (typeof showDeathScreen === 'function') {
-                            showDeathScreen(nearest);
-                        }
-
-                        break;
-                    }
-                }
-            }
+            health: 200,
+            lastHit: 0
         };
 
+        this.projectiles = [];
+
         this.classes = [
-            { class: GameEnvBackground, data: floorData },
+            { class: GameEnvBackground, data: bgData },
             { class: Player, data: playerData },
-            { class: Npc, data: npcData }
+            { class: Enemy, data: enemyData }
         ];
 
-        if (typeof window !== 'undefined') {
-            const container = document.createElement('div');
-            container.id = 'instructions-container';
-            Object.assign(container.style, {
-                position: 'absolute',
-                bottom: '80px',
-                left: '50%',
-                transform: 'translateX(-50%)',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '5px',
-                width: '60%',
-                zIndex: '100'
-            });
+        createHealthBar();
+        updateHealthBar(100);
+        createEnemyHealthBar();
 
-            container.textContent = 'WASD to move, avoid the Reaper';
-            container.style.color = '#00ffffff';
-            container.style.fontFamily = "'Press Start 2P', sans-serif";
-            container.style.fontSize = '16px';
-            container.style.textShadow = '2px 2px 4px rgba(0, 0, 0, 0.5)';
+        setTimeout(() => {
+            const objs = gameEnv.gameObjects;
 
-            const gameContainer = document.querySelector('canvas')?.parentElement || document.body;
-            gameContainer.appendChild(container);
-        }
+            const player = objs.find(o => o.constructor.name === 'Player');
+            const enemy = objs.find(o => o.constructor.name === 'Enemy');
+
+            if (!player || !enemy) return;
+
+            const originalUpdate = enemy.update?.bind(enemy);
+
+            enemy.update = function () {
+                if (originalUpdate) originalUpdate();
+
+                const p = player.position;
+                const e = enemy.position;
+
+                const touching =
+                    p.x < e.x + 100 &&
+                    p.x + 50 > e.x &&
+                    p.y < e.y + 100 &&
+                    p.y + 50 > e.y;
+
+                /* ---------------- ENEMY HEALTH BAR ---------------- */
+                updateEnemyHealthBar(enemy);
+
+                /* ---------------- PROJECTILES ---------------- */
+                for (let i = self.projectiles.length - 1; i >= 0; i--) {
+                    const proj = self.projectiles[i];
+
+                    if (!proj || !proj.active) {
+                        self.projectiles.splice(i, 1);
+                        continue;
+                    }
+
+                    proj.update();
+
+                    const hit =
+                        proj.position.x < e.x + 100 &&
+                        proj.position.x + 10 > e.x &&
+                        proj.position.y < e.y + 100 &&
+                        proj.position.y + 10 > e.y;
+
+                    if (hit) {
+                        proj.destroy();
+
+                        enemy.data.health -= 10;
+
+                        if (enemy.data.health <= 0) {
+                            enemy.data.health = 0;
+                            showWinScreen();
+                        }
+
+                        updateEnemyHealthBar(enemy);
+
+                        console.log("ENEMY HIT", enemy.data.health);
+
+                        self.projectiles.splice(i, 1);
+                    }
+                }
+
+                /* ---------------- PLAYER DAMAGE ---------------- */
+                if (touching) {
+                    const now = Date.now();
+
+                    if (now - enemy.data.lastHit > 500) {
+                        enemy.data.lastHit = now;
+
+                        player.data.health -= 10;
+
+                        if (player.data.health <= 0) {
+                            player.data.health = 0;
+                            updateHealthBar(0);
+                            showGameOver();
+                        } else {
+                            updateHealthBar(player.data.health);
+                        }
+                    }
+                }
+
+                /* ---------------- SHOOT PROJECTILE ---------------- */
+                if (window.keys && window.keys[32] && !window.spacePressed) {
+                    window.spacePressed = true;
+
+                    const projectile = new Projectile(
+                        { x: p.x, y: p.y },
+                        { x: 1, y: 0 }
+                    );
+
+                    self.projectiles.push(projectile);
+                }
+
+                if (!window.keys[32]) {
+                    window.spacePressed = false;
+                }
+            };
+
+        }, 500);
     }
 }
 
-export default GameLevelBoss;
+/* ---------------- INPUT ---------------- */
+
+window.keys = {};
+
+window.addEventListener('keydown', e => {
+    window.keys[e.keyCode] = true;
+});
+
+window.addEventListener('keyup', e => {
+    window.keys[e.keyCode] = false;
+});
+
+/* ---------------- HEALTH BARS ---------------- */
+
+function createHealthBar() {
+    let existing = document.getElementById('player-health-container');
+    if (existing) existing.remove();
+
+    const container = document.createElement('div');
+    container.id = 'player-health-container';
+
+    Object.assign(container.style, {
+        position: 'fixed',
+        top: '60px',
+        left: '20px',
+        width: '240px',
+        height: '24px',
+        background: '#222',
+        border: '2px solid white',
+        zIndex: '9999'
+    });
+
+    const bar = document.createElement('div');
+    bar.id = 'player-health-bar';
+
+    Object.assign(bar.style, {
+        width: '100%',
+        height: '100%',
+        background: 'lime'
+    });
+
+    container.appendChild(bar);
+    document.body.appendChild(container);
+}
+
+function updateHealthBar(value) {
+    const bar = document.getElementById('player-health-bar');
+    if (!bar) return;
+
+    const pct = Math.max(0, Math.min(100, value));
+
+    bar.style.width = pct + '%';
+    bar.style.background =
+        pct > 50 ? 'lime' :
+        pct > 25 ? 'orange' : 'red';
+}
+
+/* ---------------- ENEMY HEALTH BAR ---------------- */
+
+function createEnemyHealthBar() {
+    let existing = document.getElementById('enemy-health-bar');
+    if (existing) existing.remove();
+
+    const bar = document.createElement('div');
+    bar.id = 'enemy-health-bar';
+
+    Object.assign(bar.style, {
+        position: 'absolute',
+        width: '80px',
+        height: '8px',
+        background: 'lime',
+        zIndex: '9999'
+    });
+
+    document.body.appendChild(bar);
+}
+
+function updateEnemyHealthBar(enemy) {
+    const bar = document.getElementById('enemy-health-bar');
+    if (!bar) return;
+
+    const maxHealth = 200;
+    const pct = Math.max(0, enemy.data.health / maxHealth);
+
+    bar.style.width = (pct * 80) + 'px';
+    bar.style.background =
+        pct > 0.5 ? 'lime' :
+        pct > 0.25 ? 'orange' : 'red';
+
+    bar.style.left = enemy.position.x + 'px';
+    bar.style.top = (enemy.position.y - 10) + 'px';
+}
+
+/* ---------------- SCREENS ---------------- */
+
+function showWinScreen() {
+    if (document.getElementById('win-screen')) return;
+
+    const screen = document.createElement('div');
+    screen.id = 'win-screen';
+
+    Object.assign(screen.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100vw',
+        height: '100vh',
+        background: 'rgba(0,0,0,0.85)',
+        color: 'white',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: '48px',
+        zIndex: '999999'
+    });
+
+    screen.innerText = 'YOU WIN 🎉';
+    document.body.appendChild(screen);
+}
+
+function showGameOver() {
+    if (document.getElementById('game-over-screen')) return;
+
+    const screen = document.createElement('div');
+    screen.id = 'game-over-screen';
+
+    Object.assign(screen.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100vw',
+        height: '100vh',
+        background: 'rgba(0,0,0,0.85)',
+        color: 'white',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontSize: '48px',
+        zIndex: '999999'
+    });
+
+    screen.innerText = 'GAME OVER';
+    document.body.appendChild(screen);
+}
+
+export default GameLevelBattle;

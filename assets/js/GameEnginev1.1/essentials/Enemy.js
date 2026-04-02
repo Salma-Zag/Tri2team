@@ -1,6 +1,7 @@
 import Character from './Character.js';
 import Player from './Player.js';
 
+
 class Enemy extends Character {
     constructor(data = null, gameEnv = null) {
         super(data, gameEnv);
