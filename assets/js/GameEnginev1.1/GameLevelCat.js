@@ -109,32 +109,29 @@ class GameLevelCat {
       hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
       
       // AI-specific properties (required for AiNpc utility)
-      expertise: "history",              // Topic area for backend
+      expertise: "gamelore",              // Topic area for backend
       chatHistory: [],                   // Conversation memory
       dialogues: [                       // Random greetings
-          "Ask me anything about history!",
-          "I have a depth of knowledge in history...",
-          "Do you want to learn about history?",
-          "Try out my chat session featureon history!",
-          "Are you curious about history? Talk to me!"
+          "You look like you still have questions.",
+          "You're about to go meet the boss."
       ],
       knowledgeBase: {                   // Context hints for AI
           history: [
               {
-                  question: "What is ancient Egypt?",
-                  answer: "Ancient Egypt was one of the world's greatest civilizations, lasting over 3000 years! It had pyramids, pharaohs, and the mighty Nile River."
+                  question: "Who is the boss?",
+                  answer: "Someone you know quite well. You'll see."
               },
               {
-                  question: "Tell me about the Renaissance",
-                  answer: "The Renaissance was a period of great cultural and artistic change in Europe, starting in Italy around the 14th century. Artists like Leonardo da Vinci and Michelangelo created amazing works!"
+                  question: "How can I get to the boss's secret layer?",
+                  answer: "It's just up on the hill over there. It's 'well' hidden. Walk."
               },
               {
-                  question: "When was the Industrial Revolution?",
-                  answer: "The Industrial Revolution took place from the late 1700s to the 1800s. It changed how people worked, moving from farms to factories and inventing new machines!"
+                  question: "Where am I?",
+                  answer: "This is what's underneath Timmy's Fun World... This is the true theme park."
               },
               {
-                  question: "Who was Napoleon?",
-                  answer: "Napoleon Bonaparte was a French military leader who became Emperor. He conquered much of Europe but was eventually defeated and exiled."
+                  question: "Why am I here?",
+                  answer: "Because you found your way through the 'Invisible Maze' game in the park. Nobody does."
               }
           ]
       },
