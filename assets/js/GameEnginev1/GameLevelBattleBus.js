@@ -114,7 +114,7 @@ class GameLevelBattleBus {
                             // Pause music on victory/transition
                             music.pause();
                             alert("Correct! You have been teleported to the Battle Bus!");
-                            window.location.href = "battlebustwo.html";
+                            window.location.href = "cats.html";
                         } else {
                             alert("Wrong! Try again.");
                             input.value = "";
