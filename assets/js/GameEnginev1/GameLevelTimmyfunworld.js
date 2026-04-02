@@ -12,7 +12,7 @@ class GameLevelTimmyfunworld {
 
         const bgData = {
             name: "custom_bg",
-            src: path + "/images/gamebuilder/bg/timmysworld.png",
+            src: path + "/images/gamebuilder/bg/grass.png",
             pixels: { height: 720, width: 1280 }
         };
 
