@@ -61,7 +61,7 @@ class GameLevelTimmyfuncounter {
     document.addEventListener("keydown", (e) => {
       if (e.key.toLowerCase() === "e") {
         console.log("Entering maze...");
-        window.location.href = "battlebusone.html";
+        window.location.href = "timmyhooray.html";
       }
     });
   }
