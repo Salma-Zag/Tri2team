@@ -3,7 +3,7 @@ layout: post
 title: Portfolio Home 
 hide: true
 show_reading_time: false
-permalink: /home
+permalink: /homes
 ---
 
 Hi! We're Sophie and Salma!
