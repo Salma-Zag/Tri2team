@@ -23,7 +23,6 @@ class GameLevelBattleBus {
         music.volume = 0.5;
 
         music.play().catch(e => console.log("Audio waiting for interaction"));
-
         window.onkeydown = (e) => {
             music.play().catch(() => {}); 
             if (e.key.toLowerCase() === 'g') {
@@ -108,17 +107,15 @@ class GameLevelBattleBus {
                                 const player = gameEnv.gameObjects.find(obj => obj.spriteData && obj.spriteData.id === 'playerData');
                                 if (player) player.x = width - 200;
 
-<<<<<<< HEAD
                                 music.pause();
                                 alert("All riddles solved! The Battle Bus awaits!");
                                 window.location.href = "battlebustwo.html";
                             }
-=======
+
                             // Pause music on victory/transition
                             music.pause();
                             alert("Correct! You have been teleported to the Battle Bus!");
                             window.location.href = "cats.html";
->>>>>>> 6b57c5620cebd0d3bb0436f59218265a5a1611ed
                         } else {
                             alert("Wrong! The Cat is not impressed.");
                             input.value = "";
