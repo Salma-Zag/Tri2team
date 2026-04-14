@@ -10,7 +10,7 @@ import Player from '/assets/js/GameEnginev1/essentials/Player.js';
 class GameLevelMultiplayer {
     constructor(gameEnv) {
         const path = gameEnv.path;
-        console.log("Loading Background from:", path + "/images/gamebuilder/bg/blackandwhite.jpg");
+       console.log("Loading Background from:", path + "/images/gamebuilder/bg/blackandwhite.jpg");
 
         const bgData = {
             name: "custom_bg",
