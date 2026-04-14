@@ -109,13 +109,16 @@ class GameLevelBattleBus {
 
                                 music.pause();
                                 alert("All riddles solved! The Battle Bus awaits!");
-                                window.location.href = "battlebustwo.html";
+                                window.location.href = "cats.html";
                             }
+<<<<<<< HEAD
 
                             // Pause music on victory/transition
                             music.pause();
                             alert("Correct! You have been teleported to the Battle Bus!");
                             window.location.href = "cats.html";
+=======
+>>>>>>> 45ec09357f14186c8df702ea300942cc15a36876
                         } else {
                             alert("Wrong! The Cat is not impressed.");
                             input.value = "";

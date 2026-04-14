@@ -1,58 +1,119 @@
 ---
-layout: post 
-title: Portfolio Home 
+layout: base
+title: Code Constellations
 hide: true
-show_reading_time: false
+background: home.png
 ---
+<style>
+  /* load Google Font via @import (works even if <link> is stripped) */
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
-Hi! We're Sophie and Salma!
+  /* Fullscreen galaxy background */
+  body {
+    margin: 0;
+    height: 100vh;
+    background: url('{{ site.baseurl }}/home.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #ffffffff;
+    font-family: 'Orbitron', 'Share Tech Mono', monospace !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.8),   /* dark drop shadow */
+    0 0 8px #000000ff,                 /* neon glow */
+    0 0 15px #000067ff;                /* outer glow */
+  }
 
-### Development Environment
+  /* Typing text container */
+  #typed {
+    font-size: 2rem;
+    display: inline-block;
+  }
 
-> Coding starts with tools, explore these tools and procedures with a click.
+  /* Blinking cursor */
+  #cursor {
+    display: inline-block;
+    width: 3px;
+    background-color: #ffffffff;
+    margin-left: 5px;
+    animation: blink 0.7s steps(1) infinite;
+  }
 
-<div style="display: flex; flex-wrap: wrap; gap: 10px;">
-    <a href="https://opencodingsociety.com" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1px solid #FA8072; border-radius: 6px; font-weight: 700;">
-        <img src="{{ '/favicon.ico' | relative_url }}" alt="OCS logo" style="width: 16px; height: 16px;">
-        OCS
-    </a>
-    <a href="https://github.com/Open-Coding-Society/portfolio" style=" text-decoration: none; display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1px solid #FFF; border-radius: 6px; font-weight: 700;">
-        <img src="https://github.githubassets.com/favicons/favicon.svg" alt="GitHub logo" style="width: 16px; height: 16px;">
-        GitHub
-    </a>
-    <a href="https://vscode.dev/" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; border: 1px solid #007ACC; border-radius: 6px; font-weight: 700;">
-        <img src="https://vscode.dev/favicon.ico" alt="VSCode logo" style="width: 16px; height: 16px;">
-        VSCode.dev
-    </a>
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+</style>
+
+<div>
+  <span id="typed"></span><span id="cursor"></span>
 </div>
 
+<script>
+  const text = "Welcome!";
+  const speed = 70; // ms per character
+  let i = 0;
+
+  function typeWriter() {
+    if (i < text.length) {
+      document.getElementById("typed").innerHTML += text.charAt(i);
+      i++;
+      setTimeout(typeWriter, speed);
+    }
+  }
+
+  window.onload = typeWriter;
+</script>
+
+<div class="middle-text">Welcome</div>
+
+<style>
+  /* Load a cursive Google Font */
+  @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+  .middle-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* center perfectly */
+    font-family: 'Great Vibes', cursive; /* cursive font */
+    font-size: 7rem; /* big size */
+    color: #ffffffff; /*text color*/
+    text-shadow:
+      2px 2px 8px rgba(0, 0, 0, 0.8), /* subtle dark shadow */
+      0 0 15px #000000ff,                /* glow */
+      0 0 30px #000000ff;                /* outer glow */
+    text-align: center;
+    opacity: 0;
+    animation: fadeInMiddle 1s ease-in forwards;
+    animation-delay: 2s; /* appears after 8 seconds, adjust as needed */
+  }
+
+  @keyframes fadeInMiddle {
+    from { opacity: 0; transform: translate(-50%, -60%); }
+    to   { opacity: 1; transform: translate(-50%, -50%); }
+  }
+</style>
 <br>
-
-### Class Progress
-
-> Here is my progress through coding, click to see these online
-
-<div style="display: flex; flex-wrap: wrap; gap: 10px;">
-    <a href="{{site.baseurl}}/snake" style="text-decoration: none;">
-        <div style="background-color: #00FF00; color: black; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
-            Snake
-        </div>
-    </a>
-    <a href="{{site.baseurl}}/gamify/parallax" style="text-decoration: none;">
-        <div style="background-color: #3c1de8; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
-           Fish
-        </div>
-    </a>
-    <a href="{{site.baseurl}}/gamify/water" style="text-decoration: none;">
-        <div style="background-color: #b71dc5; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
-           Squid
-        </div>
-    </a>
-    <a href="{{site.baseurl}}/sprintfour" style="text-decoration: none;">
-        <div style="background-color: #c5b71d; color: white; padding: 10px 20px; border-radius: 5px; font-weight: bold;">
-           Sprint 4 assessment
-        </div>
-    </a>
-</div>
-
 <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<a href="{{site.baseurl}}/home" class="button large" style="background-color: #000000ff">
+    <span style="color: #ffffffff">Proceed to Homepage</span>
