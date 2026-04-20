@@ -2,7 +2,7 @@
 layout: opencs
 title: Multiplayer
 permalink: /gamify/multiplayer
-socketio: true
+socket.io: true
 ---
 
 
