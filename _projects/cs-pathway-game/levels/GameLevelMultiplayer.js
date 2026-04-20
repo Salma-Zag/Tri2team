@@ -12,7 +12,6 @@
 
 import GameEnvBackground from '/assets/js/GameEnginev1/essentials/GameEnvBackground.js';
 import Player from '/assets/js/GameEnginev1/essentials/Player.js';
-<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>;
 class GameLevelMultiplayer {
     constructor(gameEnv) {
         const path = gameEnv.path;

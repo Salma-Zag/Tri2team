@@ -2,6 +2,7 @@
 layout: opencs
 title: Multiplayer
 permalink: /gamify/multiplayer
+socketio: true
 ---
 
 
@@ -12,7 +13,6 @@ permalink: /gamify/multiplayer
 
 
 <script type="module">
-    // Adnventure Game assets locations
     import Core from "{{site.baseurl}}/assets/js/GameEnginev1/essentials/Game.js";
     import GameControl from "{{site.baseurl}}/assets/js/GameEnginev1/essentials/GameControl.js";
     import GameLevelMultiplayer from "{{site.baseurl}}/assets/js/GameEnginev1/GameLevelMultiplayer.js";
