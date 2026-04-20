@@ -19,7 +19,12 @@ class GameLevelMultiplayer {
         const height = gameEnv.innerHeight;
         // const socket = io("wss://flask-ws.opencodingsociety.com", { transports: ["websocket"] });
         const socket = io("ws://localhost:8590", { transports: ["websocket"] });
+        
         let myid = null;
+
+        socket.on("connect", () => {
+            console.log("connected:", socket.id);
+        });
 
         const bgData = {
             name: "custom_bg",
