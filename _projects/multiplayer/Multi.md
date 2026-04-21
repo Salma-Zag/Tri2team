@@ -2,7 +2,7 @@
 layout: opencs
 title: Multiplayer
 permalink: /gamify/multiplayer
-socket.io: true
+socketio: true
 ---
 
 
@@ -15,7 +15,7 @@ socket.io: true
 <script type="module">
     import Core from "{{site.baseurl}}/assets/js/GameEnginev1/essentials/Game.js";
     import GameControl from "{{site.baseurl}}/assets/js/GameEnginev1/essentials/GameControl.js";
-    import GameLevelMultiplayer from "{{site.baseurl}}/assets/js/GameEnginev1/GameLevelMultiplayer.js";
+    import GameLevelMultiplayer from "{{site.baseurl}}/assets/js/projects/multiplayer/levels/GameLevelMultiplayer.js";
     import { pythonURI, javaURI, fetchOptions } from '{{site.baseurl}}/assets/js/api/config.js';
 
 

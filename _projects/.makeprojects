@@ -6,6 +6,6 @@
 # Format: <project-name>
 # Example: cs-pathway-game
 
+multiplayer
 cs-pathway-game
 gamify
-multiplayer
