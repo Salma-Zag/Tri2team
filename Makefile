@@ -117,7 +117,7 @@ serve-yat: use-yat clean
 	@make serve-current
 
 # General serve target (uses whatever is in _config.yml/Gemfile)
-serve-current: stop convert split-courses jekyll-serve
+serve-current: stop build-registered-projects convert split-courses jekyll-serve
 
 # Build with selected theme
 build-minima: use-minima build-current
@@ -126,7 +126,7 @@ build-cayman: use-cayman build-current
 build-so-simple: use-so-simple build-current
 build-yat: use-yat build-current
 
-build-current: clean convert split-courses
+build-current: clean build-registered-projects convert split-courses
 	@bundle install
 	@bundle exec jekyll clean
 	@bundle exec jekyll build
@@ -139,6 +139,21 @@ build: build-current
 split-courses:
 	@echo " ------ Splitting multi-course files... -------"
 	@python3 scripts/split_multi_course_files.py
+
+# Build registered projects from _projects/ directory
+build-registered-projects:
+	@echo "🔨 Building registered projects..."
+	@if [ -f "_projects/.makeprojects" ]; then \
+		while IFS= read -r project; do \
+			if [ -n "$$project" ] && [ "$${project:0:1}" != "#" ]; then \
+				if [ -f "_projects/$$project/Makefile" ]; then \
+					echo "  ▶️  Building: $$project"; \
+					make -C "_projects/$$project" build 2>&1 | sed 's/^/     /'; \
+				fi; \
+			fi; \
+		done < "_projects/.makeprojects"; \
+	fi
+	@echo "✅ All registered projects built"
 
 clean-courses:
 	@echo "🧹 Cleaning course-specific files..."
