@@ -32,7 +32,6 @@ class GameLevelTimmyfuncounter {
             hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
             keypress: { up: 87, left: 65, down: 83, right: 68 }
         };
-        
 
         const music = new Audio(path + "/assets/audio/SubwaySurfers.mp3");
         music.loop = true;
@@ -49,24 +48,21 @@ class GameLevelTimmyfuncounter {
             orientation: { rows: 1, columns: 1 },
             down: { row: 0, start: 0, columns: 1 },
             hitbox: { widthPercentage: 0.1, heightPercentage: 0.1 },
-            dialogues: [
-  ],
-
-    interact: function() { 
-        if (this.dialogueSystem) { 
-            this.showRandomDialogue(); 
-    }
-        if (!this.listenerAdded) {
-    this.listenerAdded = true; 
-    document.addEventListener("keydown", (e) => {
-      if (e.key.toLowerCase() === "e") {
-        console.log("Entering maze...");
-        window.location.href = "timmyhooray.html";
-      }
-    });
-  }
-}
-        }   
+            dialogues: [],
+            interact: function() { 
+                if (this.dialogueSystem) { 
+                    this.showRandomDialogue(); 
+                }
+                if (!this.listenerAdded) {
+                    this.listenerAdded = true; 
+                    document.addEventListener("keydown", (e) => {
+                        if (e.key.toLowerCase() === "e") {
+                            window.location.href = "timmyhooray.html";
+                        }
+                    });
+                }
+            }
+        };
 
         const npcData1 = {
             id: 'Garret',
@@ -93,8 +89,6 @@ class GameLevelTimmyfuncounter {
             }
         };
 
-        
-
         const mazeWalls = [
             { x: 0, y: 0, width: width, height: 20 },
             { x: 0, y: height - 20, width: width, height: 20 },
@@ -119,18 +113,38 @@ class GameLevelTimmyfuncounter {
             window.timeLeft = 30;
             window.isPaused = false;
 
+            // --- Injecting Dynamic CSS for Animations ---
+            const styleSheet = document.createElement("style");
+            styleSheet.textContent = `
+                @keyframes flash {
+                    0% { opacity: 1; }
+                    50% { opacity: 0.1; }
+                    100% { opacity: 1; }
+                }
+                .flashing-text {
+                    animation: flash 1s infinite;
+                    font-size: 1.5rem;
+                    color: #ffd700;
+                    margin-bottom: 30px;
+                    font-family: 'Courier New', Courier, monospace;
+                    font-weight: bold;
+                    letter-spacing: 2px;
+                }
+                .huge-game-over {
+                    font-size: 10rem;
+                    margin: 0;
+                    color: #ff0000;
+                    text-shadow: 0 0 20px #ff0000, 0 0 40px #8b0000;
+                    font-family: 'Arial Black', sans-serif;
+                    font-weight: 900;
+                    letter-spacing: -5px;
+                }
+            `;
+            document.head.appendChild(styleSheet);
+
             // --- UI Container: Bottom Middle HUD ---
             const hudContainer = document.createElement("div");
-            hudContainer.style.cssText = `
-                position: fixed; 
-                bottom: 20px; 
-                left: 50%; 
-                transform: translateX(-50%); 
-                display: flex; 
-                gap: 15px; 
-                z-index: 10000; 
-                align-items: center;
-            `;
+            hudContainer.style.cssText = "position:fixed; bottom:20px; left:50%; transform:translateX(-50%); display:flex; gap:15px; z-index:10000; align-items:center;";
             document.body.appendChild(hudContainer);
 
             const stepCounterEl = document.createElement("div");
@@ -158,12 +172,26 @@ class GameLevelTimmyfuncounter {
             `;
             document.body.appendChild(menuPanel);
 
+            // --- ENHANCED LOSS OVERLAY ---
             const lossOverlay = document.createElement("div");
-            lossOverlay.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:black; display:none; justify-content:center; align-items:center; z-index:20000; color:red; font-family:Arial; flex-direction:column; text-align:center;";
-            lossOverlay.innerHTML = "<h1>YOU LOSE!</h1><button onclick='location.reload()' style='padding:15px 30px; cursor:pointer; margin-top:20px;'>TRY AGAIN</button>";
+            lossOverlay.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); display:none; justify-content:center; align-items:center; z-index:20000; flex-direction:column; text-align:center;";
+            lossOverlay.innerHTML = `
+                <h1 class="huge-game-over">GAME OVER</h1>
+                <p class="flashing-text">CLICK BELOW TO RESTART SYSTEM</p>
+                <button onclick="location.reload()" style="
+                    padding:20px 40px; 
+                    cursor:pointer; 
+                    background:#ff0000; 
+                    color:white; 
+                    border:4px solid white; 
+                    font-size:80px; 
+                    font-family:'Arial Black'; 
+                    border-radius:10px; 
+                    box-shadow: 0 0 20px rgba(255,0,0,0.6);
+                ">TRY AGAIN</button>
+            `;
             document.body.appendChild(lossOverlay);
 
-            // Menu logic with leaderboard stufff
             const toggleMenu = () => {
                 window.isPaused = !window.isPaused;
                 menuPanel.style.display = window.isPaused ? "block" : "none";
@@ -178,7 +206,6 @@ class GameLevelTimmyfuncounter {
                 document.getElementById("leaderboard-panel").style.display = "block";
             };
 
-            // Timer Intervalss (make sure to make the font white so it can be seen)
             window.gameTimerInterval = setInterval(() => {
                 if (!window.isPaused) {
                     window.timeLeft--;
@@ -237,7 +264,7 @@ class GameLevelTimmyfuncounter {
         scores.forEach((s, i) => {
             html += `<p>${i + 1}. <b>${s.steps} steps</b></p>`;
         });
-        html += "<button id='close-lb' style='margin-top:10px;'>Close</button>";
+        html += "<button id='close-lb' style='margin-top:10px; cursor:pointer; padding:5px 15px;'>Close</button>";
         panel.innerHTML = html;
         document.getElementById("close-lb").onclick = () => panel.style.display = "none";
     }

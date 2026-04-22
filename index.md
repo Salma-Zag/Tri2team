@@ -103,26 +103,26 @@ background: home.png
   /* --- CYBER RACING BUTTONS --- */
   .button-container {
     position: absolute;
-    bottom: 8%;
+    bottom: 5%;
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
     align-items: center;
   }
 
   .button.large {
     display: inline-block;
-    padding: 20px 80px;
+    padding: 15px 80px;
     min-width: 300px;
-    font-size: 2rem;
+    font-size: 1.8rem;
     text-decoration: none;
     font-family: 'Bungee', sans-serif;
     color: #fff !important;
     border: 3px solid #fff;
-    border-radius: 4px; /* Sharper corners for a meaner look */
+    border-radius: 4px;
     text-transform: uppercase;
     letter-spacing: 6px;
     transform: skew(-15deg);
@@ -142,6 +142,13 @@ background: home.png
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   }
 
+  /* SPRINT 5 THEMED BUTTON */
+  .btn-s5 {
+    background: linear-gradient(45deg, #005f73, #00d4ff);
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+    border-color: #00d4ff;
+  }
+
   .button.large:hover {
     transform: skew(-15deg) translateY(-5px) scale(1.05);
     border-color: #fff;
@@ -156,6 +163,11 @@ background: home.png
   .btn-blog:hover {
     background: #222;
     box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+  }
+
+  .btn-s5:hover {
+    background: #00d4ff;
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
   }
 
   /* Button Inner Glow Overlay */
@@ -176,7 +188,7 @@ background: home.png
     display: inline-block;
     width: 10px;
     height: 4rem;
-    background-color: #00f2ff; /* Cyan cursor for contrast */
+    background-color: #00f2ff;
     box-shadow: 0 0 15px #00f2ff;
     margin-left: 10px;
     vertical-align: middle;
@@ -192,6 +204,10 @@ background: home.png
 <div class="middle-text">Welcome</div>
 
 <div class="button-container">
+  <a href="{{site.baseurl}}/sprintfive" class="button large btn-s5">
+    SPRINT 5
+  </a>
+
   <a href="{{site.baseurl}}/sprintfour" class="button large btn-blog">
     SPRINT 4
   </a>
@@ -251,6 +267,6 @@ background: home.png
       }
     }());
   }
-
+//lalalallalala
   window.onload = typeWriter;
 </script>
