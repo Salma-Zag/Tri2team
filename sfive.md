@@ -122,6 +122,11 @@ show_reading_time: false
 </div>
 
 <h2>Teaching Blogs</h2>
+<div class="grid-container">
+    <a href="{{site.baseurl}}/tlesson" class="race-button">
+        <div class="btn-blue">Transition Lesson</div>
+    </a>
+</div>
 
 <h2>Project Access</h2>
 <div class="grid-container">

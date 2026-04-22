@@ -104,13 +104,13 @@ class GameLevelTimmyfuncounter {
         }));
 
         window.addEventListener("load", () => {
-            alert("Catch Garrett! 30 seconds starts now!");
+            alert("Catch Garrett! 10 seconds starts now!");
             music.play().catch(e => console.log("Audio blocked"));
 
             const STEP_GOAL = 300;
             window.currentSteps = 0;
             window.stepGoal = STEP_GOAL;
-            window.timeLeft = 30;
+            window.timeLeft = 10;
             window.isPaused = false;
 
             // --- Injecting Dynamic CSS for Animations ---
