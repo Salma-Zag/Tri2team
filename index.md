@@ -30,7 +30,33 @@ background: home.png
     overflow: hidden;
   }
 
-  /* COOL SCANLINE EFFECT */
+  /* FULL SCREEN CLICK OVERLAY TO UNLOCK AUDIO */
+  #audio-unlock {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  #audio-unlock h2 {
+    font-family: 'Bungee', cursive;
+    color: #00f2ff;
+    text-shadow: 0 0 20px #00f2ff;
+    letter-spacing: 5px;
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  /* SCANLINE EFFECT */
   body::before {
     content: " ";
     display: block;
@@ -42,7 +68,6 @@ background: home.png
     pointer-events: none;
   }
 
-  /* SHAKE EFFECT */
   .shake-screen {
     animation: screenShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
   }
@@ -73,9 +98,6 @@ background: home.png
     letter-spacing: -2px;
   }
 
-  @media (max-width: 1000px) { #typed { font-size: 4rem; } }
-  @media (max-width: 600px) { #typed { font-size: 2.2rem; } }
-
   .middle-text {
     position: absolute;
     top: 50%;
@@ -84,10 +106,11 @@ background: home.png
     font-family: 'Great Vibes', cursive;
     font-size: 9rem;
     color: #ffffff;
-    text-shadow: 0 0 50px rgba(255,255,255,0.4);
     opacity: 0;
+  }
+
+  .fade-in-middle {
     animation: fadeInMiddle 1s ease-in forwards, float 3s ease-in-out infinite alternate;
-    animation-delay: 2.8s, 3.8s;
   }
 
   @keyframes float {
@@ -100,7 +123,6 @@ background: home.png
     to   { opacity: 1; transform: translate(-50%, -50%); }
   }
 
-  /* --- CYBER RACING BUTTONS --- */
   .button-container {
     position: absolute;
     bottom: 5%;
@@ -111,6 +133,7 @@ background: home.png
     flex-direction: column;
     gap: 15px;
     align-items: center;
+    visibility: hidden; /* Hide until typing is done */
   }
 
   .button.large {
@@ -131,96 +154,51 @@ background: home.png
     overflow: hidden;
   }
 
-  .btn-start {
-    background: #ff0000;
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
-  }
-
-  .btn-blog {
-    background: #111;
-    border-color: #555;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  }
-
-  /* SPRINT 5 THEMED BUTTON */
-  .btn-s5 {
-    background: linear-gradient(45deg, #005f73, #00d4ff);
-    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
-    border-color: #00d4ff;
-  }
-
-  .button.large:hover {
-    transform: skew(-15deg) translateY(-5px) scale(1.05);
-    border-color: #fff;
-    letter-spacing: 10px;
-  }
-
-  .btn-start:hover {
-    background: #ff2a2a;
-    box-shadow: 0 0 50px rgba(255, 0, 0, 0.8);
-  }
-
-  .btn-blog:hover {
-    background: #222;
-    box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
-  }
-
-  .btn-s5:hover {
-    background: #00d4ff;
-    box-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
-  }
-
-  /* Button Inner Glow Overlay */
-  .button.large::before {
-    content: '';
-    position: absolute;
-    top: 0; left: -100%;
-    width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-    transition: 0.5s;
-  }
-
-  .button.large:hover::before {
-    left: 100%;
-  }
+  .btn-start { background: #ff0000; box-shadow: 0 0 20px rgba(255, 0, 0, 0.3); }
+  .btn-blog { background: #111; border-color: #555; }
+  .btn-s5 { background: linear-gradient(45deg, #005f73, #00d4ff); border-color: #00d4ff; }
 
   #cursor {
     display: inline-block;
     width: 10px;
     height: 4rem;
     background-color: #00f2ff;
-    box-shadow: 0 0 15px #00f2ff;
-    margin-left: 10px;
-    vertical-align: middle;
     animation: blink 0.7s steps(1) infinite;
   }
   @keyframes blink { 50% { opacity: 0; } }
 </style>
 
+<audio id="thunder-audio" src="{{ site.baseurl }}/assets/audio/Thunder.mp3" preload="auto"></audio>
+
+<div id="audio-unlock">
+  <h2>CLICK TO ENTER</h2>
+</div>
+
 <div class="typing-container">
   <span id="typed"></span><span id="cursor"></span>
 </div>
 
-<div class="middle-text">Welcome</div>
+<div class="middle-text" id="welcome-text">Welcome</div>
 
-<div class="button-container">
-  <a href="{{site.baseurl}}/sprintfive" class="button large btn-s5">
-    SPRINT 5
-  </a>
-
-  <a href="{{site.baseurl}}/sprintfour" class="button large btn-blog">
-    SPRINT 4
-  </a>
-
-  <a href="{{site.baseurl}}/home" class="button large btn-start">
-    START
-  </a>
+<div class="button-container" id="btns">
+  <a href="{{site.baseurl}}/sprintfive" class="button large btn-s5">SPRINT 5</a>
+  <a href="{{site.baseurl}}/sprintfour" class="button large btn-blog">SPRINT 4</a>
+  <a href="{{site.baseurl}}/home" class="button large btn-start">START</a>
 </div>
 
 <script>
   const text = "THE HOME OF THE SPRINTING SNAILS";
   const speed = 40; 
   let i = 0;
+  const thunderSound = document.getElementById("thunder-audio");
+  const unlockOverlay = document.getElementById("audio-unlock");
+
+  // This starts when the user clicks the overlay
+  unlockOverlay.addEventListener('click', () => {
+    unlockOverlay.style.display = 'none'; // Remove overlay
+    thunderSound.play(); // Play sound
+    typeWriter(); // Start typing
+  });
 
   function typeWriter() {
     if (i < text.length) {
@@ -228,8 +206,11 @@ background: home.png
       i++;
       setTimeout(typeWriter, speed);
     } else {
+      // Typing finished
       setTimeout(() => {
         triggerShake();
+        document.getElementById("welcome-text").classList.add('fade-in-middle');
+        document.getElementById("btns").style.visibility = 'visible';
         setTimeout(fireConfetti, 200);
       }, 500);
     }
@@ -243,7 +224,7 @@ background: home.png
   }
 
   function fireConfetti() {
-    const duration = 5 * 1000;
+    const duration = 3 * 1000;
     const end = Date.now() + duration;
 
     (function frame() {
@@ -267,6 +248,4 @@ background: home.png
       }
     }());
   }
-//lalalallalala
-  window.onload = typeWriter;
 </script>
