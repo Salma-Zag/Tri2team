@@ -24,6 +24,7 @@ class GameLevelMultiplayer {
 
         socket.on("connect", () => {
             console.log("connected:", socket.id);
+            myid = socket.id;
         });
 
         const bgData = {
