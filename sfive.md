@@ -126,6 +126,9 @@ show_reading_time: false
     <a href="{{site.baseurl}}/tlesson" class="race-button">
         <div class="btn-blue">Transition Lesson</div>
     </a>
+    <a href="{{site.baseurl}}/mlesson" class="race-button">
+        <div class="btn-blue">Multiplayer Lesson</div>
+    </a>
 </div>
 
 <h2>Project Access</h2>
