@@ -172,7 +172,7 @@ class GameLevelTimmyfuncounter {
             `;
             document.body.appendChild(menuPanel);
 
-            // --- ENHANCED LOSS OVERLAY ---
+
             const lossOverlay = document.createElement("div");
             lossOverlay.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); display:none; justify-content:center; align-items:center; z-index:20000; flex-direction:column; text-align:center;";
             lossOverlay.innerHTML = `
