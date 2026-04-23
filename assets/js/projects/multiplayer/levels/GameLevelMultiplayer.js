@@ -35,7 +35,7 @@ class GameLevelMultiplayer {
 
         const playerData = {
             id: 'playerData',
-            src: path + "/images/gamebuilder/sprites/squareone.png",
+            src: path + "/images/gamebuilder/sprites/kirby.png",
             SCALE_FACTOR: 5,
             STEP_FACTOR: 1000,
             ANIMATION_RATE: 50,
