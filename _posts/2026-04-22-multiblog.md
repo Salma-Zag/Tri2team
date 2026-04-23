@@ -93,3 +93,7 @@ const socket = io("wss://flask-ws.opencodingsociety.com", { transports: ["websoc
 ```
 
 ## How can I view the server?
+The server can be found in this repo:
+https://github.com/TDWolff/flask
+
+The base code is found in the file called "websocket.py".
