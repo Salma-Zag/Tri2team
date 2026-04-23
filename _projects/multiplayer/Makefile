@@ -30,11 +30,13 @@ build:
 	@mkdir -p $(NOTEBOOK_DEST)
 	@cp notebook.src.ipynb $(NOTEBOOK_DEST)/$(NOTEBOOK_FILENAME) 2>/dev/null || true
 	@$(MAKE) assets
+	@$(MAKE) docs
 	@echo "✅ $(PROJECT_NAME) built successfully"
 	@echo "   Source: _projects/$(PROJECT_NAME)/"
 	@echo "   Notebook: _notebooks/projects/$(PROJECT_NAME)/$(NOTEBOOK_FILENAME)"
 	@echo "   JavaScript: assets/js/projects/$(PROJECT_NAME)/"
 	@echo "   Images: images/projects/$(PROJECT_NAME)/"
+	@echo "   Docs: _posts/projects/$(PROJECT_NAME)/"
 
 # Copy only JS and image assets (not notebook) - for watch triggers
 assets:
@@ -99,6 +101,7 @@ watch:
 docs:
 	@echo "📚 Publishing $(PROJECT_NAME) documentation..."
 	@mkdir -p $(DOCS_DEST)
+	@cp Multi.md $(DOCS_DEST)/$(DATE_OF_CREATION)-multiplayer.md 2>/dev/null || true
 	@for doc in docs/*.md; do \
 		if [ -f "$$doc" ]; then \
 			filename=$$(basename "$$doc"); \
