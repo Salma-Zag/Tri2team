@@ -7,7 +7,7 @@ author: Salma Zaghloul
 ---
 # Multiplayer Games
 ## What are they?
-In our context, multiplayer games are our familair .js levels, however more than one player can connect to play at the same time. Think of Among Us, or Fortnite.
+In our context, multiplayer games are our familiar .js levels, however more than one player can connect to play at the same time. Think of Among Us, or Fortnite.
 ---
 ## How does it work, exactly?
 Our game file is connected to an external server in the backend, that is constantly communicating and exchanging information with the front end. The server handles connections, player counts, diconnections, and most importnantly, player identification.
