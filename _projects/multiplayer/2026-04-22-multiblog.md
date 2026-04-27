@@ -64,7 +64,14 @@ socket_io: true
 
 - Then, implement the server into your .js file. Here's ours as an example if needed:
 []()
-<button onclick="window.location.href="https://mgithub.com/Salma-Zag/Tri2team/blob/main/assets/js/projects/multiplayer/levels/GameLevelMultiplayer.js';">Multiplayer.js</button>
+<button onclick="window.location.href="">Multiplayer.js</button>
+<div class="button-container" id="btns">
+  <a href="https://mgithub.com/Salma-Zag/Tri2team/blob/main/assets/js/projects/multiplayer/levels/GameLevelMultiplayer.js'; class="button large btn-s5">SPRINT 5</a>
+</div>
+
+<div class="button-container" id="btns">
+  <a href="https://github.com/Salma-Zag/Tri2team/blob/main/assets/js/projects/multiplayer/levels/GameLevelMultiplayer.js" class="button large btn-start">Button</a>
+</div>
 
 
 Under your *const* definitions, add these strings of code.
