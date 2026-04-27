@@ -12,7 +12,7 @@
 
 import GameEnvBackground from '/assets/js/GameEnginev1/essentials/GameEnvBackground.js';
 import Player from '/assets/js/GameEnginev1/essentials/Player.js';
-import GameObject from '/assets/js/GameEnginev1.1/essentials/GameObject.js';
+import GameObject from '/assets/js/GameEnginev1/essentials/GameObject.js';
 
 class RemotePlayerVisualizer extends GameObject {
     constructor(data = null, gameEnv = null) {
@@ -38,9 +38,7 @@ class RemotePlayerVisualizer extends GameObject {
         // Don't draw until the image is loaded
         if (!this.spriteImage?.complete) return;
 
-        const canvas = this.gameEnv?.canvas;
-        if (!canvas) return;
-        const ctx = canvas.getContext("2d");
+        const ctx = this.gameEnv.ctx;
 
         const drawWidth = this.frameWidth * this.SCALE_FACTOR;
         const drawHeight = this.frameHeight * this.SCALE_FACTOR;
@@ -88,7 +86,9 @@ class NetworkSynchronizer extends GameObject {
         this.socket.emit("move", {
             x: this.playerInstance.position?.x ?? this.playerInstance.x,
             y: this.playerInstance.position?.y ?? this.playerInstance.y
-    });     
+    });    
+    this.lastEmit = now;
+ 
     }
 
     draw() {}
@@ -144,7 +144,7 @@ class GameLevelMultiplayer {
             const players = data.players;
 
             for (const sid in players) {
-                if (sid === myId) continue;
+                if (sid === socket.id) continue;
 
                 if (!remotePlayers[sid]) {
                     remotePlayers[sid] = {
@@ -164,8 +164,10 @@ class GameLevelMultiplayer {
                 }
             }
         });
-        socket.on("player_left", (sid) => {
-            delete remotePlayers[sid];
+        socket.on("player_left", (data) => {
+            if (remotePlayers[data.sid]) {
+                delete remotePlayers[data.sid];
+            }
         });
         socket.on("disconnect", () => {
             console.log("disconnected from server");

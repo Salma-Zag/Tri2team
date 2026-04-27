@@ -144,7 +144,7 @@ class GameLevelMultiplayer {
             const players = data.players;
 
             for (const sid in players) {
-                if (sid === myId) continue;
+                if (sid === socket.id) continue;
 
                 if (!remotePlayers[sid]) {
                     remotePlayers[sid] = {
