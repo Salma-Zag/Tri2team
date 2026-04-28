@@ -2,7 +2,7 @@
 layout: post
 codemirror: True
 title: Sprint 5 Multiplayer Lesson
-permalink: /mlesson
+permalink: /sprintingsnails/multiplayer
 author: Salma Zaghloul
 ---
 # Multiplayer Games

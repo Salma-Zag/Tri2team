@@ -2,7 +2,7 @@
 layout: post
 codemirror: true
 title: Sprint 5 Transition Teaching Lesson
-permalink: /tlesson
+permalink: /sprintingsnails/transitions
 author: Sophie Haas
 ---
 Have you ever wanted to know how to add a transition screen to your game? Maybe when the game ends, you want to keep the player connected to the experience by flashing a massive:
