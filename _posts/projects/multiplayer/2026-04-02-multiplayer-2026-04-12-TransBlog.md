@@ -91,6 +91,7 @@ Always ensure your transition screens have a clear **Call to Action** (like a "R
 
 ### Where to implement this in your code
 In our example level, we implemented our transition code in our window.addEventListener.
+```js
  window.addEventListener("load", () => {
   const lossOverlay = document.createElement("div");
             lossOverlay.style.cssText = "position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); display:none; justify-content:center; align-items:center; z-index:20000; flex-direction:column; text-align:center;";
@@ -108,3 +109,4 @@ In our example level, we implemented our transition code in our window.addEventL
                     border-radius:10px; 
                     box-shadow: 0 0 20px rgba(255,0,0,0.6);
                 ">TRY AGAIN</button>
+```
