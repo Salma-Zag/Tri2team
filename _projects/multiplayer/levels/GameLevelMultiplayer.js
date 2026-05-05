@@ -134,8 +134,14 @@ class GameLevelMultiplayer {
             up: { row: 0, start: 0, columns: 3 },
             upLeft: { row: 0, start: 0, columns: 3, rotate: Math.PI / 16 },
             upRight: { row: 0, start: 0, columns: 3, rotate: -Math.PI / 16 },
-            hitbox: { widthPercentage: 0, heightPercentage: 0 },
-            keypress: { up: 38, left: 37, down: 40, right: 39 }
+            hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
+            debugHitbox: false,
+            debugHitboxColor: 'rgba(57, 255, 20, 0.95)',
+            jumpSoundSrc: marioJumpAudioSrc,
+            jumpSoundVolume: 0.8,
+            keypress: { up: 87, left: 65, down: 83, right: 68 },
+            jumpVelocity: 6,
+            gravityAcceleration: 0.12,
         };
 
         socket.on("player_update", (data) => {
