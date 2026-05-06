@@ -354,7 +354,7 @@ class GameLevelMultiplayer {
             greeting: 'Hi',
             src: '/images/gamebuilder/sprites/kirby.png',
             SCALE_FACTOR: 10,
-            STEP_FACTOR: 2800,
+            STEP_FACTOR: 3200,
             ANIMATION_RATE: 20,
             INIT_POSITION: { x: width * 0.1, y: height * 0.3 },
             pixels: { height: 36, width: 569 },
