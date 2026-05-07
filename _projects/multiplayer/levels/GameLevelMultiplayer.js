@@ -50,21 +50,15 @@ class RemotePlayerVisualizer extends GameObject {
                 ctx.restore();
 
                 ctx.save();
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.globalAlpha = 1.0;
                 ctx.font = 'bold 14px Arial';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'top';
                 ctx.fillStyle = 'red';
-                ctx.fillText('IT', p.x + drawWidth / 2 - 8, p.y - 6);
+                ctx.fillText('IT', p.x + drawWidth / 2 - 8, p.y - 18);
                 ctx.restore();
             }
-        }
-
-        // Draw "IT" label on local player's canvas if they're the tagger
-        const myId = this.myIdRef.value;
-        if (myId && this.tagStateRef.taggerId === myId) {
-            ctx.save();
-            ctx.font = 'bold 16px Arial';
-            ctx.fillStyle = 'red';
-            ctx.fillText('YOU ARE IT', 10, 30);
-            ctx.restore();
         }
     }
 
@@ -84,7 +78,7 @@ class TagHUD extends GameObject {
     update() {
         const isIt = this.tagStateRef.taggerId === this.myIdRef.value;
 
-        // Trigger flash animation when you first become "it"
+        // Trigger flash animation the moment you become "it"
         if (isIt && !this._wasIt) {
             this._flashStart = Date.now();
         }
@@ -99,9 +93,12 @@ class TagHUD extends GameObject {
         const W = this.gameEnv.innerWidth;
         const H = this.gameEnv.innerHeight;
         const now = Date.now();
+        const gracePeriod = 2000;
+        const timeSinceIt = now - (this.tagStateRef.becameItAt ?? 0);
+        const inGrace = timeSinceIt < gracePeriod;
 
         if (isIt) {
-            // Pulsing red border around the screen
+            // Pulsing red border
             const pulse = 0.5 + 0.5 * Math.sin(now / 300);
             ctx.save();
             ctx.strokeStyle = `rgba(255, 30, 30, ${0.4 + 0.5 * pulse})`;
@@ -109,7 +106,7 @@ class TagHUD extends GameObject {
             ctx.strokeRect(0, 0, W, H);
             ctx.restore();
 
-            // Flash overlay when you first become "it"
+            // Flash overlay on tag transfer
             if (this._flashStart) {
                 const elapsed = now - this._flashStart;
                 const flashDuration = 600;
@@ -126,28 +123,45 @@ class TagHUD extends GameObject {
 
             // "YOU ARE IT" banner
             ctx.save();
-            ctx.setTransform(1, 0, 0, 1, 0, 0); // reset any transforms from other draw calls
-            ctx.globalAlpha = 1.0;              // reset alpha in case a previous save left it low
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.globalAlpha = 1.0;
             ctx.globalCompositeOperation = 'source-over';
             ctx.font = 'bold 28px Arial';
-            ctx.textAlign = 'left';             // avoid center alignment clipping issues
+            ctx.textAlign = 'left';
             ctx.textBaseline = 'top';
-
-            const text = '👆 YOU ARE IT';
-            const textX = W / 2 - 100;         // manual centering
-            const textY = 16;
-
-            // Background pill for legibility
-            const metrics = ctx.measureText(text);
+            const bannerText = '👆 YOU ARE IT';
+            const bannerX = W / 2 - 100;
+            const bannerY = 16;
+            const bannerMetrics = ctx.measureText(bannerText);
             ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
-            ctx.fillRect(textX - 10, textY - 4, metrics.width + 20, 36);
-
-            // Text
+            ctx.fillRect(bannerX - 10, bannerY - 4, bannerMetrics.width + 20, 36);
             ctx.fillStyle = '#ff2222';
-            ctx.fillText(text, textX, textY);
+            ctx.fillText(bannerText, bannerX, bannerY);
             ctx.restore();
 
+            // Grace period countdown
+            if (inGrace) {
+                const secondsLeft = Math.ceil((gracePeriod - timeSinceIt) / 1000);
+                ctx.save();
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.globalAlpha = 1.0;
+                ctx.globalCompositeOperation = 'source-over';
+                ctx.font = 'bold 22px Arial';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'top';
+                const graceText = `🛡️ grace period: ${secondsLeft}s`;
+                const graceMetrics = ctx.measureText(graceText);
+                const graceX = W / 2 - 110;
+                const graceY = 58;
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+                ctx.fillRect(graceX - 10, graceY - 4, graceMetrics.width + 20, 32);
+                ctx.fillStyle = '#ffcc00';
+                ctx.fillText(graceText, graceX, graceY);
+                ctx.restore();
+            }
+
         } else {
+            // Safe indicator for non-it players
             ctx.save();
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.globalAlpha = 1.0;
@@ -175,17 +189,11 @@ class TagCollisionDetector extends GameObject {
         this.playerInstance = null;
         this.tagCooldownUntil = 0;
         this.tagCooldownDuration = 2000;
-
-        // Tighter hitbox — treat each player as a small center circle
-        // rather than the full sprite rectangle
-        this.hitRadius = 30; // pixels, tune this value visually
+        this.hitRadius = 30;
     }
 
     _getCenter(x, y, w, h) {
-        return {
-            cx: x + w / 2,
-            cy: y + h / 2
-        };
+        return { cx: x + w / 2, cy: y + h / 2 };
     }
 
     update() {
@@ -200,16 +208,20 @@ class TagCollisionDetector extends GameObject {
         if (!myId || this.tagStateRef.taggerId !== myId) return;
 
         const now = Date.now();
-        const onCooldown = now < this.tagCooldownUntil;
 
-        // Get local player center
+        // Block tagging during grace period
+        const gracePeriod = 2000;
+        const timeSinceIt = now - (this.tagStateRef.becameItAt ?? 0);
+        if (timeSinceIt < gracePeriod) return;
+
+        if (now < this.tagCooldownUntil) return;
+
         const px = this.playerInstance.position?.x ?? this.playerInstance.x;
         const py = this.playerInstance.position?.y ?? this.playerInstance.y;
         const pw = this.playerInstance.width ?? 50;
         const ph = this.playerInstance.height ?? 50;
         const local = this._getCenter(px, py, pw, ph);
 
-        // Shrink remote hitbox to inner 40% of sprite to cut transparent padding
         const spriteW = (569 / 13) * 3.5;
         const spriteH = 36 * 3.5;
         const shrink = 0.2;
@@ -218,8 +230,6 @@ class TagCollisionDetector extends GameObject {
 
         for (const sid in this.remotePlayersRef) {
             const rp = this.remotePlayersRef[sid];
-
-            // Center of the shrunk remote hitbox
             const remote = this._getCenter(
                 rp.x + (spriteW - shrunkW) / 2,
                 rp.y + (spriteH - shrunkH) / 2,
@@ -227,18 +237,11 @@ class TagCollisionDetector extends GameObject {
                 shrunkH
             );
 
-            // Distance between centers
             const dx = local.cx - remote.cx;
             const dy = local.cy - remote.cy;
             const dist = Math.sqrt(dx * dx + dy * dy);
 
             if (dist < this.hitRadius * 2) {
-                if (onCooldown) {
-                    // Visualize that cooldown is blocking — helps debug
-                    console.log(`[TAG] Near ${sid} but on cooldown (${Math.ceil((this.tagCooldownUntil - now) / 1000)}s left)`);
-                    continue;
-                }
-
                 console.log(`[TAG] Tagged ${sid} at distance ${dist.toFixed(1)}`);
                 this.socket.emit("tag", { taggedId: sid });
                 this.tagCooldownUntil = now + this.tagCooldownDuration;
@@ -294,8 +297,7 @@ class GameLevelMultiplayer {
 
         const myIdRef = { value: null };
         const remotePlayers = {};
-        // tagState is a shared object reference passed into all classes that need it
-        const tagState = { taggerId: null };
+        const tagState = { taggerId: null, becameItAt: 0 };
 
         socket.on("connect", () => {
             console.log("connected:", socket.id);
@@ -306,7 +308,6 @@ class GameLevelMultiplayer {
             if (!data?.players) return;
             const players = data.players;
 
-            // Server sends who is "it" alongside positions
             if (data.taggerId !== undefined) {
                 tagState.taggerId = data.taggerId;
             }
@@ -327,16 +328,16 @@ class GameLevelMultiplayer {
         });
 
         socket.on("tag_update", (data) => {
-            // Dedicated event for tag transfers so it's always up to date
             tagState.taggerId = data.taggerId;
+            // Record the moment this client became "it" for grace period
             if (data.taggerId === myIdRef.value) {
+                tagState.becameItAt = Date.now();
                 console.log("You are now IT!");
             }
         });
 
         socket.on("player_left", (data) => {
             delete remotePlayers[data.sid];
-            // If the tagger left, server should assign a new one and broadcast tag_update
         });
 
         socket.on("disconnect", () => {
@@ -345,7 +346,7 @@ class GameLevelMultiplayer {
 
         const bgData = {
             name: "custom_bg",
-            src: path + "/images/gamebuilder/bg/blackandwhite.jpg",
+            src: path + "/images/gamebuilder/bg/Arena.png",
             pixels: { height: 720, width: 1280 }
         };
 
@@ -354,7 +355,7 @@ class GameLevelMultiplayer {
             greeting: 'Hi',
             src: '/images/gamebuilder/sprites/kirby.png',
             SCALE_FACTOR: 10,
-            STEP_FACTOR: 3200,
+            STEP_FACTOR: 1000,
             ANIMATION_RATE: 20,
             INIT_POSITION: { x: width * 0.1, y: height * 0.3 },
             pixels: { height: 36, width: 569 },
@@ -363,7 +364,7 @@ class GameLevelMultiplayer {
             left: { row: 0, start: 0, columns: 3 },
             right: { row: 0, start: 0, columns: 3 },
             up: { row: 0, start: 0, columns: 3 },
-            upLeft: { row: 1, start: 0, columns: 3 },
+            upLeft: { row: 0, start: 0, columns: 3 },
             upRight: { row: 0, start: 0, columns: 3 },
             hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
             keypress: { up: 87, left: 65, down: 83, right: 68 },
@@ -375,7 +376,7 @@ class GameLevelMultiplayer {
             { class: NetworkSynchronizer, data: { socket } },
             { class: TagCollisionDetector, data: { socket, remotePlayers, tagState, myIdRef } },
             { class: RemotePlayerVisualizer, data: { remotePlayers, tagState, myIdRef } },
-             { class: TagHUD, data: { tagState, myIdRef } },
+            { class: TagHUD, data: { tagState, myIdRef } },
         ];
     }
 }
