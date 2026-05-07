@@ -1,6 +1,7 @@
 import GameEnvBackground from '/assets/js/GameEnginev1.1/essentials/GameEnvBackground.js';
 import Player from '/assets/js/GameEnginev1.1/essentials/Player.js';
 import GameObject from '/assets/js/GameEnginev1.1/essentials/GameObject.js';
+import SplineBarrier from '/assets/js/projects/multiplayer/levels/SplineBarrier.js';
 
 class RemotePlayerVisualizer extends GameObject {
     constructor(data = null, gameEnv = null) {
@@ -41,7 +42,6 @@ class RemotePlayerVisualizer extends GameObject {
                 drawWidth, drawHeight
             );
 
-            // Red overlay if this remote player is "it"
             if (isIt) {
                 ctx.save();
                 ctx.globalAlpha = 0.45;
@@ -77,13 +77,10 @@ class TagHUD extends GameObject {
 
     update() {
         const isIt = this.tagStateRef.taggerId === this.myIdRef.value;
-
-        // Trigger flash animation the moment you become "it"
         if (isIt && !this._wasIt) {
             this._flashStart = Date.now();
         }
         this._wasIt = isIt;
-
         this.draw();
     }
 
@@ -106,7 +103,7 @@ class TagHUD extends GameObject {
             ctx.strokeRect(0, 0, W, H);
             ctx.restore();
 
-            // Flash overlay on tag transfer
+            // Flash on tag transfer
             if (this._flashStart) {
                 const elapsed = now - this._flashStart;
                 const flashDuration = 600;
@@ -161,7 +158,6 @@ class TagHUD extends GameObject {
             }
 
         } else {
-            // Safe indicator for non-it players
             ctx.save();
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.globalAlpha = 1.0;
@@ -210,9 +206,8 @@ class TagCollisionDetector extends GameObject {
         const now = Date.now();
 
         // Block tagging during grace period
-        const gracePeriod = 2000;
         const timeSinceIt = now - (this.tagStateRef.becameItAt ?? 0);
-        if (timeSinceIt < gracePeriod) return;
+        if (timeSinceIt < 2000) return;
 
         if (now < this.tagCooldownUntil) return;
 
@@ -329,7 +324,6 @@ class GameLevelMultiplayer {
 
         socket.on("tag_update", (data) => {
             tagState.taggerId = data.taggerId;
-            // Record the moment this client became "it" for grace period
             if (data.taggerId === myIdRef.value) {
                 tagState.becameItAt = Date.now();
                 console.log("You are now IT!");
@@ -357,26 +351,58 @@ class GameLevelMultiplayer {
             SCALE_FACTOR: 10,
             STEP_FACTOR: 1000,
             ANIMATION_RATE: 20,
-            INIT_POSITION: { x: width * 0.1, y: height * 0.3 },
+            INIT_POSITION: { x: width * 0.5, y: height * 0.5 },
             pixels: { height: 36, width: 569 },
             orientation: { rows: 1, columns: 13 },
-            down: { row: 0, start: 0, columns: 3 },
-            left: { row: 0, start: 0, columns: 3 },
-            right: { row: 0, start: 0, columns: 3 },
-            up: { row: 0, start: 0, columns: 3 },
-            upLeft: { row: 0, start: 0, columns: 3 },
+            down:    { row: 0, start: 0, columns: 3 },
+            left:    { row: 0, start: 0, columns: 3 },
+            right:   { row: 0, start: 0, columns: 3 },
+            up:      { row: 0, start: 0, columns: 3 },
+            upLeft:  { row: 0, start: 0, columns: 3 },
             upRight: { row: 0, start: 0, columns: 3 },
             hitbox: { widthPercentage: 0.2, heightPercentage: 0.2 },
             keypress: { up: 87, left: 65, down: 83, right: 68 },
         };
 
+        // Traces the inner edge of the arena oval
+        // Set visible: true and color: 'red' to debug the boundary
+        const arenaBarrierData = {
+            id: 'arena-wall',
+            visible: false,
+            color: 'rgba(0,0,0,0)',
+            lineWidth: 6,
+            splinePoints: [
+                { x: 190,  y: 310 },
+                { x: 250,  y: 210 },
+                { x: 370,  y: 150 },
+                { x: 520,  y: 115 },
+                { x: 670,  y: 105 },
+                { x: 820,  y: 115 },
+                { x: 970,  y: 140 },
+                { x: 1090, y: 190 },
+                { x: 1180, y: 270 },
+                { x: 1210, y: 355 },
+                { x: 1170, y: 440 },
+                { x: 1080, y: 500 },
+                { x: 940,  y: 540 },
+                { x: 780,  y: 560 },
+                { x: 620,  y: 555 },
+                { x: 460,  y: 535 },
+                { x: 320,  y: 495 },
+                { x: 220,  y: 430 },
+                { x: 185,  y: 360 },
+                { x: 190,  y: 310 },
+            ]
+        };
+
         this.classes = [
             { class: GameEnvBackground, data: bgData },
-            { class: Player, data: playerData },
-            { class: NetworkSynchronizer, data: { socket } },
-            { class: TagCollisionDetector, data: { socket, remotePlayers, tagState, myIdRef } },
+            { class: SplineBarrier,     data: arenaBarrierData },
+            { class: Player,            data: playerData },
+            { class: NetworkSynchronizer,   data: { socket } },
+            { class: TagCollisionDetector,  data: { socket, remotePlayers, tagState, myIdRef } },
             { class: RemotePlayerVisualizer, data: { remotePlayers, tagState, myIdRef } },
-            { class: TagHUD, data: { tagState, myIdRef } },
+            { class: TagHUD,            data: { tagState, myIdRef } },
         ];
     }
 }
